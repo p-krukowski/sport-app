@@ -4,6 +4,9 @@ Sport oriented social web page with customizable main page, up-to-date sport res
 
 ## Description
 
+Web application, which make it easy to be up to date with favourite sport news and results. Sport news can be added by users, and results are updated with use of external TheSportDB Api. User has ability to choose favourite sport discipline and league, add new posts and comments.
+App building in progress...
+
 Page functionality:
 * Creating accouns
 * Creating posts
