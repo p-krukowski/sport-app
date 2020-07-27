@@ -21,7 +21,7 @@ public class EventSoccerService {
         return eventSoccerRepo.findById(id).orElse(null);
     }
 
-    public List<EventSoccer> findAllByDateEvent(String date) {
+    public List<EventSoccer> findAllByDate(String date) {
         return eventSoccerRepo.findAllByDate(date);
     }
 

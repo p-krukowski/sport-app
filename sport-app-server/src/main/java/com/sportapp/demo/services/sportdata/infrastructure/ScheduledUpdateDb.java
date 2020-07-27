@@ -1,9 +1,11 @@
 package com.sportapp.demo.services.sportdata.infrastructure;
 
-import com.sportapp.demo.models.sportdata.*;
+import com.sportapp.demo.models.sportdata.EventSoccer;
+import com.sportapp.demo.models.sportdata.RoundSoccer;
+import com.sportapp.demo.models.sportdata.SeasonSoccer;
+import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
 import com.sportapp.demo.services.sportdata.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -114,7 +116,7 @@ public class ScheduledUpdateDb {
 //    @Scheduled(fixedRate = ROUND_UPDATE_TIME*MINUTE_IN_MS)
     public void updateTodayEvents() {
         eventSoccerService
-                .findAllByDateEvent(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .findAllByDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .forEach(this::updateEvent);
     }
 
