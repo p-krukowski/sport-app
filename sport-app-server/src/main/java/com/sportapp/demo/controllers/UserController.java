@@ -1,49 +1,48 @@
 package com.sportapp.demo.controllers;
 
-import com.sportapp.demo.models.User;
+import com.sportapp.demo.models.social.User;
+import com.sportapp.demo.models.dtos.social.UserGetDto;
 import com.sportapp.demo.payload.UserSummary;
 import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.security.UserPrincipal;
-import com.sportapp.demo.services.UserPropsService;
-import com.sportapp.demo.services.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.sportapp.demo.services.social.UserService;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+
 @RestController
+@RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
-    private UserPropsService userPropsService;
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final UserService userService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserService userService, UserPropsService userPropsService) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
-        this.userPropsService = userPropsService;
+        this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/add-user")
-    public int addUser(@RequestBody User user) {
-        userService.addUser(user);
-        return 1;
+    @GetMapping("/me")
+    @PreAuthorize("isAuthenticated()")
+    public UserSummary fetchCurrentUser(@CurrentUser UserPrincipal currentUser) {
+        return new UserSummary(currentUser.getId(), currentUser.getUsername());
     }
 
-    @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername());
-        return userSummary;
-    }
-
-    @GetMapping("/myaccount")
+    @GetMapping("/me/info")
     @PreAuthorize("isAuthenticated()")
     @ResponseBody
-    public User getAccountInfo(@CurrentUser UserPrincipal userPrincipal) {
-        User user = userService.getUserById(userPrincipal.getId());
-        return user;
+    public UserGetDto fetchAccountInfo(@CurrentUser UserPrincipal userPrincipal) {
+        User user = userService.findUserById(userPrincipal.getId());
+        return convertToDto(user);
+    }
+
+    private UserGetDto convertToDto(User user) {
+        Type typeMap = new TypeToken<UserGetDto>() {}.getType();
+        return modelMapper.map(user, typeMap);
     }
 }

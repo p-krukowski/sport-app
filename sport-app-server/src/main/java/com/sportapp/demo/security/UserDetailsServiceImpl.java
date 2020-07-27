@@ -1,7 +1,7 @@
 package com.sportapp.demo.security;
 
 
-import com.sportapp.demo.models.User;
+import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
     @Autowired
     public UserDetailsServiceImpl(UserRepo userRepo) {
@@ -22,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         User user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found by username"));
         return UserPrincipal.create(user);

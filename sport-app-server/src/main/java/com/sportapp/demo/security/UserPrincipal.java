@@ -1,7 +1,7 @@
 package com.sportapp.demo.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sportapp.demo.models.User;
+import com.sportapp.demo.models.social.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,17 +12,17 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
-    private Long id;
+    private final Long id;
 
-    private String username;
-
-    @JsonIgnore
-    private String email;
+    private final String username;
 
     @JsonIgnore
-    private String password;
+    private final String email;
 
-    private GrantedAuthority authority;
+    @JsonIgnore
+    private final String password;
+
+    private final GrantedAuthority authority;
 
     public UserPrincipal(Long id, String username, String email, String password, GrantedAuthority authority) {
         this.id = id;

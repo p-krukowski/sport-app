@@ -1,6 +1,6 @@
 package com.sportapp.demo.repo;
 
-import com.sportapp.demo.models.User;
+import com.sportapp.demo.models.social.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

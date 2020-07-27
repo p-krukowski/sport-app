@@ -3,9 +3,13 @@ package com.sportapp.demo.configs;
 import com.sportapp.demo.security.JwtAuthenticationEntryPoint;
 import com.sportapp.demo.security.JwtAuthenticationFilter;
 import com.sportapp.demo.security.UserDetailsServiceImpl;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,7 +21,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
+import java.util.Collections;
+
+@EnableScheduling
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(
@@ -27,13 +37,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsService;
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Autowired
     public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.unauthorizedHandler = unauthorizedHandler;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
     @Bean
@@ -59,13 +74,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Collections.singletonList("*"));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/console/**").permitAll()
                 .antMatchers("/entries/**").permitAll()
+                .antMatchers("/users/**").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/entry/**").permitAll()
+                .antMatchers("/sport/**").permitAll()
                 .antMatchers("/front/public/index.html").authenticated()
                 .antMatchers("/",
+                        "/*.ico",
                         "/**/*.png",
                         "/**/*.gif",
                         "/**/*.svg",
@@ -73,8 +107,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
-                .permitAll()
-                .antMatchers("/api/auth/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
