@@ -13,6 +13,9 @@ public class TeamScoreSoccer extends TeamScore {
     @ManyToOne
     private SeasonSoccer season;
 
+    @ManyToOne
+    private LeagueSoccer league;
+
     //----------Getters&Setters-----------
 
     public SeasonSoccer getSeason() {
@@ -53,5 +56,13 @@ public class TeamScoreSoccer extends TeamScore {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public LeagueSoccer getLeague() {
+        return league;
+    }
+
+    public void setLeague(LeagueSoccer league) {
+        this.league = league;
     }
 }

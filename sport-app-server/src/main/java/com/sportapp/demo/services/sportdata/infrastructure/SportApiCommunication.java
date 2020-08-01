@@ -51,8 +51,7 @@ public class SportApiCommunication {
         List<RoundSoccer> rounds = new ArrayList<>();
         int roundNumber = 1;
         while (true) {
-            RestTemplate restTemplate = new RestTemplate();
-            RoundSoccerApiDto roundDto = restTemplate
+            RoundSoccerApiDto roundDto = new RestTemplate()
                     .getForObject(ROUND_URL + "id=" + id + "&r=" + roundNumber, RoundSoccerApiDto.class);
             if (roundDto.getEvents() != null) {
                 RoundSoccer round = convertRoundToEntity(roundDto);
@@ -73,7 +72,7 @@ public class SportApiCommunication {
 
     public List<LeagueSoccer> fetchLeaguesSoccerFromApi() {
         List<LeagueSoccer> leaguesSoccer = new ArrayList<>();
-        fetchWantedIds().stream().forEach(leagueId ->
+        fetchWantedIds().forEach(leagueId ->
                 leaguesSoccer
                         .add(convertLeagueToEntity(new RestTemplate()
                                 .getForObject(LEAGUE_URL + "id=" + leagueId, LeaguesSoccerListDto.class)
@@ -100,8 +99,8 @@ public class SportApiCommunication {
     }
 
     public List<TeamScoreSoccer> fetchTeamScoreSoccerListFromApi(Long id) {
-        RestTemplate restTemplate = new RestTemplate();
-        TeamScoreSoccerListApiDto teamScoreSoccerListApiDto = restTemplate.getForObject(TEAMS_SCORE_URL+"l="+id, TeamScoreSoccerListApiDto.class);
+        TeamScoreSoccerListApiDto teamScoreSoccerListApiDto = new RestTemplate()
+                .getForObject(TEAMS_SCORE_URL+"l="+id, TeamScoreSoccerListApiDto.class);
 
         return convertTablesToEntity(teamScoreSoccerListApiDto);
     }

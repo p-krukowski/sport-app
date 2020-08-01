@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import AccountInfo from '../components/AccountInfo';
+import AccountInfo from '../components/AccountInfoPage';
 import NavigationBar from '../components/common/NavigationBar';
 import { Redirect } from 'react-router-dom';
+import {getCurrentUser} from "../util/apiUtils/AuthUtils";
 
-import { getCurrentUser } from '../util/APIUtils';
 
 export default class AccountPage extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ export default class AccountPage extends Component {
             }).catch(error => {
                 this.setState({
                 });
-            });;
+            });
     }
 
     render() {

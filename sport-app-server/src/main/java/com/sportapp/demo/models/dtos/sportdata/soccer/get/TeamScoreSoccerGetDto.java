@@ -10,6 +10,8 @@ public class TeamScoreSoccerGetDto {
     private int goalsFor;
     private int goalsAgainst;
     private int goalsDifference;
+    private int total;
+    private LeagueSoccerGetDto league;
 
     //----------Getters&Setters-----------
 
@@ -75,5 +77,21 @@ public class TeamScoreSoccerGetDto {
 
     public void setGoalsDifference(int goalsDifference) {
         this.goalsDifference = goalsDifference;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public LeagueSoccerGetDto getLeague() {
+        return league;
+    }
+
+    public void setLeague(LeagueSoccerGetDto league) {
+        this.league = league;
     }
 }

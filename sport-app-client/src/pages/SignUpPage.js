@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {Redirect} from 'react-router-dom';
 
 import NavigationBar from '../components/common/NavigationBar';
-import SignUp from '../components/SignUp';
 
-import { getCurrentUser } from '../util/APIUtils';
-
+import {getCurrentUser} from "../util/apiUtils/AuthUtils";
+import SignUp from "../components/auth/SignUp";
 
 export default class SignUpPage extends Component {
     constructor(props) {
@@ -26,7 +25,7 @@ export default class SignUpPage extends Component {
             }).catch(error => {
                 this.setState({
                 });
-            });;
+            });
     }
 
     render() {

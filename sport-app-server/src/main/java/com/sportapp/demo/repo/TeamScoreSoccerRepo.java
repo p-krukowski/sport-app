@@ -11,4 +11,6 @@ import java.util.List;
 public interface TeamScoreSoccerRepo extends JpaRepository<TeamScoreSoccer, String> {
 
     TeamScoreSoccer findByTeamIdAndSeason(String teamId, SeasonSoccer season);
+
+    List<TeamScoreSoccer> findAllByLeagueId(Long leagueId);
 }

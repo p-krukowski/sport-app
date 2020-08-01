@@ -30,7 +30,6 @@ public class EntryController {
     }
 
     @GetMapping("/all")
-    @ResponseBody
     public List<EntryGetDto> fetchEntries() {
         List<Entry> entries = entryService.fetchAllEntriesSorted();
         return convertToDto(entries);
@@ -51,7 +50,6 @@ public class EntryController {
 
     @PostMapping("/{entryId}/like")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public int updateLikers(@PathVariable Long entryId, @CurrentUser UserPrincipal currentUser) {
         if(entryService.isNotLiked(entryId, currentUser.getId())) entryService.addLiker(entryId, currentUser.getId());
         else entryService.removeLiker(entryId, currentUser.getId());

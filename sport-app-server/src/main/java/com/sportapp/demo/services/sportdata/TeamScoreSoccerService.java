@@ -25,6 +25,10 @@ public class TeamScoreSoccerService {
     public TeamScoreSoccer findByTeamIdAndSeason(String teamId, SeasonSoccer season) {
         return teamScoreSoccerRepo.findByTeamIdAndSeason(teamId, season);
     }
+
+    public List<TeamScoreSoccer> findAllByLeagueId(Long leagueId) {
+        return teamScoreSoccerRepo.findAllByLeagueId(leagueId);
+    }
     
     public void saveAllTeamsToDb(List<TeamScoreSoccer> teams) {
         teamScoreSoccerRepo.saveAll(teams);

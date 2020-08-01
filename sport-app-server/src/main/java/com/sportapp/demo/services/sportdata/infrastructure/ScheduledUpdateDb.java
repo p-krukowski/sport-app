@@ -6,6 +6,7 @@ import com.sportapp.demo.models.sportdata.SeasonSoccer;
 import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
 import com.sportapp.demo.services.sportdata.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -43,11 +44,39 @@ public class ScheduledUpdateDb {
         this.eventSoccerService = eventSoccerService;
     }
 
-//    @Scheduled(fixedRate = LEAGUES_UPDATE_TIME*DAY_IN_MS)
+    //@Scheduled(fixedRate = LEAGUES_UPDATE_TIME*DAY_IN_MS)
     public void updateLeagues() {
         leagueSoccerService.saveAll(sportApiCommunication.fetchLeaguesSoccerFromApi());
         updateSeasons();
     }
+
+    //@Scheduled(fixedRate = TABLE_UPDATE_TIME*MINUTE_IN_MS)
+    public void updateTeams() {
+        seasonSoccerService.findAll().forEach(this::updateSeasonTeams);
+    }
+
+    //@Scheduled(fixedRate = LEAGUES_UPDATE_TIME*DAY_IN_MS)
+    public void updateRounds() {
+        seasonSoccerService.findAll().forEach(this::updateSeasonRounds);
+    }
+
+    //@Scheduled(fixedRate = LEAGUES_UPDATE_TIME*DAY_IN_MS)
+    public void updateEvents() {
+        try {
+            roundSoccerService.findAll().forEach(this::updateRoundEvents);
+        } catch (NullPointerException e) {
+            System.out.println("No rounds available for events update");
+        }
+    }
+
+    @Scheduled(fixedRate = ROUND_UPDATE_TIME*MINUTE_IN_MS)
+    public void updateTodayEvents() {
+        eventSoccerService
+                .findAllByDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .forEach(this::updateEvent);
+    }
+
+
 
     private void updateSeasons() {
         leagueSoccerService.findAll().forEach(league -> {
@@ -60,11 +89,6 @@ public class ScheduledUpdateDb {
         });
     }
 
-    //@Scheduled(fixedRate = TABLE_UPDATE_TIME*MINUTE_IN_MS)
-    public void updateTeams() {
-        seasonSoccerService.findAll().forEach(this::updateSeasonTeams);
-    }
-
     private void updateSeasonTeams(SeasonSoccer season) {
         List<TeamScoreSoccer> teams = sportApiCommunication
                 .fetchTeamScoreSoccerListFromApi(season.getLeague().getId());
@@ -74,13 +98,9 @@ public class ScheduledUpdateDb {
                 team.setId(teamFromDb.getId());
             }
             team.setSeason(season);
+            team.setLeague(season.getLeague());
         });
         teamScoreSoccerService.saveAllTeamsToDb(teams);
-    }
-
-//    @Scheduled(fixedRate = LEAGUES_UPDATE_TIME*DAY_IN_MS)
-    public void updateRounds() {
-        seasonSoccerService.findAll().forEach(this::updateSeasonRounds);
     }
 
     private void updateSeasonRounds(SeasonSoccer season) {
@@ -90,39 +110,28 @@ public class ScheduledUpdateDb {
             RoundSoccer roundFromDb = roundSoccerService.findByRoundNumberAndSeason(round.getRoundNumber(), season);
             if(roundFromDb != null) {
                 round.setId(roundFromDb.getId());
-            } else {
-                round.setEvents(null);
             }
+            round.setEvents(null);
             round.setSeason(season);
         });
         roundSoccerService.saveAllRoundsToDb(rounds);
-        updateEvents();
-    }
-
-    private void updateEvents() {
-        try {
-            roundSoccerService.findAll().forEach(this::updateRoundEvents);
-        } catch (NullPointerException e) {
-            System.out.println("No rounds available for events update");
-        }
     }
 
     private void updateRoundEvents(RoundSoccer round) {
         List<EventSoccer> events = sportApiCommunication.fetchEventsSoccerFromApi(round);
-        events.forEach(event -> event.setRound(round));
+        events.forEach(event -> {
+            event.setRound(round);
+            event.setSeason(round.getSeason());
+            event.setLeague(round.getSeason().getLeague());
+        });
         eventSoccerService.saveAllToDb(events);
-    }
-
-//    @Scheduled(fixedRate = ROUND_UPDATE_TIME*MINUTE_IN_MS)
-    public void updateTodayEvents() {
-        eventSoccerService
-                .findAllByDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .forEach(this::updateEvent);
     }
 
     private void updateEvent(EventSoccer eventFromDb) {
         EventSoccer event = sportApiCommunication.fetchEventSoccerFromApi(eventFromDb);
         event.setRound(eventFromDb.getRound());
+        event.setSeason(eventFromDb.getSeason());
+        event.setLeague(eventFromDb.getLeague());
         eventSoccerService.saveToDb(event);
     }
 

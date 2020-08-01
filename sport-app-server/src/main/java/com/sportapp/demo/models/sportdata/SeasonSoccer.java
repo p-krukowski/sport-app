@@ -14,6 +14,9 @@ public class SeasonSoccer extends Season {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "season")
     private List<RoundSoccer> rounds;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "season")
+    private List<EventSoccer> events;
+
     @ManyToOne
     private LeagueSoccer league;
 
@@ -49,5 +52,13 @@ public class SeasonSoccer extends Season {
 
     public void setRounds(List<RoundSoccer> rounds) {
         this.rounds = rounds;
+    }
+
+    public List<EventSoccer> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<EventSoccer> events) {
+        this.events = events;
     }
 }

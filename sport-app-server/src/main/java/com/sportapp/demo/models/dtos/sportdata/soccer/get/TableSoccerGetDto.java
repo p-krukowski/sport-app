@@ -4,13 +4,13 @@ import java.util.List;
 
 public class TableSoccerGetDto {
 
-    private List<TeamSoccerGetDto> teams;
+    private List<TeamScoreSoccerGetDto> teams;
 
-    public List<TeamSoccerGetDto> getTeams() {
+    public List<TeamScoreSoccerGetDto> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<TeamSoccerGetDto> teams) {
+    public void setTeams(List<TeamScoreSoccerGetDto> teams) {
         this.teams = teams;
     }
 }

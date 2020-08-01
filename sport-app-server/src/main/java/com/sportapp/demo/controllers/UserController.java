@@ -35,7 +35,6 @@ public class UserController {
 
     @GetMapping("/me/info")
     @PreAuthorize("isAuthenticated()")
-    @ResponseBody
     public UserGetDto fetchAccountInfo(@CurrentUser UserPrincipal userPrincipal) {
         User user = userService.findUserById(userPrincipal.getId());
         return convertToDto(user);

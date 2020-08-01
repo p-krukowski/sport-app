@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { Container } from 'react-bootstrap';
-import NewEntry from '../components/NewEntry';
-import AllEntries from '../components/AllEntries';
+import {Container} from 'react-bootstrap';
 import NavigationBar from '../components/common/NavigationBar';
 
-import {getCurrentUser} from '../util/APIUtils';
+
+import AllEntries from "../components/entriesComponents/AllEntries";
+import NewEntry from "../components/entriesComponents/NewEntry";
+import {getCurrentUser} from "../util/apiUtils/AuthUtils";
 
 
-export default class EntriesPage extends Component {
+class EntriesPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -27,7 +28,7 @@ export default class EntriesPage extends Component {
             }).catch(error => {
                 this.setState({
                 });
-            });;
+            });
     }
 
     render() {
@@ -38,9 +39,11 @@ export default class EntriesPage extends Component {
                     { this.state.isAuthenticated &&
                       <NewEntry />
                     }
-                    <AllEntries />
+                    <AllEntries isAuthenticated={this.state.isAuthenticated} />
                 </Container>
             </div>
         );
     }
 }
+
+export default EntriesPage;

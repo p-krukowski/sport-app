@@ -1,6 +1,8 @@
 package com.sportapp.demo.models.sportdata;
 
 
+import org.springframework.data.domain.Persistable;
+
 import javax.persistence.*;
 
 @Entity
@@ -13,6 +15,12 @@ public class EventSoccer extends Event {
 
     @ManyToOne
     private RoundSoccer round;
+
+    @ManyToOne
+    private LeagueSoccer league;
+
+    @ManyToOne
+    private SeasonSoccer season;
 
     //----------Getters&Setters-----------
 
@@ -54,5 +62,21 @@ public class EventSoccer extends Event {
 
     public void setRound(RoundSoccer round) {
         this.round = round;
+    }
+
+    public LeagueSoccer getLeague() {
+        return league;
+    }
+
+    public void setLeague(LeagueSoccer league) {
+        this.league = league;
+    }
+
+    public SeasonSoccer getSeason() {
+        return season;
+    }
+
+    public void setSeason(SeasonSoccer season) {
+        this.season = season;
     }
 }

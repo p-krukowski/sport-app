@@ -1,6 +1,7 @@
 package com.sportapp.demo.controllers.sport;
 
 import com.sportapp.demo.models.dtos.sportdata.soccer.get.LeagueSoccerGetDto;
+import com.sportapp.demo.models.dtos.sportdata.soccer.get.TeamScoreSoccerGetDto;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.security.CurrentUser;
@@ -41,19 +42,9 @@ public class LeagueSoccerController {
         return convertToDto(leagueSoccerService.findById(leagueId));
     }
 
-    private LeagueSoccerGetDto convertToDto(LeagueSoccer leagueSoccer) {
-        Type typeMap = new TypeToken<LeagueSoccerGetDto>() {}.getType();
-        return modelMapper.map(leagueSoccer, typeMap);
-    }
-
     @GetMapping
     public List<LeagueSoccerGetDto> fetchLeagues() {
         return convertToListDto(leagueSoccerService.findAll());
-    }
-
-    private List<LeagueSoccerGetDto> convertToListDto(List<LeagueSoccer> leagueSoccerList) {
-        Type typeMap = new TypeToken<List<LeagueSoccerGetDto>>() {}.getType();
-        return modelMapper.map(leagueSoccerList, typeMap);
     }
 
     @PostMapping("/panel/")
@@ -65,4 +56,16 @@ public class LeagueSoccerController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    private LeagueSoccerGetDto convertToDto(LeagueSoccer leagueSoccer) {
+        Type typeMap = new TypeToken<LeagueSoccerGetDto>() {}.getType();
+        return modelMapper.map(leagueSoccer, typeMap);
+    }
+
+    private List<LeagueSoccerGetDto> convertToListDto(List<LeagueSoccer> leagueSoccerList) {
+        Type typeMap = new TypeToken<List<LeagueSoccerGetDto>>() {}.getType();
+        return modelMapper.map(leagueSoccerList, typeMap);
+    }
+
+
 }

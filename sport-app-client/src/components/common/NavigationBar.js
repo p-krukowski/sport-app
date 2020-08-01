@@ -34,6 +34,9 @@ export default class NavigationBar extends Component {
             <Navbar bg="dark" variant="dark" style={{ marginBottom: "20px" }}>
                 <Link to={""} className="navbar-brand">SportApp</Link>
                 <Nav>
+                    <Link to={"panel"} className="nav-link">Panel</Link>
+                </Nav>
+                <Nav>
                     <Link to={"wpisy"} className="nav-link">Wpisy</Link>
                 </Nav>
                 {this.state.isAuthenticated ?
