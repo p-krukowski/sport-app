@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Spinner, Col, Form, Image, Row} from "react-bootstrap";
+import {Col, Form, Image, Row, Spinner} from "react-bootstrap";
 import {fetchArticle} from "../../util/scrape";
 
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import EventSoccer from "./EventSoccer";
-import {Card, Row, Col} from "react-bootstrap";
+import {Card, Col, Row} from "react-bootstrap";
 
 class Events extends Component {
     render() {

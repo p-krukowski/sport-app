@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Navbar, Nav, Button} from 'react-bootstrap';
+import {Button, Nav, Navbar} from 'react-bootstrap';
 import {Link} from 'react-router-dom';
 
 import {ACCESS_TOKEN} from '../../constants';

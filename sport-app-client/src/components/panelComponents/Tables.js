@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {DropdownButton, Dropdown, Card, Col, Row} from "react-bootstrap";
+import {Card, Col, Dropdown, DropdownButton, Row} from "react-bootstrap";
 import TableSoccer from "./TableSoccer";
 import {getLeague} from "../../util/apiUtils/LeaguesUtils";
 
