@@ -43,6 +43,9 @@ public class User extends DateAudit {
     @OneToMany(mappedBy = "author")
     private List<Entry> entries;
 
+    @OneToMany(mappedBy = "author")
+    private List<News> newsList;
+
     @ManyToMany(mappedBy = "likers")
     private List<Entry> likedEntries;
 
@@ -160,5 +163,13 @@ public class User extends DateAudit {
 
     public void setDislikedComments(List<Comment> dislikedComments) {
         this.dislikedComments = dislikedComments;
+    }
+
+    public List<News> getNewsList() {
+        return newsList;
+    }
+
+    public void setNewsList(List<News> newsList) {
+        this.newsList = newsList;
     }
 }

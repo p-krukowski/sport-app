@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {Container} from 'react-bootstrap';
+import {Col, Container} from 'react-bootstrap';
 import NavigationBar from '../components/common/NavigationBar';
 
 
@@ -26,20 +26,21 @@ class EntriesPage extends Component {
                     isAuthenticated: true
                 });
             }).catch(error => {
-                this.setState({
-                });
-            });
+            this.setState({});
+        });
     }
 
     render() {
         return (
             <div>
                 <NavigationBar {...this.state} />
-                <Container>
-                    { this.state.isAuthenticated &&
-                      <NewEntry />
-                    }
-                    <AllEntries isAuthenticated={this.state.isAuthenticated} />
+                <Container fluid>
+                    <Col sm='6' style={{padding: 0}}>
+                        {this.state.isAuthenticated &&
+                        <NewEntry/>
+                        }
+                        <AllEntries isAuthenticated={this.state.isAuthenticated}/>
+                    </Col>
                 </Container>
             </div>
         );

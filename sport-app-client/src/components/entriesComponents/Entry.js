@@ -32,7 +32,7 @@ class Entry extends Component {
         const {entry} = this.state;
 
         return (
-            <Card bg="dark" text="white" style={{width: '40%', marginBottom: '5px'}}>
+            <Card bg="dark" text="white" style={{marginBottom: '5px'}}>
                 <Card.Header>
                     <Row>
                         <Col md="auto">{entry.author.username}</Col>

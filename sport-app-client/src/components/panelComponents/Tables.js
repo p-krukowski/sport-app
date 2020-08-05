@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Col, Nav, Row} from "react-bootstrap";
+import {DropdownButton, Dropdown, Card, Col, Row} from "react-bootstrap";
 import TableSoccer from "./TableSoccer";
 import {getLeague} from "../../util/apiUtils/LeaguesUtils";
 
@@ -25,7 +25,7 @@ class Tables extends Component {
     }
 
     changeTable = (e) => {
-        this.fetchTable(e.target.name);
+        this.fetchTable(e);
     }
 
     componentDidMount() {
@@ -42,32 +42,18 @@ class Tables extends Component {
                             <b>{this.state.league.discipline}</b><br/>
                         </Col>
                     </Row>
-                    <Nav justify variant="tabs" defaultActiveKey="#first">
-                        <Nav.Item>
-                            <Nav.Link name="4328" onClick={e => this.changeTable(e)}
-                                      style={{padding: "5px", paddingTop: "3px", paddingBottom: "3px"}}>PL</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link name="4331" onClick={e => this.changeTable(e)}
-                                      style={{padding: "5px", paddingTop: "3px", paddingBottom: "3px"}}>BUND</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link name="4332" onClick={e => this.changeTable(e)}
-                                      style={{padding: "5px", paddingTop: "3px", paddingBottom: "3px"}}>SA</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link name="4334" onClick={e => this.changeTable(e)}
-                                      style={{padding: "5px", paddingTop: "3px", paddingBottom: "3px"}}>F1</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link name="4335" onClick={e => this.changeTable(e)}
-                                      style={{padding: "5px", paddingTop: "3px", paddingBottom: "3px"}}>LL</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link name="4422" onClick={e => this.changeTable(e)}
-                                      style={{padding: "5px", paddingTop: "3px", paddingBottom: "3px"}}>EK</Nav.Link>
-                        </Nav.Item>
-                    </Nav>
+                    <Row style={{textAlign: "center"}}>
+                        <Col>
+                            <DropdownButton id="dropdown-basic-button" title={this.state.league.name}>
+                                <Dropdown.Item eventKey="4328" onSelect={id => this.changeTable(id)}>Premier League</Dropdown.Item>
+                                <Dropdown.Item eventKey="4331" onSelect={id => this.changeTable(id)}>Bundesliga</Dropdown.Item>
+                                <Dropdown.Item eventKey="4332" onSelect={id => this.changeTable(id)}>Serie A</Dropdown.Item>
+                                <Dropdown.Item eventKey="4334" onSelect={id => this.changeTable(id)}>Ligue 1</Dropdown.Item>
+                                <Dropdown.Item eventKey="4335" onSelect={id => this.changeTable(id)}>La Liga</Dropdown.Item>
+                                <Dropdown.Item eventKey="4422" onSelect={id => this.changeTable(id)}>Ekstraklasa</Dropdown.Item>
+                            </DropdownButton>
+                        </Col>
+                    </Row>
                 </Card.Header>
                 <Card.Body style={{padding: "0"}}>
                     <TableSoccer league={this.state.league}/>

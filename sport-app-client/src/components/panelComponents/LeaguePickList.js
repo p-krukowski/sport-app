@@ -13,11 +13,11 @@ class LeaguePickList extends Component {
                             <Button size="lg" style={{margin: "5px"}} name="soccer"
                                     onClick={e => this.props.setDiscipline(e)}>
                                 Piłka nożna</Button>
-                            <Button size="lg" style={{margin: "5px"}} name="basketball">
+                            <Button disabled size="lg" style={{margin: "5px"}} name="basketball">
                                 Koszykówka</Button>
-                            <Button size="lg" style={{margin: "5px"}} name="volleyball">
+                            <Button disabled size="lg" style={{margin: "5px"}} name="volleyball">
                                 Siatkówka</Button>
-                            <Button size="lg" style={{margin: "5px"}} name="football">
+                            <Button disabled size="lg" style={{margin: "5px"}} name="football">
                                 Futbol Amerykański</Button>
                         </React.Fragment>
                         :

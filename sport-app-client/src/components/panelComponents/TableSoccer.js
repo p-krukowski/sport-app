@@ -39,9 +39,6 @@ class TableSoccer extends Component {
         return (
             this.state.teams &&
             <Card bg="dark" style={{borderRadius: '0', borderTopWidth: "0px"}}>
-                <Card.Header style={{padding: "7px", textAlign: 'center', backgroundColor: "#6c757d"}}>
-                    <b>{this.props.league.name}</b>
-                </Card.Header>
                 <Card.Body bg="#292929" style={{padding: 0}}>
                     <Table size="sm" variant="dark" style={{marginBottom: 8, fontSize: "14px"}}>
                         <thead style={{background: "#007bff"}}>

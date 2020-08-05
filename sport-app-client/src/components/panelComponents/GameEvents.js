@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Card} from "react-bootstrap";
+import {Card} from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Events from "./Events";
@@ -15,14 +15,6 @@ class GameEvents extends Component {
                                         <p style={{fontSize: '17px', margin: 0}}>Wyniki</p>
                                 </span>
                         </Col>
-                        {
-                            this.props.isAuthenticated &&
-                            <Col md="auto" style={{margin: 'auto'}}>
-                                <Button size='sm'>
-                                    +
-                                </Button>
-                            </Col>
-                        }
                     </Row>
                 </Card.Header>
                 <Card.Body style={{padding: "8px"}}>

@@ -73,7 +73,9 @@ class GameTables extends Component {
                     <Row>
                         <Col style={{lineHeight: '38px', textAlign: 'left'}}>
                                 <span style={{verticalAlign: 'middle'}}>
-                                        <p style={{fontSize: '17px', margin: 0}}>Tabele</p>
+                                        <p style={{fontSize: '17px', margin: 0}}>
+                                            Tabele
+                                        </p>
                                 </span>
                         </Col>
                         {

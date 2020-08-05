@@ -41,7 +41,7 @@ export default class NewEntry extends Component {
 
         return (
             <React.Fragment>
-                <Card bg="dark" text="white" style={{ width: '40%', marginBottom: '5px' }}>
+                <Card bg="dark" text="white" style={{marginBottom: '5px' }}>
                     <Card.Body>
                         <Form onSubmit={event => this.handleAddEntry(event)}>
                             <Row>

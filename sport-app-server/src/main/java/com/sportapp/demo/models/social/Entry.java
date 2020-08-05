@@ -10,10 +10,6 @@ public class Entry extends Post {
     @OneToMany(mappedBy = "entry")
     private List<Comment> comments;
 
-    //---------Constructors---------------
-
-    //----------Methods-------------------
-
     //----------Getters&Setters-----------
 
 

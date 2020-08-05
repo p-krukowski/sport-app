@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {fetchUserLeagues} from "../../util/apiUtils/UserUtils";
-import {Card, Col, Nav, Row} from "react-bootstrap";
+import {Card, Col, Dropdown, DropdownButton, Row} from "react-bootstrap";
 import TableSoccer from "./TableSoccer";
+import {getLeague} from "../../util/apiUtils/LeaguesUtils";
 
 class UserTables extends Component {
     constructor(props) {
@@ -13,10 +14,17 @@ class UserTables extends Component {
         };
     }
 
-    changeTable = (league) => {
-        this.setState({
-            currentLeague: league
-        })
+    fetchTable = id => {
+        getLeague(id)
+            .then(response => {
+                this.setState({
+                    currentLeague: response
+                })
+            });
+    }
+
+    changeTable = (id) => {
+        this.fetchTable(id);
     }
 
     getUserLeagues = () => {
@@ -24,9 +32,13 @@ class UserTables extends Component {
             .then(response => {
                 this.setState({
                     leagues: response,
-                    firstLeague: response[0]
+                    currentLeague: response[0]
                 })
             });
+    }
+
+    checkIfActive = (id) => {
+        return id === this.state.currentLeague.id;
     }
 
     componentDidMount() {
@@ -47,35 +59,32 @@ class UserTables extends Component {
                     <Row style={{textAlign: "center"}}>
                         <Col>
                             {
-                                <b>{this.state.firstLeague.discipline}</b>
+                                <b>{this.state.currentLeague.discipline}</b>
                             }
                             <br/>
                         </Col>
                     </Row>
-                    <Nav justify variant="tabs" defaultActiveKey={'#' + this.state.firstLeague.name}>
-                        {
-                            this.state.leagues.map(league => (
-                                <Nav.Link href={'#' + league.name}
-                                          key={league.id}
-                                          name={league.name}
-                                          onClick={e => this.changeTable(league)}
-                                          style={{
-                                              padding: "5px",
-                                              paddingTop: "3px",
-                                              paddingBottom: "3px"
-                                          }}>
-                                    {league.name}
-                                </Nav.Link>
-                            ))
-                        }
-                    </Nav>
+                    <Row style={{textAlign: "center"}}>
+                        <Col>
+                            <DropdownButton id="dropdown-basic-button" title={this.state.currentLeague.name}>
+                                {
+                                    this.state.leagues.map(league => (
+                                        <Dropdown.Item key={league.id}
+                                                       eventKey={league.id}
+                                                       onSelect={id => this.changeTable(id)}
+                                                       active={this.checkIfActive(league.id)}
+                                        >
+                                            {league.name}
+                                        </Dropdown.Item>
+                                    ))
+                                }
+                            </DropdownButton>
+                        </Col>
+                    </Row>
                 </Card.Header>
                 <Card.Body style={{padding: "0"}}>
                     {
-                        this.state.currentLeague ?
-                            <TableSoccer league={this.state.currentLeague}/>
-                            :
-                            <TableSoccer league={this.state.firstLeague}/>
+                        <TableSoccer league={this.state.currentLeague}/>
                     }
                 </Card.Body>
             </Card>
