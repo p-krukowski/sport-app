@@ -1,36 +1,66 @@
 import React, {Component} from "react";
-import {Card, Col, Image, Row} from "react-bootstrap";
+import {Badge, Card, Col, Row} from "react-bootstrap";
 
 class News extends Component {
     render() {
         return (
-            <>
-                <Row style={{margin: '10px'}}>
-                    <Col sm="auto" style={{padding: '0px', marginLeft: '-10px'}}>
-                        <Image src={this.props.news.imageUrl}
-                               height="130px"
-                               width='210px'
+            <a href={this.props.news.link}>
+                <Row style={{height: '130px', margin: '10px 0'}}>
+                    <Col sm="auto"
+                         style={{
+                             height: '100%',
+                             width: '190px',
+                             padding: '0px'
+                         }}>
+                        <img src={this.props.news.imageUrl}
+                             style={{
+                                 borderBottomLeftRadius: '5px',
+                                 borderTopLeftRadius: '5px',
+                                 height: '100%',
+                                 width: '100%',
+                                 objectFit: 'cover'
+                             }}
+                             alt="Nie udało się załadować zdjęcia"/>
+                        <Row style={{
+                            background: "black",
+                            opacity: '0.7',
+                            margin: 0,
+                            height: '25px',
+                            width: '100%',
+                            position: 'absolute',
+                            bottom: '0px',
+                            fontSize: '12px'
+                        }}>
+                        </Row>
+                        <Badge variant='light'
                                style={{
-                                   borderBottomLeftRadius: '5px',
-                                   borderTopLeftRadius: '5px'
-                               }}/>
+                                   position: 'absolute',
+                                   bottom: '3px',
+                                   right: '5px'
+                               }}>
+                            @{this.props.news.author.username}
+                        </Badge>
                     </Col>
-                    <Col style={{paddingLeft: '0px'}}>
+                    <Col style={{
+                        paddingLeft: '0px',
+                        height: '100%'
+                    }}>
                         <Card bg='dark'
                               text="white"
                               border='dark'
                               style={{
-                                  height: '130px',
+                                  height: '100%',
                                   borderRadius: '0',
                                   borderBottomRightRadius: '5px',
-                                  borderTopRightRadius: '5px'
+                                  borderTopRightRadius: '5px',
+                                  overflow: 'hidden'
                               }}>
-                            <Card.Header>
+                            <Card.Header style={{padding: '6px 10px', fontSize: '0.8em', fontWeight: 'bold'}}>
                                 {this.props.news.title}
                             </Card.Header>
                             <Card.Body style={{
-                                            paddingTop: '5px',
-                                            fontSize: '0.8em'
+                                padding: '5px 10px',
+                                fontSize: '0.8em',
                             }}>
                                 <Card.Text>
                                     {this.props.news.value}
@@ -39,7 +69,7 @@ class News extends Component {
                         </Card>
                     </Col>
                 </Row>
-            </>
+            </a>
         );
     }
 }

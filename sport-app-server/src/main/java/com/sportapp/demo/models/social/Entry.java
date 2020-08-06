@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "entries")
 public class Entry extends Post {
 
-    @OneToMany(mappedBy = "entry")
+    @OneToMany(mappedBy = "entry", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
     //----------Getters&Setters-----------

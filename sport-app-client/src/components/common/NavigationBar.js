@@ -31,27 +31,27 @@ export default class NavigationBar extends Component {
 
     render() {
         return (
-            <Navbar bg="dark" variant="dark" style={{marginBottom: "20px"}}>
-                <Link to={""} className="navbar-brand">SportApp</Link>
+            <Navbar bg="dark" variant="dark" style={{marginBottom: "20px", padding: '6px'}}>
+                <Link to={""} className="navbar-brand" style={{padding: '4px', fontSize: '1.1em'}}>SportApp</Link>
                 <Nav>
-                    <Link to={"panel"} className="nav-link">Panel</Link>
+                    <Link to={"panel"} className="nav-link" style={{padding: '4px'}}>Panel</Link>
                 </Nav>
                 <Nav>
-                    <Link to={"newsy"} className="nav-link">Newsy</Link>
+                    <Link to={"newsy"} className="nav-link" style={{padding: '4px'}}>Newsy</Link>
                 </Nav>
                 <Nav>
-                    <Link to={"wpisy"} className="nav-link">Wpisy</Link>
+                    <Link to={"wpisy"} className="nav-link" style={{padding: '4px'}}>Wpisy</Link>
                 </Nav>
                 <Nav>
-                    <Link to={"wyniki"} className="nav-link">Wyniki</Link>
+                    <Link to={"wyniki"} className="nav-link" style={{padding: '4px'}}>Wyniki</Link>
                 </Nav>
                 {this.state.isAuthenticated ?
                     <Nav className="ml-auto">
                         <Button variant="primary" style={{padding: 0}}>
-                            <Link to={"moje-konto"} className="nav-link">Moje konto</Link>
+                            <Link to={"moje-konto"} className="nav-link" style={{padding: '4px'}}>Moje konto</Link>
                         </Button>
                         <Button onClick={this.handleLogout} variant="secondary" style={{padding: 0, marginLeft: '5px'}}>
-                            <Link to={"login"} className="nav-link">Wyloguj</Link>
+                            <Link to={"login"} className="nav-link" style={{padding: '4px'}}>Wyloguj</Link>
                         </Button>
                     </Nav>
                     :
@@ -64,8 +64,6 @@ export default class NavigationBar extends Component {
                         </Button>
                     </Nav>
                 }
-
-
             </Navbar>
         )
     }

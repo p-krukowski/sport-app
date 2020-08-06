@@ -51,7 +51,8 @@ class Entry extends Component {
                     </Row>
                 </Card.Body>
                 <Card.Footer style={{padding: '0px', paddingRight: '20px', paddingLeft: '20px'}}>
-                    <CommentsSection entryId={entry.id} isAuthenticated={this.props.isAuthenticated}/>
+                    <CommentsSection entryId={entry.id} commentsAmount={entry.commentsAmount}
+                                     isAuthenticated={this.props.isAuthenticated}/>
                 </Card.Footer>
             </Card>
         );

@@ -6,6 +6,7 @@ import {addNews} from "../../util/apiUtils/NewsUtils";
 class NewNewsModal extends Component {
 
     updateFields = (content) => {
+        console.log(content);
         this.setState({
             content: content
         })
@@ -36,7 +37,7 @@ class NewNewsModal extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={this.handleCreate}>Utwórz</Button>
-                    <Button onClick={this.props.onHide}>Close</Button>
+                    <Button onClick={this.props.onHide}>Anuluj</Button>
                 </Modal.Footer>
             </Modal>
         )

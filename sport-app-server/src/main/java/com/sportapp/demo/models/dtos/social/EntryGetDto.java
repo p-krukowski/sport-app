@@ -10,6 +10,7 @@ public class EntryGetDto {
     private AuthorDto author;
     private String value;
     private int score;
+    private int commentsAmount;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
@@ -54,5 +55,13 @@ public class EntryGetDto {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public int getCommentsAmount() {
+        return commentsAmount;
+    }
+
+    public void setCommentsAmount(int commentsAmount) {
+        this.commentsAmount = commentsAmount;
     }
 }

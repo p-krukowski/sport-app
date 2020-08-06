@@ -37,7 +37,13 @@ public class EntryController {
 
     private List<EntryGetDto> convertToDto(List<Entry> entries) {
         Type typeMap = new TypeToken<List<EntryGetDto>>() {}.getType();
-        return modelMapper.map(entries, typeMap);
+        List<EntryGetDto> entriesDto = modelMapper.map(entries, typeMap);
+        for (int i = 0; i < entries.size(); i++) {
+            entriesDto.get(i).setCommentsAmount(
+                    entries.get(i).getComments().size()
+            );
+        }
+        return entriesDto;
     }
 
     @PostMapping("/new")

@@ -97,6 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/entry/**").permitAll()
                 .antMatchers("/sport/**").permitAll()
+                .antMatchers("/news/**").permitAll()
                 .antMatchers("/front/public/index.html").authenticated()
                 .antMatchers("/",
                         "/*.ico",

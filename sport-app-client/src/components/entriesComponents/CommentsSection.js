@@ -68,7 +68,7 @@ class CommentsSection extends Component {
                         <Button onClick={this.handleShowComments}
                                 variant={"primary"}
                                 style={{width: '100%', marginBottom: '10px', padding: '2px'}}>
-                            {this.state.buttonText}
+                            {this.state.buttonText} ({this.props.commentsAmount})
                         </Button>
                     </Col>
                     {

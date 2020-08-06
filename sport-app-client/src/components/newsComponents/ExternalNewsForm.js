@@ -68,7 +68,7 @@ class ExternalNewsForm extends Component {
             })
             content = {
                 ...content,
-                title: e.target.value
+                description: e.target.value
             }
         }
         this.props.updateFields(content);
