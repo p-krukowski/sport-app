@@ -1,8 +1,8 @@
 package com.sportapp.demo.controllers.social;
 
-import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.dtos.social.EntryPostDto;
+import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.EntryService;
@@ -29,9 +29,9 @@ public class EntryController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all")
-    public List<EntryGetDto> fetchEntries() {
-        List<Entry> entries = entryService.fetchAllEntriesSorted();
+    @GetMapping("/all/{page}")
+    public List<EntryGetDto> fetchEntries(@PathVariable int page) {
+        List<Entry> entries = entryService.fetchAllEntriesSorted(page);
         return convertToDto(entries);
     }
 

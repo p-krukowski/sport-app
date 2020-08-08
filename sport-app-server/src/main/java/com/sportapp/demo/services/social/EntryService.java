@@ -4,6 +4,7 @@ import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,10 @@ public class EntryService {
         this.userService = userService;
     }
 
-    public List<Entry> fetchAllEntriesSorted() {
-        return new ArrayList<>(entryRepo.findAll(Sort.by(Sort.Direction.DESC, "createdAt")));
+    public List<Entry> fetchAllEntriesSorted(int page) {
+        page = page < 1 ? 0 : page - 1;
+        return new ArrayList<>(entryRepo.findAll(PageRequest.of(page,20,
+                Sort.by(Sort.Direction.DESC, "createdAt")) ));
     }
 
     public void addEntry(String value, Long userId) {

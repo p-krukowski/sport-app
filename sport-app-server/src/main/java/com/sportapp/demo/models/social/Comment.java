@@ -1,6 +1,9 @@
 package com.sportapp.demo.models.social;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity(name = "Comment")
@@ -12,10 +15,6 @@ public class Comment extends Post {
 
     @ManyToMany
     private List<User> dislikers;
-
-    //---------Constructors---------------
-
-    //----------Methods-------------------
 
     //----------Getters&Setters-----------
 
