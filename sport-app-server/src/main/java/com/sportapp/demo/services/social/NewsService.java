@@ -3,8 +3,8 @@ package com.sportapp.demo.services.social;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
 import com.sportapp.demo.models.social.News;
 import com.sportapp.demo.repo.NewsRepo;
-import com.sportapp.demo.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,9 @@ public class NewsService {
         this.userService = userService;
     }
 
-    public List<News> findAll() {
-        return newsRepo.findAll(Sort.by(Sort.Direction.DESC, "createdAt"));
+    public List<News> findAll(int page) {
+        page = page < 1 ? 0 : page - 1;
+        return newsRepo.findAllNews(PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt"))));
     }
 
     public void save(NewsPostDto newsPostDto, Long userId) {

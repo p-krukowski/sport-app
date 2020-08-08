@@ -37,7 +37,7 @@ public class User extends DateAudit {
     @Email
     private String mail;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private UserProps userProps;
 
     @OneToMany(mappedBy = "author")

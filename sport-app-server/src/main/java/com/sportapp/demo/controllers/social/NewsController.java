@@ -32,9 +32,9 @@ public class NewsController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/all")
-    public List<NewsGetDto> fetchAllNews() {
-        return convertListToDto(newsService.findAll());
+    @GetMapping("/all/{page}")
+    public List<NewsGetDto> fetchAllNews(@PathVariable int page) {
+        return convertListToDto(newsService.findAll(page));
     }
 
     @PostMapping("/new")

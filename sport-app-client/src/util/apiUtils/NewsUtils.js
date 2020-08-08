@@ -5,7 +5,7 @@ const componentUrl = API_BASE_URL + '/news';
 
 export function getAllNews() {
     return request({
-        url: componentUrl + "/all",
+        url: componentUrl + "/all/1",
         method: 'GET'
     });
 }
