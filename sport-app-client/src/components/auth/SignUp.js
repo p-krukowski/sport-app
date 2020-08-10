@@ -79,7 +79,7 @@ export default class SignUp extends Component {
         return (
             <React.Fragment>
                 <Container>
-                    <Card bg="light" style={{width: '20rem'}}>
+                    <Card bg="light" style={{width: '20rem', color: "black"}}>
                         <Card.Header>Rejestracja</Card.Header>
                         <Card.Body>
                             <Form onSubmit={this.handleSubmit} id="signUpFormId">

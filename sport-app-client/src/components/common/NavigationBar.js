@@ -1,70 +1,90 @@
 import React, {Component} from 'react';
-
-import {Button, Nav, Navbar} from 'react-bootstrap';
+import styled from "styled-components";
 import {Link} from 'react-router-dom';
 
 import {ACCESS_TOKEN} from '../../constants';
+import {theme} from "../../util/theme";
+import Button from "./Button";
+import LinkInButton from "./LinkInButton";
+import LinkCustom from "./LinkCustom";
 
-export default class NavigationBar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            isAuthenticated: this.props.isAuthenticated
-        }
-    }
+class NavigationBar extends Component {
 
     handleLogout = () => {
         if (localStorage.getItem(ACCESS_TOKEN)) {
             localStorage.removeItem(ACCESS_TOKEN);
-            this.setState({
-                isAuthenticated: false
-            });
         }
+        window.location.reload();
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.isAuthenticated !== prevProps.isAuthenticated) {
-            this.setState(this.props);
-        }
-    }
 
     render() {
         return (
-            <Navbar bg="dark" variant="dark" style={{marginBottom: "20px", padding: '6px'}}>
-                <Link to={""} className="navbar-brand" style={{padding: '4px', fontSize: '1.1em'}}>SportApp</Link>
-                <Nav>
-                    <Link to={"panel"} className="nav-link" style={{padding: '4px'}}>Panel</Link>
-                </Nav>
-                <Nav>
-                    <Link to={"newsy"} className="nav-link" style={{padding: '4px'}}>Newsy</Link>
-                </Nav>
-                <Nav>
-                    <Link to={"wpisy"} className="nav-link" style={{padding: '4px'}}>Wpisy</Link>
-                </Nav>
-                <Nav>
-                    <Link to={"wyniki"} className="nav-link" style={{padding: '4px'}}>Wyniki</Link>
-                </Nav>
-                {this.state.isAuthenticated ?
-                    <Nav className="ml-auto">
-                        <Button variant="primary" style={{padding: 0}}>
-                            <Link to={"moje-konto"} className="nav-link" style={{padding: '4px'}}>Moje konto</Link>
+            <Navbar>
+                <Logo to={""}>SportApp</Logo>
+                <MenuDiv>
+                    <LinkCustom to={"panel"}>Panel</LinkCustom>
+                    <LinkCustom to={"newsy"}>Newsy</LinkCustom>
+                    <LinkCustom to={"wpisy"}>Wpisy</LinkCustom>
+                    <LinkCustom to={"wyniki"}>Wyniki</LinkCustom>
+                </MenuDiv>
+                {this.props.isAuthenticated ?
+                    <AuthenticationDiv>
+                        <Button as={LinkInButton} to={"moje-konto"}>
+                            Moje konto
                         </Button>
-                        <Button onClick={this.handleLogout} variant="secondary" style={{padding: 0, marginLeft: '5px'}}>
-                            <Link to={"login"} className="nav-link" style={{padding: '4px'}}>Wyloguj</Link>
+                        <Button as={LinkInButton} onClick={this.handleLogout}>
+                            Wyloguj
                         </Button>
-                    </Nav>
+                    </AuthenticationDiv>
                     :
-                    <Nav className="ml-auto">
-                        <Button variant="primary" style={{padding: 0}}>
-                            <Link to={"login"} className="nav-link">Zaloguj</Link>
+                    <AuthenticationDiv>
+                        <Button as={LinkInButton} to={"login"}>
+                            Zaloguj
                         </Button>
-                        <Button variant="secondary" style={{padding: 0, marginLeft: '5px'}}>
-                            <Link to={"signup"} className="nav-link">Rejestracja</Link>
+                        <Button as={LinkInButton} to={"signup"}>
+                            Rejestracja
                         </Button>
-                    </Nav>
+                    </AuthenticationDiv>
+
                 }
             </Navbar>
         )
     }
 }
+
+export default NavigationBar;
+
+const Navbar = styled.div`
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  padding: 3px 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  background: ${theme.colors.navbar};
+`
+
+const AuthenticationDiv = styled.div`
+  display: flex;
+  margin-left: auto;
+`
+
+const MenuDiv = styled.div`
+`
+
+const Logo = styled(Link)`
+  color: white;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-style: italic;
+  margin: 5px 20px 5px 5px;
+  
+  :hover {
+    color: ${theme.colors.primary};
+    text-decoration: none;
+  }
+`

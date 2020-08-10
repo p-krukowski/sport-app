@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { Card, Row, Col, Container } from 'react-bootstrap';
+import {Card, Row, Col} from 'react-bootstrap';
 import {getAccountInfo} from "../util/apiUtils/AccountAPI";
 
 
@@ -23,14 +23,13 @@ export default class AccountInfoPage extends Component {
         getAccountInfo()
             .then(response => {
                 this.setState((state) => {
-                    return{
+                    return {
                         accountInfo: response
                     }
                 })
             })
             .catch(error => {
-                this.setState({
-                })
+                this.setState({})
             });
     }
 
@@ -39,42 +38,37 @@ export default class AccountInfoPage extends Component {
     }
 
     render() {
-        const { accountInfo } = this.state;
+        const {accountInfo} = this.state;
 
         return (
-            <div>
-                <Container>
-                    <Card bg="dark" text="white" style={{ width: '50%', marginBottom: '5px' }}>
-                        <Card.Header>
-                            Moje konto
-                    </Card.Header>
-                        {this.props.isAuthenticated===true &&
-                            <Card.Body>
-                                <Row>
-                                    <Col>
-                                        ID: {accountInfo.id}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        Nazwa: {accountInfo.username}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        Punkty: {accountInfo.userProps.score}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        mail: {accountInfo.mail}
-                                    </Col>
-                                </Row>
-                            </Card.Body>}
-                    </Card>
-                </Container>
-
-            </div>
+            <Card bg="dark" text="white" style={{marginBottom: '5px'}}>
+                <Card.Header>
+                    Moje konto
+                </Card.Header>
+                {this.props.isAuthenticated === true &&
+                <Card.Body>
+                    <Row>
+                        <Col>
+                            ID: {accountInfo.id}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Nazwa: {accountInfo.username}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            Punkty: {accountInfo.userProps.score}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            mail: {accountInfo.mail}
+                        </Col>
+                    </Row>
+                </Card.Body>}
+            </Card>
         );
 
     }

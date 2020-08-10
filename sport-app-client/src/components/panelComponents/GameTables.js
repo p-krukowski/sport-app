@@ -1,19 +1,19 @@
 import React, {Component} from 'react';
-import {Button, Card} from "react-bootstrap";
-import Tables from "./Tables";
+import {Card} from "react-bootstrap";
 import LeaguePickModal from "./LeaguePickModal";
-import {fetchUserLeaguesIds} from "../../util/apiUtils/UserUtils";
-import UserTables from "./UserTables";
+import {fetchUserLeagues} from "../../util/apiUtils/UserUtils";
+import Tables from "./Tables";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
+import Button from "../common/Button";
+import CardCustom from "../common/CardCustom";
 
 class GameTables extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            league: null,
-            userLeagues: null,
             hasUserLeagues: false,
             showLeaguePickModal: false,
             componentReady: false
@@ -34,11 +34,11 @@ class GameTables extends Component {
             showDisciplineList: true,
             changeDisciplineBtnVisible: false
         });
-        this.getUserLeaguesIds();
+        this.getUserLeagues();
     }
 
-    getUserLeaguesIds = () => {
-        fetchUserLeaguesIds()
+    getUserLeagues = () => {
+        fetchUserLeagues()
             .then(response => {
                 if (response.length === 0) {
                     this.setState({
@@ -55,21 +55,28 @@ class GameTables extends Component {
             });
     }
 
+    getLeagues = () => {
+        getAllLeaguesByDiscipline("soccer")
+            .then(response => {
+                this.setState({
+                    leagues: response,
+                    componentReady: true
+                })
+            });
+    }
+
     componentDidMount() {
         if (this.props.isAuthenticated) {
-            this.getUserLeaguesIds();
+            this.getUserLeagues();
         } else {
-            this.setState({
-                componentReady: true
-            })
+            this.getLeagues();
         }
     }
 
     render() {
         return (
             this.state.componentReady &&
-            <Card bg="dark" text="white" style={{width: "300px"}}>
-                <Card.Header style={{padding: "3px 15px"}}>
+            <CardCustom bg="dark" text="white" style={{width: "300px"}}>
                     <Row>
                         <Col style={{lineHeight: '38px', textAlign: 'left'}}>
                                 <span style={{verticalAlign: 'middle'}}>
@@ -87,15 +94,14 @@ class GameTables extends Component {
                             </Col>
                         }
                     </Row>
-                </Card.Header>
                 <Card.Body style={{padding: "8px"}}>
                     {
                         this.props.isAuthenticated === false &&
-                        <Tables/>
+                        <Tables leagues={this.state.leagues} />
                     }
                     {
                         this.props.isAuthenticated && this.state.hasUserLeagues &&
-                        <UserTables/>
+                        <Tables leagues={this.state.userLeagues} />
                     }
                     {
                         this.props.isAuthenticated && this.state.hasUserLeagues === false &&
@@ -122,9 +128,10 @@ class GameTables extends Component {
                         />
                     }
                 </Card.Body>
-            </Card>
+            </CardCustom>
         );
     }
 }
+//TODO: Optimize Modal
 
 export default GameTables;

@@ -34,7 +34,7 @@ export default class LoginForm extends Component {
         login(loginRequest)
             .then(response => {
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                window.location.replace("/");
+                window.location.reload();
             })
             .catch(error => {
                 if (error.status === 401) {
@@ -52,7 +52,7 @@ export default class LoginForm extends Component {
         return (
             <React.Fragment>
                 <Container>
-                    <Card bg="light" style={{ width: '20rem' }}>
+                    <Card bg="light" style={{ width: '20rem', color: "black" }}>
                         <Card.Header>Logowanie</Card.Header>
                         <Card.Body>
                             <Form onSubmit={(event) => this.handleLogin(event)} id="signUpFormId">

@@ -22,13 +22,18 @@ public class UserService  {
     }
 
     public User findUserById(Long id) {
-        return  userRepo.findById(id).orElseThrow(() -> new NullPointerException("User not found"));
+        return userRepo.findById(id).orElseThrow(() -> new NullPointerException("User not found"));
+    }
+
+    public User findUserWithPropsById(Long id) {
+        return userRepo.findUserWithPropsById(id);
     }
 
     public void addUser(User user) {
         UserProps userProps = new UserProps();
         user.setUserProps(userProps);
-        userPropsService.addUserProps(userProps);
+        userProps.setUser(user);
+        userPropsService.save(userProps);
         userRepo.save(user);
     }
 

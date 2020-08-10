@@ -1,8 +1,10 @@
 package com.sportapp.demo.repo;
 
+import com.sportapp.demo.models.dtos.sportdata.soccer.get.TeamScoreSoccerBasicsGetDto;
 import com.sportapp.demo.models.sportdata.SeasonSoccer;
 import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +15,9 @@ public interface TeamScoreSoccerRepo extends JpaRepository<TeamScoreSoccer, Stri
     TeamScoreSoccer findByTeamIdAndSeason(String teamId, SeasonSoccer season);
 
     List<TeamScoreSoccer> findAllByLeagueId(Long leagueId);
+
+    @Query("select new com.sportapp.demo.models.dtos.sportdata.soccer.get" +
+            ".TeamScoreSoccerBasicsGetDto(t.name, t.played, t.goalsFor, t.total) from TeamScoreSoccer t" +
+            " where t.league.id = ?1")
+    List<TeamScoreSoccerBasicsGetDto> findAllBasicsByLeagueId(Long leagueId);
 }

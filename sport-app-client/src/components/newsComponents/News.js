@@ -5,7 +5,7 @@ class News extends Component {
     render() {
         return (
             <a href={this.props.news.link}>
-                <Row style={{height: '130px', margin: '10px 0'}}>
+                <Row style={{height: '130px', margin: '0 0 10px 0'}}>
                     <Col sm="auto"
                          style={{
                              height: '100%',

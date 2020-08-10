@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, Table} from "react-bootstrap";
 import {getTableSoccer} from "../../util/apiUtils/TablesUtils";
+import CardCustom from "../common/CardCustom";
 
 class TableSoccer extends Component {
     constructor(props) {
@@ -38,10 +39,9 @@ class TableSoccer extends Component {
     render() {
         return (
             this.state.teams &&
-            <Card bg="dark" style={{borderRadius: '0', borderTopWidth: "0px"}}>
-                <Card.Body bg="#292929" style={{padding: 0}}>
+            <CardCustom bg="dark" style={{borderRadius: '0', borderTopWidth: "0px"}}>
                     <Table size="sm" variant="dark" style={{marginBottom: 8, fontSize: "14px"}}>
-                        <thead style={{background: "#007bff"}}>
+                        <thead style={{background: "none"}}>
                         <tr>
                             <th>#</th>
                             <th>Drużyna</th>
@@ -62,8 +62,7 @@ class TableSoccer extends Component {
                         }
                         </tbody>
                     </Table>
-                </Card.Body>
-            </Card>
+            </CardCustom>
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.sportapp.demo.services.sportdata;
 
+import com.sportapp.demo.models.dtos.sportdata.soccer.get.TeamScoreSoccerBasicsGetDto;
 import com.sportapp.demo.models.sportdata.SeasonSoccer;
 import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
 import com.sportapp.demo.repo.TeamScoreSoccerRepo;
@@ -28,6 +29,10 @@ public class TeamScoreSoccerService {
 
     public List<TeamScoreSoccer> findAllByLeagueId(Long leagueId) {
         return teamScoreSoccerRepo.findAllByLeagueId(leagueId);
+    }
+
+    public List<TeamScoreSoccerBasicsGetDto> findAllBasicsByLeagueId(Long leagueId) {
+        return teamScoreSoccerRepo.findAllBasicsByLeagueId(leagueId);
     }
     
     public void saveAllTeamsToDb(List<TeamScoreSoccer> teams) {

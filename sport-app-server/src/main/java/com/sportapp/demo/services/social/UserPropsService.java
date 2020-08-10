@@ -19,7 +19,11 @@ public class UserPropsService {
         this.userPropsRepo = userPropsRepo;
     }
 
-    public void addUserProps(UserProps userProps) {
+    public List<LeagueSoccer> findLeaguesByUserId(Long id) {
+        return userPropsRepo.findByUserId(id);
+    }
+
+    public void save(UserProps userProps) {
         userPropsRepo.save(userProps);
     }
 

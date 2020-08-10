@@ -1,5 +1,6 @@
 package com.sportapp.demo.services.sportdata;
 
+import com.sportapp.demo.models.dtos.sportdata.soccer.get.LeagueSoccerGetDto;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.repo.LeagueSoccerRepo;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,20 @@ public class LeagueSoccerService {
         return leagueSoccerRepo.findById(leagueId).orElse(null);
     }
 
+    public LeagueSoccerGetDto findGetDtoById(Long id) {
+        return leagueSoccerRepo.findGetDtoById(id);
+    }
+
     public List<LeagueSoccer> findAllLeaguesByDiscipline(String discipline) {
         return leagueSoccerRepo.findAllByDiscipline(discipline);
     }
 
     public List<LeagueSoccer> findAll() {
         return leagueSoccerRepo.findAll();
+    }
+
+    public List<LeagueSoccerGetDto> findAllGetDtos() {
+        return leagueSoccerRepo.findAllGetDtoById();
     }
 
     public List<LeagueSoccer> findAllById(List<Long> leaguesIds) {

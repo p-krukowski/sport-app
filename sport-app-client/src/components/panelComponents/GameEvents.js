@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import {Card} from "react-bootstrap";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import {Card, Col, Row} from "react-bootstrap";
 import Events from "./Events";
 
 class GameEvents extends Component {

@@ -8,6 +8,16 @@ public class LeagueSoccerGetDto {
     private String name;
     private String nameAlternate;
 
+    public LeagueSoccerGetDto() {
+    }
+
+    public LeagueSoccerGetDto(Long id, String discipline, String name, String nameAlternate) {
+        this.id = id;
+        this.discipline = discipline;
+        this.name = name;
+        this.nameAlternate = nameAlternate;
+    }
+
     //----------Getters&Setters-----------
 
     public Long getId() {

@@ -1,7 +1,6 @@
 package com.sportapp.demo.controllers.sport;
 
 import com.sportapp.demo.models.dtos.sportdata.soccer.get.LeagueSoccerGetDto;
-import com.sportapp.demo.models.dtos.sportdata.soccer.get.TeamScoreSoccerGetDto;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.security.CurrentUser;
@@ -39,12 +38,12 @@ public class LeagueSoccerController {
 
     @GetMapping("/{leagueId}")
     public LeagueSoccerGetDto fetchLeague(@PathVariable Long leagueId) {
-        return convertToDto(leagueSoccerService.findById(leagueId));
+        return leagueSoccerService.findGetDtoById(leagueId);
     }
 
     @GetMapping
     public List<LeagueSoccerGetDto> fetchLeagues() {
-        return convertToListDto(leagueSoccerService.findAll());
+        return leagueSoccerService.findAllGetDtos();
     }
 
     @PostMapping("/panel/")

@@ -15,6 +15,7 @@ class LeaguePickModal extends Component {
             showDisciplineList: this.props.showDisciplineList
         }
     }
+
     chosenLeagues = [];
 
     handleHide = () => {
@@ -32,7 +33,7 @@ class LeaguePickModal extends Component {
     }
 
     setDiscipline = (e) => {
-        if(this.chosenLeagues.length === 0) {
+        if (this.chosenLeagues.length === 0) {
             fetchUserLeaguesIds()
                 .then(response => {
                     this.chosenLeagues = response;
@@ -88,7 +89,7 @@ class LeaguePickModal extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps !== this.props) {
+        if (prevProps !== this.props) {
             this.setState({
                 show: this.props.showLeaguePickModal,
                 changeDisciplineBtnVisible: this.props.changeDisciplineBtnVisible,
@@ -99,37 +100,34 @@ class LeaguePickModal extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <Modal centered show={this.state.show} onHide={this.handleHide}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Wybierz dyscyplinę</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <LeaguePickList showDisciplineList={this.state.showDisciplineList}
-                                        setDiscipline={this.setDiscipline}
-                                        leagues={this.state.leagues}
-                                        addLeague={this.addLeague}
-                                        removeLeague={this.removeLeague}
-                                        isBtnDisabled={this.isBtnDisabled}
-                                        setLeagueButtonPadding={this.setLeagueButtonPadding}/>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        {
-                            this.state.changeDisciplineBtnVisible &&
-                            <Button variant="secondary"
-                                    onClick={this.changeMenu}>
-                                Zmień dyscyplinę
-                            </Button>
-                        }
-
-                        <Button variant="primary" disabled={this.state.saveBtnDisabled}
-                                onClick={e => this.updatePanelLeagues(e)}>
-                            Zapisz
+            <Modal centered show={this.state.show} onHide={this.handleHide}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Wybierz dyscyplinę</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <LeaguePickList showDisciplineList={this.state.showDisciplineList}
+                                    setDiscipline={this.setDiscipline}
+                                    leagues={this.state.leagues}
+                                    addLeague={this.addLeague}
+                                    removeLeague={this.removeLeague}
+                                    isBtnDisabled={this.isBtnDisabled}
+                                    setLeagueButtonPadding={this.setLeagueButtonPadding}/>
+                </Modal.Body>
+                <Modal.Footer>
+                    {
+                        this.state.changeDisciplineBtnVisible &&
+                        <Button variant="secondary"
+                                onClick={this.changeMenu}>
+                            Zmień dyscyplinę
                         </Button>
-                    </Modal.Footer>
-                </Modal>
+                    }
 
-            </React.Fragment>
+                    <Button variant="primary" disabled={this.state.saveBtnDisabled}
+                            onClick={e => this.updatePanelLeagues(e)}>
+                        Zapisz
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         );
     }
 }

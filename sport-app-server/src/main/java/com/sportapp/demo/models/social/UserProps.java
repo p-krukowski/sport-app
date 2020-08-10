@@ -23,6 +23,8 @@ public class UserProps {
     @JoinTable(name="user_league", joinColumns=@JoinColumn(name="user_id"), inverseJoinColumns=@JoinColumn(name="league_id"))
     private List<LeagueSoccer> leagues;
 
+    @OneToOne
+    private User user;
 
     public UserProps() {
     }
@@ -42,14 +44,14 @@ public class UserProps {
     public void setScore(int score) {
         this.score = score;
     }
-//
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Rank getRank() {
         return rank;
