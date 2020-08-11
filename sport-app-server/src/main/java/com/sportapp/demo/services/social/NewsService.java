@@ -1,5 +1,6 @@
 package com.sportapp.demo.services.social;
 
+import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
 import com.sportapp.demo.models.social.News;
 import com.sportapp.demo.repo.NewsRepo;
@@ -30,6 +31,11 @@ public class NewsService {
     public void save(NewsPostDto newsPostDto, Long userId) {
         News news = setNews(newsPostDto, userId);
         newsRepo.save(news);
+    }
+
+    public List<NewsGetDto> findBest() {
+        return newsRepo.findBest(PageRequest.of(
+                0, 4, Sort.by(Sort.Direction.DESC, "score", "createdAt")));
     }
 
     private News setNews(NewsPostDto newsPostDto, Long userId) {

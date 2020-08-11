@@ -1,9 +1,7 @@
 package com.sportapp.demo.controllers.social;
 
-import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
-import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.News;
 import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.security.UserPrincipal;
@@ -35,6 +33,11 @@ public class NewsController {
     @GetMapping("/all/{page}")
     public List<NewsGetDto> fetchAllNews(@PathVariable int page) {
         return convertListToDto(newsService.findAll(page));
+    }
+
+    @GetMapping("/best")
+    public List<NewsGetDto> fetchBestNews() {
+        return newsService.findBest();
     }
 
     @PostMapping("/new")

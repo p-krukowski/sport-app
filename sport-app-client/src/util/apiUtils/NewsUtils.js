@@ -10,6 +10,13 @@ export function getAllNews() {
     });
 }
 
+export function getBestNews() {
+    return request({
+        url: componentUrl + "/best",
+        method: 'GET'
+    });
+}
+
 export function addNews(news) {
     return request({
         url: componentUrl + "/new",

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class NewsGetDto {
 
-    private int id;
+    private Long id;
     private String value;
     private int score;
     private AuthorDto author;
@@ -19,13 +19,27 @@ public class NewsGetDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
+    public NewsGetDto() {
+    }
+
+    public NewsGetDto(Long id, String value, int score, String title,
+                      String imageUrl, String link, LocalDateTime createdAt) {
+        this.id = id;
+        this.value = value;
+        this.score = score;
+        this.title = title;
+        this.imageUrl = imageUrl;
+        this.link = link;
+        this.createdAt = createdAt;
+    }
+
     //----------Getters&Setters-----------
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
