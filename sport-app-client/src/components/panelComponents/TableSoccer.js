@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Table} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import {getTableSoccer} from "../../util/apiUtils/TablesUtils";
 import CardCustom from "../common/CardCustom";
 
@@ -31,7 +31,7 @@ class TableSoccer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps !== this.props) {
+        if (prevProps.league !== this.props.league) {
             this.getTable(this.props.league.id);
         }
     }

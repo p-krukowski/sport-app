@@ -13,7 +13,7 @@ public interface LeagueSoccerRepo extends JpaRepository<LeagueSoccer, Long> {
 
     List<LeagueSoccer> findAllByDiscipline(String discipline);
 
-    List<LeagueSoccer> findAllById(Iterable<Long> id);
+    List<LeagueSoccer> findAllByIdIn(List<Long> id);
 
     @Query("select new com.sportapp.demo.models.dtos.sportdata.soccer.get" +
             ".LeagueSoccerGetDto(l.id, l.discipline, l.name, l.nameAlternate) from LeagueSoccer l")

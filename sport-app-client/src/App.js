@@ -12,7 +12,6 @@ import ResultsPage from "./pages/ResultsPage";
 import Layout from "./layout/Layout";
 import {getCurrentUser} from "./util/apiUtils/AuthUtils";
 import NavigationBar from "./components/common/NavigationBar";
-import {theme} from "./util/theme";
 
 export default class App extends Component {
 

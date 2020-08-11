@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Card, Col, Dropdown, DropdownButton, Row} from "react-bootstrap";
+import {Col, Dropdown, DropdownButton, Row} from "react-bootstrap";
 import TableSoccer from "./TableSoccer";
-import CardCustom from "../common/CardCustom";
 
 class Tables extends Component {
     constructor(props) {

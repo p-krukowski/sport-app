@@ -49,6 +49,6 @@ public class LeagueSoccerService {
     }
 
     public List<LeagueSoccer> findAllById(List<Long> leaguesIds) {
-        return leagueSoccerRepo.findAllById(leaguesIds);
+        return leagueSoccerRepo.findAllByIdIn(leaguesIds);
     }
 }

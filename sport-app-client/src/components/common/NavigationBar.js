@@ -34,7 +34,7 @@ class NavigationBar extends Component {
                         <Button as={LinkInButton} to={"moje-konto"}>
                             Moje konto
                         </Button>
-                        <Button as={LinkInButton} onClick={this.handleLogout}>
+                        <Button as={LinkInButton} to={"#"} onClick={this.handleLogout}>
                             Wyloguj
                         </Button>
                     </AuthenticationDiv>

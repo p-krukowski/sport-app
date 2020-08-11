@@ -14,27 +14,16 @@ class GameTables extends Component {
         super(props);
 
         this.state = {
+            modalShow: false,
             hasUserLeagues: false,
-            showLeaguePickModal: false,
             componentReady: false
         }
     }
 
-    handleShowModal = () => {
+    setModalShow = (b) => {
         this.setState({
-            showLeaguePickModal: true,
-            showDisciplineList: true,
-            changeDisciplineBtnVisible: false
-        });
-    }
-
-    handleHideModal = () => {
-        this.setState({
-            showLeaguePickModal: false,
-            showDisciplineList: true,
-            changeDisciplineBtnVisible: false
-        });
-        this.getUserLeagues();
+            modalShow: b
+        })
     }
 
     getUserLeagues = () => {
@@ -88,7 +77,7 @@ class GameTables extends Component {
                         {
                             this.props.isAuthenticated && this.state.hasUserLeagues &&
                             <Col md="auto" style={{margin: 'auto'}}>
-                                <Button size='sm' onClick={this.handleShowModal}>
+                                <Button size='sm' onClick={() => this.setModalShow(true)}>
                                     Zmień
                                 </Button>
                             </Col>
@@ -111,7 +100,7 @@ class GameTables extends Component {
                             textAlign: 'center'
                         }}>
 
-                            <Button variant="secondary" style={{height: '100%'}} onClick={this.handleShowModal}>
+                            <Button variant="secondary" style={{height: '100%'}} onClick={() => this.setModalShow(true)}>
                                     <span style={{margin: 'auto'}}>
                                         <p style={{fontSize: '40px', margin: 'auto'}}>+</p>
                                         <p style={{fontSize: '15px', margin: 'auto'}}>Dodaj ligi</p>
@@ -121,10 +110,10 @@ class GameTables extends Component {
                         </Card>
                     }
                     {
-                        <LeaguePickModal showLeaguePickModal={this.state.showLeaguePickModal}
-                                         showDisciplineList={this.state.showDisciplineList}
-                                         changeDisciplineBtnVisible={this.state.changeDisciplineBtnVisible}
-                                         handleHideModal={this.handleHideModal}
+                        <LeaguePickModal show={this.state.modalShow}
+                                         setModalShow={this.setModalShow}
+                                         userLeagues={this.state.userLeagues}
+                                         getUserLeagues={this.getUserLeagues}
                         />
                     }
                 </Card.Body>
@@ -132,6 +121,5 @@ class GameTables extends Component {
         );
     }
 }
-//TODO: Optimize Modal
 
 export default GameTables;

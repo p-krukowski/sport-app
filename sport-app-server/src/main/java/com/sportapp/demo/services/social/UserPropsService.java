@@ -1,6 +1,5 @@
 package com.sportapp.demo.services.social;
 
-import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.models.social.UserProps;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.repo.UserPropsRepo;
@@ -20,16 +19,19 @@ public class UserPropsService {
     }
 
     public List<LeagueSoccer> findLeaguesByUserId(Long id) {
-        return userPropsRepo.findByUserId(id);
+        return userPropsRepo.findLeaguesByUserId(id);
     }
 
     public void save(UserProps userProps) {
         userPropsRepo.save(userProps);
     }
 
+    public UserProps findByUserId(Long userId) {
+        return userPropsRepo.findByUserId(userId);
+    }
 
-    public void updateLeagues(List<LeagueSoccer> leagues, User user) {
-        UserProps userProps = user.getUserProps();
+    public void updateLeagues(List<LeagueSoccer> leagues, Long userId) {
+        UserProps userProps = findByUserId(userId);
         userProps.setLeagues(leagues);
 
         userPropsRepo.save(userProps);

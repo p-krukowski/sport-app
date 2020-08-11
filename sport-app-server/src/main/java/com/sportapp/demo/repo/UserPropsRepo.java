@@ -13,5 +13,10 @@ public interface UserPropsRepo extends CrudRepository<UserProps, Long> {
 
     @Query("select u.leagues from UserProps u" +
             " where u.user.id = ?1")
-    List<LeagueSoccer> findByUserId(Long id);
+    List<LeagueSoccer> findLeaguesByUserId(Long id);
+
+    @Query("select u from UserProps u" +
+            " left join fetch u.user" +
+            " where u.user.id = ?1")
+    UserProps findByUserId(Long userId);
 }
