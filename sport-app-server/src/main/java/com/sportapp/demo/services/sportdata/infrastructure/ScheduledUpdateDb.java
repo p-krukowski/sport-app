@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -72,7 +71,7 @@ public class ScheduledUpdateDb {
     @Scheduled(fixedRate = ROUND_UPDATE_TIME*MINUTE_IN_MS)
     public void updateTodayEvents() {
         eventSoccerService
-                .findAllByDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .findAllByDate(LocalDate.now())
                 .forEach(this::updateEvent);
     }
 

@@ -1,12 +1,25 @@
 package com.sportapp.demo.models.dtos.sportdata.soccer.get;
 
+import java.time.LocalDate;
+
 public class EventSoccerGetDto {
 
     private String homeTeamName;
     private String awayTeamName;
     private int homeScore;
     private int awayScore;
-    private String date;
+    private LocalDate date;
+
+    public EventSoccerGetDto() {
+    }
+
+    public EventSoccerGetDto(String homeTeamName, String awayTeamName, int homeScore, int awayScore, LocalDate date) {
+        this.homeTeamName = homeTeamName;
+        this.awayTeamName = awayTeamName;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.date = date;
+    }
 
     //----------Getters&Setters-----------
 
@@ -42,11 +55,11 @@ public class EventSoccerGetDto {
         this.awayScore = awayScore;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

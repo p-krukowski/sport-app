@@ -1,9 +1,7 @@
 package com.sportapp.demo.models.sportdata;
 
-
-import org.springframework.data.domain.Persistable;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class EventSoccer extends Event {

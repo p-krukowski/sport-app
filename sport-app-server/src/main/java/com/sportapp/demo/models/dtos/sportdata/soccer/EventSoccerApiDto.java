@@ -2,6 +2,8 @@ package com.sportapp.demo.models.dtos.sportdata.soccer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
+
 public class EventSoccerApiDto {
 
     @JsonProperty("idEvent")
@@ -19,7 +21,7 @@ public class EventSoccerApiDto {
     @JsonProperty("intAwayScore")
     private Integer awayScore;
     @JsonProperty("dateEvent")
-    private String date;
+    private LocalDate date;
     @JsonProperty("strPostponed")
     private String postponed;
 
@@ -82,11 +84,11 @@ public class EventSoccerApiDto {
         this.awayScore = awayScore;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -2,6 +2,7 @@ package com.sportapp.demo.models.sportdata;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.time.LocalDate;
 
 @MappedSuperclass
 public class Event {
@@ -9,7 +10,7 @@ public class Event {
     @Id
     private Long id;
     private String name;
-    private String date;
+    private LocalDate date;
     private String postponed;
 
     //----------Getters&Setters-----------
@@ -38,11 +39,11 @@ public class Event {
         this.postponed = postponed;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String dateEvent) {
+    public void setDate(LocalDate dateEvent) {
         this.date = dateEvent;
     }
 }
