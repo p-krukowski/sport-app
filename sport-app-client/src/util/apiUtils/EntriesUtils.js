@@ -10,6 +10,13 @@ export function getAllEntries() {
     });
 }
 
+export function getBestEntries() {
+    return request({
+        url: componentUrl + "/best",
+        method: 'GET'
+    });
+}
+
 export function addEntry(entry) {
     return request({
         url: componentUrl + "/new",

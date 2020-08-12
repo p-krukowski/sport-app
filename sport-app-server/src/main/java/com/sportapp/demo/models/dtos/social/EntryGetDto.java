@@ -15,6 +15,16 @@ public class EntryGetDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
+    public EntryGetDto() {
+    }
+
+    public EntryGetDto(Long id, String value, int score, LocalDateTime createdAt) {
+        this.id = id;
+        this.value = value;
+        this.score = score;
+        this.createdAt = createdAt;
+    }
+
     //----------Getters&Setters-----------
 
     public Long getId() {

@@ -35,17 +35,6 @@ public class EntryController {
         return convertToDto(entries);
     }
 
-    private List<EntryGetDto> convertToDto(List<Entry> entries) {
-        Type typeMap = new TypeToken<List<EntryGetDto>>() {}.getType();
-        List<EntryGetDto> entriesDto = modelMapper.map(entries, typeMap);
-        for (int i = 0; i < entries.size(); i++) {
-            entriesDto.get(i).setCommentsAmount(
-                    entries.get(i).getComments().size()
-            );
-        }
-        return entriesDto;
-    }
-
     @PostMapping("/new")
     @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
@@ -60,5 +49,21 @@ public class EntryController {
         if(entryService.isNotLiked(entryId, currentUser.getId())) entryService.addLiker(entryId, currentUser.getId());
         else entryService.removeLiker(entryId, currentUser.getId());
         return entryService.findEntryScoreById(entryId);
+    }
+
+    @GetMapping("/best")
+    public List<EntryGetDto> fetchBestEntries() {
+        return entryService.findBest();
+    }
+
+    private List<EntryGetDto> convertToDto(List<Entry> entries) {
+        Type typeMap = new TypeToken<List<EntryGetDto>>() {}.getType();
+        List<EntryGetDto> entriesDto = modelMapper.map(entries, typeMap);
+        for (int i = 0; i < entries.size(); i++) {
+            entriesDto.get(i).setCommentsAmount(
+                    entries.get(i).getComments().size()
+            );
+        }
+        return entriesDto;
     }
 }

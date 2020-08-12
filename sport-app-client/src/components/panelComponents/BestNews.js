@@ -26,8 +26,8 @@ class BestNews extends Component {
 export default BestNews;
 
 const BestNewsLayout = styled.div`
-  height: 50vh;
-  width: 50vw;
+  height: 100%;
+  width: 100%;
   position: relative;
 `
 

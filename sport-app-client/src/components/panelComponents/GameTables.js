@@ -65,7 +65,7 @@ class GameTables extends Component {
     render() {
         return (
             this.state.componentReady &&
-            <CardCustom bg="dark" text="white" style={{width: "300px"}}>
+            <Card bg="dark" text="white" style={{width: '100%'}}>
                     <Row>
                         <Col style={{lineHeight: '38px', textAlign: 'left'}}>
                                 <span style={{verticalAlign: 'middle'}}>
@@ -117,7 +117,7 @@ class GameTables extends Component {
                         />
                     }
                 </Card.Body>
-            </CardCustom>
+            </Card>
         );
     }
 }

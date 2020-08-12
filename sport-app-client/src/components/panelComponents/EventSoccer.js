@@ -10,19 +10,19 @@ class EventSoccer extends Component {
 
         return (
             <Card bg='primary' style={{
-                fontSize: '14px',
+                fontSize: '0.8em',
                 margin: '10px',
                 padding: '2px 8px',
                 textAlign: 'center'
             }}>
                 <Row className="justify-content-md-center">
                     <Col md='auto' style={{margin: 0, padding: '5px', paddingRight: 0}}>
-                        <Badge pill variant="light" style={{fontSize: '15px'}}>{event.date}</Badge>
+                        <Badge pill variant="light" style={{fontSize: '1em'}}>{event.date}</Badge>
                     </Col>
                 </Row>
                 <Row className="justify-content-md-center">
                     <Col style={{margin: "auto 0px", padding: "5px 5px", textAlign: 'right'}}>
-                        <b>{event.homeTeamName}</b>
+                        {event.homeTeamName}
                     </Col>
                     <Col md='auto' style={{margin: 'auto', padding: "5px 0",}}>
                         <Badge variant="light" style={{fontSize: 'inherit'}}>
@@ -30,7 +30,7 @@ class EventSoccer extends Component {
                         </Badge>
                     </Col>
                     <Col style={{margin: "auto 0", padding: "5px 5px", textAlign: 'left'}}>
-                        <b>{event.awayTeamName}</b>
+                        {event.awayTeamName}
                     </Col>
                 </Row>
             </Card>

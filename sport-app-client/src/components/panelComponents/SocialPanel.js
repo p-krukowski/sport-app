@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import {Col, Row} from "react-bootstrap";
 import {getBestNews} from "../../util/apiUtils/NewsUtils";
 import BestNews from "./BestNews";
+import NextBestNews from "./NextBestNews";
+import BestEntries from "./BestEntries";
+import {getBestEntries} from "../../util/apiUtils/EntriesUtils";
 
 
 class SocialPanel extends Component {
@@ -9,9 +12,11 @@ class SocialPanel extends Component {
         super(props);
 
         this.state = {
-            isComponentReady: false
+            newsReady: false,
+            entriesReady: false
         }
     }
+
 
     fetchBestNews = () => {
         getBestNews()
@@ -19,29 +24,40 @@ class SocialPanel extends Component {
                 this.setState({
                     bestNews: response[0],
                     news: response,
-                    isComponentReady: true
+                    newsReady: true
+                })
+            })
+    }
+
+    fetchBestEntries = () => {
+        getBestEntries()
+            .then(response => {
+                this.setState({
+                    entries: response,
+                    entriesReady: true
                 })
             })
     }
 
     componentDidMount() {
         this.fetchBestNews();
+        this.fetchBestEntries();
     }
 
     render() {
         return (
-            this.state.isComponentReady &&
+            this.state.entriesReady && this.state.newsReady &&
             <>
-                <Row>
-                    <Col>
+                <Row style={{height: '55vh', margin: 0}}>
+                    <Col md='9' style={{padding: "0"}}>
                         <BestNews news={this.state.bestNews}/>
                     </Col>
-                    <Col>
-
+                    <Col md='3' style={{paddingLeft: "5px", paddingRight: "0px"}}>
+                        <NextBestNews news={this.state.news} />
                     </Col>
                 </Row>
-                <Row>
-                    [Najlepsze wpisy]
+                <Row style={{height: '35vh', margin: 0}}>
+                    <BestEntries entries={this.state.entries} />
                 </Row>
             </>
         );

@@ -5,7 +5,7 @@ import Events from "./Events";
 class GameEvents extends Component {
     render() {
         return (
-            <Card bg="dark" text="white" style={{width: "300px"}}>
+            <Card bg="dark" text="white">
                 <Card.Header style={{padding: "3px 15px"}}>
                     <Row>
                         <Col style={{lineHeight: '38px', textAlign: 'left'}}>

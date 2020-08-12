@@ -34,7 +34,8 @@ class Tables extends Component {
                 </Row>
                 <Row style={{textAlign: "center"}}>
                     <Col>
-                        <DropdownButton id="dropdown-basic-button"
+                        <DropdownButton size='sm'
+                                        id="dropdown-basic-button"
                                         title={this.state.currentLeague.name}>
                             {
                                 this.props.leagues.map(league => (
@@ -48,7 +49,7 @@ class Tables extends Component {
                         </DropdownButton>
                     </Col>
                 </Row>
-                <Row>
+                <Row style={{justifyContent: "center"}}>
                     {
                         <TableSoccer league={this.state.currentLeague}/>
                     }
