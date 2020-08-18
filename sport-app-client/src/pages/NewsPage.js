@@ -27,7 +27,7 @@ class NewsPage extends Component {
                             Utwórz nowy
                         </Button>
                     }
-                    <AllNews/>
+                    <AllNews modalShow={this.state.modalShow}/>
                 </Col>
 
                 <NewNewsModal

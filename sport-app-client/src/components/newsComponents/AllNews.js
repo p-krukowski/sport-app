@@ -23,6 +23,12 @@ class AllNews extends Component {
             })
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.modalShow !== this.props.modalShow && this.props.modalShow === false) {
+            this.fetchAllNews();
+        }
+    }
+
     componentDidMount() {
         this.fetchAllNews();
     }

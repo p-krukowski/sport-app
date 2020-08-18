@@ -38,15 +38,16 @@ const ContentDiv = styled.div`
   position: absolute;
   bottom: 0;
   margin: 0;
-  height: 20%;
+  height: auto;
   width: 100%;
   background: black;
   opacity: .8;
-  padding: 3%;
+  padding: 1% 2%;
 `
 
 const Title = styled.div`
   display: flex;  
   font-size: 1.5em;
   font-weight: ${theme.font.bold};
+  
 `

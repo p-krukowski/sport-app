@@ -18,10 +18,13 @@ class NavigationBar extends Component {
         window.location.reload();
     }
 
+    componentDidMount() {
+        this.props.updateNavbarHeight(document.getElementById('navbar').clientHeight);
+    }
 
     render() {
         return (
-            <Navbar>
+            <Navbar id='navbar'>
                 <Logo to={""}>SportApp</Logo>
                 <MenuDiv>
                     <LinkCustom to={"panel"}>Panel</LinkCustom>
@@ -57,8 +60,6 @@ class NavigationBar extends Component {
 export default NavigationBar;
 
 const Navbar = styled.div`
-  position: fixed;
-  z-index: 5;
   width: 100%;
   padding: 3px 8px;
   display: flex;
@@ -66,6 +67,7 @@ const Navbar = styled.div`
   align-items: center;
   color: white;
   background: ${theme.colors.navbar};
+  height: 50px;
 `
 
 const AuthenticationDiv = styled.div`

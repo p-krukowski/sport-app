@@ -48,15 +48,15 @@ class SocialPanel extends Component {
         return (
             this.state.entriesReady && this.state.newsReady &&
             <>
-                <Row style={{height: '55vh', margin: 0}}>
-                    <Col md='9' style={{padding: "0"}}>
+                <Row style={{height: '55%', margin: 0}}>
+                    <Col md='9' style={{padding: "0", height: '100%'}}>
                         <BestNews news={this.state.bestNews}/>
                     </Col>
-                    <Col md='3' style={{paddingLeft: "5px", paddingRight: "0px"}}>
+                    <Col md='3' style={{paddingLeft: "5px", paddingRight: "0px", height: '100%'}}>
                         <NextBestNews news={this.state.news} />
                     </Col>
                 </Row>
-                <Row style={{height: '35vh', margin: 0}}>
+                <Row style={{height: '35%', margin: 0}}>
                     <BestEntries entries={this.state.entries} />
                 </Row>
             </>

@@ -7,7 +7,6 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
 import Button from "../common/Button";
-import CardCustom from "../common/CardCustom";
 
 class GameTables extends Component {
     constructor(props) {

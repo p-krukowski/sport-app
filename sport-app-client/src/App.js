@@ -19,8 +19,16 @@ export default class App extends Component {
         super(props);
         this.state = {
             isAuthenticated: false,
-            isComponentReady: false
+            isComponentReady: false,
+            containerHeight: 0
         };
+    }
+
+    updateNavbarHeight = (navbarHeight) => {
+        let ch = window.innerHeight - navbarHeight;
+        this.setState({
+            containerHeight: ch
+        })
     }
 
     componentDidMount() {
@@ -45,8 +53,9 @@ export default class App extends Component {
             <Router>
                 <Layout>
                     <NavigationBar isAuthenticated={this.state.isAuthenticated}
-                                   currentUser={this.state.currentUser}/>
-                    <MainContainer>
+                                   currentUser={this.state.currentUser}
+                                   updateNavbarHeight={this.updateNavbarHeight}/>
+                    <MainContainer  style={{height: this.state.containerHeight}}>
                         <Route path="/" exact render={
                             props => <PanelPage {...props}
                                                 isAuthenticated={this.state.isAuthenticated} />}/>
@@ -73,7 +82,6 @@ export default class App extends Component {
                     </MainContainer>
                 </Layout>
             </Router>
-
         );
     }
 }
@@ -81,12 +89,12 @@ export default class App extends Component {
 
 const MainContainer = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 50px;
   padding: 10px;
+  overflow: scroll;
+  overflow-x: hidden;
   
   @media (max-width: 768px) {
     flex-direction: column;
