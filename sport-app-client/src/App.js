@@ -93,8 +93,7 @@ const MainContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   padding: 10px;
-  overflow: scroll;
-  overflow-x: hidden;
+  overflow: auto;
   
   @media (max-width: 768px) {
     flex-direction: column;

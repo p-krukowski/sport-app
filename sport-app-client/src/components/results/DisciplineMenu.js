@@ -2,10 +2,15 @@ import React, {Component} from "react";
 import styled from "styled-components";
 
 import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball';
-import {SportsEsports, SportsFootball, SportsMma, SportsVolleyball} from "@material-ui/icons";
 
 class DisciplineMenu extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            showTitles: false
+        }
+    }
 
     handleHover = (b) => {
         this.setState({
@@ -17,30 +22,61 @@ class DisciplineMenu extends Component {
         return (
             <DisciplineMenuLayout onMouseEnter={() => this.handleHover(true)}
                                   onMouseLeave={() => this.handleHover(false)}>
-                <Discipline>
-                    <SportsSoccerIcon style={{fontSize: "inherit"}}/>
-                    <Title>Piłka nożna</Title>
-                </Discipline>
-                <Discipline>
-                    <SportsBasketballIcon style={{fontSize: "inherit"}}/>
-                    <Title>Koszykówka</Title>
-                </Discipline>
-                <Discipline>
-                    <SportsVolleyball style={{fontSize: "inherit"}}/>
-                    <Title>Siatkówka</Title>
-                </Discipline>
-                <Discipline>
-                    <SportsMma style={{fontSize: "inherit"}}/>
-                    <Title>Sztuki walki</Title>
-                </Discipline>
-                <Discipline>
-                    <SportsFootball style={{fontSize: "inherit"}}/>
-                    <Title>Futbol</Title>
-                </Discipline>
-                <Discipline>
-                    <SportsEsports style={{fontSize: "inherit"}}/>
-                    <Title>E-Sport</Title>
-                </Discipline>
+                {
+                    this.props.disciplines.map((discipline, index) => (
+                        <Discipline as={Discipline}
+                                    key={index}
+                                    onClick={() => {
+                                        this.handleHover(false);
+                                        this.props.fetchLeaguesByDiscipline(discipline);
+                                    }}>
+                            <SportsSoccerIcon style={{fontSize: "inherit"}}/>
+                            {
+                                this.state.showTitles &&
+                                <Title>{discipline}</Title>
+                            }
+                        </Discipline>
+                    ))
+
+                }
+
+                {/*<Discipline as={Discipline}*/}
+                {/*        name="soccer"*/}
+                {/*        onClick={e => this.openLeagueCountryMenu(e.target)}>*/}
+                {/*    <SportsBasketballIcon style={{fontSize: "inherit"}}/>*/}
+                {/*    {*/}
+                {/*        this.state.showTitles &&*/}
+                {/*        <Title>Koszykówka</Title>*/}
+                {/*    }*/}
+                {/*</Discipline>*/}
+                {/*<Discipline>*/}
+                {/*    <SportsVolleyball style={{fontSize: "inherit"}}/>*/}
+                {/*    {*/}
+                {/*        this.state.showTitles &&*/}
+                {/*        <Title>Siatkówka</Title>*/}
+                {/*    }*/}
+                {/*</Discipline>*/}
+                {/*<Discipline>*/}
+                {/*    <SportsMma style={{fontSize: "inherit"}}/>*/}
+                {/*    {*/}
+                {/*        this.state.showTitles &&*/}
+                {/*        <Title>Sztuki walki</Title>*/}
+                {/*    }*/}
+                {/*</Discipline>*/}
+                {/*<Discipline>*/}
+                {/*    <SportsFootball style={{fontSize: "inherit"}}/>*/}
+                {/*    {*/}
+                {/*        this.state.showTitles &&*/}
+                {/*        <Title>Futbol</Title>*/}
+                {/*    }*/}
+                {/*</Discipline>*/}
+                {/*<Discipline>*/}
+                {/*    <SportsEsports style={{fontSize: "inherit"}}/>*/}
+                {/*    {*/}
+                {/*        this.state.showTitles &&*/}
+                {/*        <Title>E-Sport</Title>*/}
+                {/*    }*/}
+                {/*</Discipline>*/}
             </DisciplineMenuLayout>
         );
     }
@@ -49,24 +85,31 @@ class DisciplineMenu extends Component {
 export default DisciplineMenu;
 
 const DisciplineMenuLayout = styled.div`
-  font-size: 2em !important;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  margin: -10px;
-  padding: 10px;
   width: auto;
   background: #292929;
 `
 
-const Discipline = styled.div`
+const Discipline = styled.button`
+  font-size: 1.8em;
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 10px;
-`
-
-const Titles = styled.div`
-  font-size: 0.3em;
+  padding: 6px;
+  background: none;
+  border: none;
+  color: inherit;
+  
+  :hover {
+    background: #393939;
+  }
+  
+  :focus {
+    background: #393939;
+    outline: none;
+  }
 `
 
 const Title = styled.div`

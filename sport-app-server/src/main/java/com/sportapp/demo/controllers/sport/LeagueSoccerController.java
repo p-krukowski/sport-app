@@ -7,7 +7,6 @@ import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.UserPropsService;
 import com.sportapp.demo.services.social.UserService;
 import com.sportapp.demo.services.sportdata.LeagueSoccerService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +18,13 @@ import java.util.List;
 @RequestMapping("sport/soccer/leagues")
 public class LeagueSoccerController {
 
-    ModelMapper modelMapper;
     LeagueSoccerService leagueSoccerService;
     UserService userService;
     UserPropsService userPropsService;
 
     @Autowired
-    public LeagueSoccerController(ModelMapper modelMapper, LeagueSoccerService leagueSoccerService,
+    public LeagueSoccerController(LeagueSoccerService leagueSoccerService,
                                   UserService userService, UserPropsService userPropsService) {
-        this.modelMapper = modelMapper;
         this.leagueSoccerService = leagueSoccerService;
         this.userService = userService;
         this.userPropsService = userPropsService;

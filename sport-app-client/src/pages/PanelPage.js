@@ -5,9 +5,12 @@ import {Col, Row} from "react-bootstrap";
 import SocialPanel from "../components/panelComponents/SocialPanel";
 
 class PanelPage extends Component {
+
+
+
     render() {
         return (
-            <Row style={{width: '100%', margin: 0, justifyContent: 'space-between', height: window.innerHeight}}>
+            <Row style={{width: '99.7%', margin: 0, justifyContent: 'space-between'}}>
                 <Col style={{paddingLeft: "0px", paddingRight: "5px"}}>
                     <SocialPanel />
                 </Col>

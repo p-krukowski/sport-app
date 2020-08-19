@@ -6,6 +6,7 @@ import com.sportapp.demo.repo.LeagueSoccerRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LeagueSoccerService {
@@ -50,5 +51,12 @@ public class LeagueSoccerService {
 
     public List<LeagueSoccer> findAllById(List<Long> leaguesIds) {
         return leagueSoccerRepo.findAllByIdIn(leaguesIds);
+    }
+
+    public List<String> findAllDisciplines() {
+        return leagueSoccerRepo.findAllDisciplines()
+                .stream()
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
     }
 }
