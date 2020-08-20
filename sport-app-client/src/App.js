@@ -69,7 +69,10 @@ export default class App extends Component {
                             props =>
                                 <EntriesPage {...props}
                                              isAuthenticated={this.state.isAuthenticated} />}/>
-                        <Route path="/wyniki" exact component={ResultsPage}/>
+                        <Route path="/wyniki" exact render={
+                            props =>
+                                <ResultsPage {...props}
+                                             isAuthenticated={this.state.isAuthenticated} />}/>
                         <Route path="/signup" exact render={
                             props => <SignUpPage {...props}
                                                  isAuthenticated={this.state.isAuthenticated} />}/>

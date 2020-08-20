@@ -12,6 +12,20 @@ public class TeamScoreSoccerGetDto {
     private int goalsDifference;
     private int total;
 
+    public TeamScoreSoccerGetDto(String name, int win, int draw, int loss,
+                                 int played, int goalsFor, int goalsAgainst,
+                                 int goalsDifference, int total) {
+        this.name = name;
+        this.win = win;
+        this.draw = draw;
+        this.loss = loss;
+        this.played = played;
+        this.goalsFor = goalsFor;
+        this.goalsAgainst = goalsAgainst;
+        this.goalsDifference = goalsDifference;
+        this.total = total;
+    }
+
     //----------Getters&Setters-----------
 
     public String getName() {

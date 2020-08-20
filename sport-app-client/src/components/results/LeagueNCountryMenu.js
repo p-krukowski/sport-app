@@ -8,7 +8,11 @@ class LeagueNCountryMenu extends Component {
                 {
                     this.props.leagues.map(league => (
                         <League key={league.id}
-                                onClick={() => this.props.hideLeagueNCountryMenu()}>
+                                onClick={
+                                    () => {
+                                        this.props.setCurrentLeague(league);
+                                        this.props.hideLeagueNCountryMenu();
+                                    }}>
                             {league.name}
                         </League>
                     ))
