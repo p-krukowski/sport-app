@@ -6,8 +6,6 @@ import SocialPanel from "../components/panelComponents/SocialPanel";
 
 class PanelPage extends Component {
 
-
-
     render() {
         return (
             <Row style={{width: '99.7%', margin: 0, justifyContent: 'space-between'}}>

@@ -5,6 +5,7 @@ import com.sportapp.demo.models.sportdata.EventSoccer;
 import com.sportapp.demo.repo.EventSoccerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,10 +38,16 @@ public class EventSoccerService {
     }
 
     public List<EventSoccerGetDto> findRecentByLeagueId(Long leagueId) {
-        return eventSoccerRepo.findRecentByLeagueId(leagueId, LocalDate.now(), PageRequest.of(0, 5));
+        return eventSoccerRepo.findRecentByLeagueId(leagueId, LocalDate.now(),
+                PageRequest.of(0, 5, Sort.Direction.DESC, "date"));
     }
 
     public List<EventSoccerGetDto> findNextByLeagueId(Long leagueId) {
-        return eventSoccerRepo.findNextByLeagueId(leagueId, LocalDate.now(), PageRequest.of(0, 5));
+        return eventSoccerRepo.findNextByLeagueId(leagueId, LocalDate.now(),
+                PageRequest.of(0, 5, Sort.Direction.DESC, "date"));
+    }
+
+    public List<EventSoccerGetDto> findEventsDtosByLeagueIdAndRoundNr(Long leagueId, int roundNr) {
+        return eventSoccerRepo.findEventsDtosByLeagueIdAndRoundNr(leagueId, roundNr);
     }
 }

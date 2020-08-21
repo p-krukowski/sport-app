@@ -1,8 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import Button from "../common/Button";
-import ResultSoccerTable from "./ResultSoccerTable";
+import ResultsSoccerTable from "./ResultSoccerTable";
 import {theme} from "../../util/theme";
+import ResultsSoccerEvents from "./ResultsSoccerEvents";
 
 class Results extends Component {
     constructor(props) {
@@ -35,7 +36,11 @@ class Results extends Component {
                 </ResultsButtonGroup>
                 {
                     this.state.page === 'table' &&
-                    <ResultSoccerTable league={this.props.league}/>
+                    <ResultsSoccerTable league={this.props.league}/>
+                }
+                {
+                    this.state.page === 'events' &&
+                    <ResultsSoccerEvents league={this.props.league}/>
                 }
             </ResultsLayout>
         );
@@ -52,7 +57,7 @@ const ResultsLayout = styled.div`
 `
 
 const ResultTitle = styled.div`
-  font-size: 1.8em;
+  font-size: 1.5em;
   font-weight: ${theme.font.bold};
   font-style: italic;
   margin-bottom: 10px;
@@ -66,7 +71,7 @@ const ResultsButtonGroup = styled.div`
   button {
     border-radius: 0;
     margin: 0;
-    width: 50%;
+    width: 30%;
   }
   
   button:not(:last-child) {

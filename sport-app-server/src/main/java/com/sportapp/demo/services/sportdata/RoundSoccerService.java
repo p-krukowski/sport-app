@@ -30,6 +30,10 @@ public class RoundSoccerService {
     public List<RoundSoccer> findAll() {
         return roundSoccerRepo.findAll();
     }
+
+    public int findRoundsAmountByLeagueId(Long leagueId) {
+        return roundSoccerRepo.findRoundsAmountByLeagueId(leagueId);
+    }
     
     public RoundSoccer findById(Long roundNumber) {
         return roundSoccerRepo.findById(roundNumber).orElse(null);

@@ -4,7 +4,7 @@ import styled from "styled-components";
 class LeagueNCountryMenu extends Component {
     render() {
         return (
-            <LeagueMenuLayout>
+            <LeagueMenuLayout onMouseLeave={this.props.hideLeagueNCountryMenu}>
                 {
                     this.props.leagues.map(league => (
                         <League key={league.id}

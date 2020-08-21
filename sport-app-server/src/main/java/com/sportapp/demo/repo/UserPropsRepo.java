@@ -19,4 +19,5 @@ public interface UserPropsRepo extends CrudRepository<UserProps, Long> {
             " left join fetch u.user" +
             " where u.user.id = ?1")
     UserProps findByUserId(Long userId);
+
 }

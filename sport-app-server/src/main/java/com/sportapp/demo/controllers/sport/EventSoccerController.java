@@ -45,4 +45,9 @@ public class EventSoccerController {
         return eventSoccerService.findNextByLeagueId(leagueId);
     }
 
+    @GetMapping("/l={leagueId}&r={roundNr}")
+    public List<EventSoccerGetDto> fetchEventsByLeagueIdAndRoundNr(@PathVariable Long leagueId,
+                                                                   @PathVariable int roundNr) {
+        return eventSoccerService.findEventsDtosByLeagueIdAndRoundNr(leagueId, roundNr);
+    }
 }
