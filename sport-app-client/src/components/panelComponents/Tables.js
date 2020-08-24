@@ -24,7 +24,7 @@ class Tables extends Component {
     render() {
         return (
             <>
-                <Row style={{textAlign: "center"}}>
+                <Row style={{textAlign: "center", padding: 0}}>
                     <Col>
                         {
                             <b>{this.state.currentLeague.discipline}</b>

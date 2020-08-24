@@ -50,7 +50,7 @@ class ResultSoccerTable extends Component {
                 {
                     this.state.teamsScore.map((team, index) => (
                         <TR key={index}>
-                            <TD>{index + 1}</TD>
+                            <TD>{index + 1}.</TD>
                             <TD style={{textAlign: 'left'}}>{team.name}</TD>
                             <TD>{team.total}</TD>
                             <TD>{team.win}</TD>

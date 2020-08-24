@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import {fetchEventsByLeagueIdAndRoundNr} from "../../util/apiUtils/EventsUtils";
 import {TableCustom, TBody, TD, THead, TR} from "../common/TableCustom";
+import Button from "../common/Button";
 
 class SoccerEventsRounds extends Component {
     constructor(props) {
@@ -20,7 +21,8 @@ class SoccerEventsRounds extends Component {
             rounds.push(i);
         }
         this.setState({
-            rounds: rounds
+            rounds: rounds,
+            roundEvents: null
         });
     }
 
@@ -28,7 +30,8 @@ class SoccerEventsRounds extends Component {
         fetchEventsByLeagueIdAndRoundNr(this.props.leagueId, roundNr)
             .then(response => {
                 this.setState({
-                    roundEvents: response
+                    roundEvents: response,
+                    roundNr: roundNr
                 })
             })
     }
@@ -49,11 +52,12 @@ class SoccerEventsRounds extends Component {
                 <RoundsList>
                     {
                         this.state.rounds.map(roundNr => (
-                            <RoundLink key={roundNr}
-                                       name={roundNr}
-                                       onClick={(e) => this.handleRoundClick(e.target.name)}>
+                            <Button key={roundNr}
+                                    name={roundNr}
+                                    onClick={(e) => this.handleRoundClick(e.target.name)}
+                                    style={{width: '2em'}}>
                                 {roundNr}
-                            </RoundLink>
+                            </Button>
                         ))
                     }
                 </RoundsList>
@@ -61,6 +65,9 @@ class SoccerEventsRounds extends Component {
                     this.state.roundEvents !== null &&
                     <TableCustom>
                         <THead>
+                            <TR>
+                                <TD colSpan={4}>Kolejka {this.state.roundNr}</TD>
+                            </TR>
                             <TR>
                                 <TD>Data</TD>
                                 <TD>Gospodarze</TD>
@@ -93,14 +100,16 @@ const SoccerEventsRoundsLayout = styled.div`
   width: 80vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
 `
 
 const RoundsList = styled.div`
+  width: 70%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 10px;
 `
 
 const RoundLink = styled.a`

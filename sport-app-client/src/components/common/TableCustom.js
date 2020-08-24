@@ -5,6 +5,16 @@ const TableCustom = styled.table`
   font-size: 0.95em;
   margin-bottom: 20px;
   
+  TD:first-child {
+    padding: 0.3em 5px;
+  }
+  TD:nth-child(2) {
+    padding-left: 0px;
+  }
+  TD:last-child {
+    padding: 0.3em 5px;
+  }
+  
   TR:first-child {
     TD:first-child {
       border-top-left-radius: 5px;

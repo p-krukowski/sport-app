@@ -81,6 +81,7 @@ class ResultsSoccerEvents extends Component {
             <ResultsSoccerEventsLayout>
                 <CloseSoccerEvents lastEvents={lastEvents}
                                    nextEvents={nextEvents}/>
+                                   Spotkania kolejki
                 <SoccerEventsRounds roundEvents={roundEvents}
                                     roundsAmount={roundsAmount}
                                     leagueId={this.props.league.id}/>

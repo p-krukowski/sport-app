@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Table} from "react-bootstrap";
 import {getBasicTableSoccer} from "../../util/apiUtils/TablesUtils";
 import CardCustom from "../common/CardCustom";
+import {TableCustom, TBody, TD, THead, TR} from "../common/TableCustom";
 
 class TableSoccer extends Component {
     constructor(props) {
@@ -19,7 +19,7 @@ class TableSoccer extends Component {
     getTable = (id) => {
         getBasicTableSoccer(id)
             .then(response => {
-                this.sortTeams(response);
+              //  this.sortTeams(response);
                 this.setState({
                     teams: response
                 })
@@ -39,29 +39,29 @@ class TableSoccer extends Component {
     render() {
         return (
             this.state.teams &&
-            <CardCustom bg="dark" style={{borderRadius: '0', borderTopWidth: "0px"}}>
-                <Table size="sm" variant="dark" style={{marginBottom: 8, fontSize: "14px"}}>
-                    <thead style={{background: "none"}}>
-                    <tr>
-                        <th>#</th>
-                        <th>Drużyna</th>
-                        <th>M</th>
-                        <th>P</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <CardCustom bg="dark" style={{width: '100%', borderRadius: '0', borderTopWidth: "0px"}}>
+                <TableCustom style={{width: "100%", overflow: "scroll"}}>
+                    <THead style={{background: "none"}}>
+                    <TR>
+                        <TD>#</TD>
+                        <TD>Drużyna</TD>
+                        <TD>M</TD>
+                        <TD>P</TD>
+                    </TR>
+                    </THead>
+                    <TBody>
                     {
                         this.state.teams.map((team, index) => (
-                            <tr key={index}>
-                                <td style={{paddingTop: "0px", paddingBottom: "0px"}}>{index + 1}.</td>
-                                <td style={{paddingTop: "0px", paddingBottom: "0px"}}>{team.name}</td>
-                                <td style={{paddingTop: "0px", paddingBottom: "0px"}}>{team.played}</td>
-                                <td style={{paddingTop: "0px", paddingBottom: "0px"}}>{team.total}</td>
-                            </tr>
+                            <TR key={index}>
+                                <TD style={{paddingTop: "0px", paddingBottom: "0px"}}>{index + 1}.</TD>
+                                <TD style={{paddingTop: "0px", paddingBottom: "0px"}}>{team.name}</TD>
+                                <TD style={{paddingTop: "0px", paddingBottom: "0px"}}>{team.played}</TD>
+                                <TD style={{paddingTop: "0px", paddingBottom: "0px"}}>{team.total}</TD>
+                            </TR>
                         ))
                     }
-                    </tbody>
-                </Table>
+                    </TBody>
+                </TableCustom>
             </CardCustom>
         );
     }

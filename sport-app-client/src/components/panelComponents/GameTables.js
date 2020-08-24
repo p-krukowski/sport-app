@@ -82,7 +82,7 @@ class GameTables extends Component {
                             </Col>
                         }
                     </Row>
-                <Card.Body style={{padding: "8px"}}>
+                <Card.Body style={{padding: "8px", overflow: 'scroll'}}>
                     {
                         this.props.isAuthenticated === false &&
                         <Tables leagues={this.state.leagues} />
