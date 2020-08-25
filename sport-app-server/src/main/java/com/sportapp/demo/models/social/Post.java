@@ -1,7 +1,13 @@
 package com.sportapp.demo.models.social;
 
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 
 @MappedSuperclass
 public class Post extends DateAudit {
@@ -12,6 +18,9 @@ public class Post extends DateAudit {
 
     private String value;
     private int score;
+
+    @OneToMany
+    private List<Tag> tags;
 
     @ManyToOne
     private User author;
@@ -64,5 +73,13 @@ public class Post extends DateAudit {
 
     public void setLikers(List<User> likers) {
         this.likers = likers;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

@@ -6,15 +6,19 @@ import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.EntryService;
+import java.lang.reflect.Type;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.lang.reflect.Type;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/entries")
@@ -37,10 +41,9 @@ public class EntryController {
 
     @PostMapping("/new")
     @PreAuthorize("isAuthenticated()")
-    @ResponseStatus(HttpStatus.OK)
-    public String addEntry(@RequestBody EntryPostDto entryPostDto, @CurrentUser UserPrincipal currentUser) {
+    public HttpStatus addEntry(@RequestBody EntryPostDto entryPostDto, @CurrentUser UserPrincipal currentUser) {
         entryService.addEntry(entryPostDto.getValue(), currentUser.getId());
-        return "Server Status: OK";
+        return HttpStatus.OK;
     }
 
     @PostMapping("/{entryId}/like")
