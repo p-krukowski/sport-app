@@ -1,13 +1,13 @@
 package com.sportapp.demo.models.social;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 @MappedSuperclass
 public class Post extends DateAudit {
@@ -19,7 +19,7 @@ public class Post extends DateAudit {
     private String value;
     private int score;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tags;
 
     @ManyToOne

@@ -6,9 +6,7 @@ import com.sportapp.demo.models.social.Tag;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryRepo;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -39,9 +37,8 @@ public class EntryService {
         Entry entry = new Entry();
         entry.setValue(value);
         entry.setAuthor(userService.findUserById(userId));
-        List<Tag> tags = filterTagsFromText(value);
+        List<Tag> tags = tagService.filterTagsFromText(value);
         entry.setTags(tags);
-        tagService.saveAll(tags);
         entryRepo.save(entry);
     }
 
@@ -71,31 +68,7 @@ public class EntryService {
 
     public List<EntryGetDto> findBest() {
         return entryRepo.findBest(PageRequest.of(
-            0, 3, Sort.by(Sort.Direction.DESC, "score", "createdAt")));
-    }
-
-    private List<Tag> filterTagsFromText(String text) {
-        List<Tag> tags = new ArrayList<>();
-        String[] strings = text.split(" ");
-        List<String> tagsNames = getTagsNames(strings);
-        createTags(tags, tagsNames);
-        return tags;
-    }
-
-    private void createTags(List<Tag> tags, List<String> tagsNames) {
-        tagsNames.forEach(tagName -> {
-            Tag tag = new Tag();
-            tag.setName(tagName);
-            tags.add(tag);
-        });
-    }
-
-    private List<String> getTagsNames(String[] strings) {
-        return Arrays.stream(strings)
-            .filter(s -> s.matches("#[\\w]{3,}"))
-            .map(s -> s.substring(1).toLowerCase())
-            .distinct()
-            .collect(Collectors.toList());
+            0, 3, Sort.by(Sort.Direction.DESC, "createdAt", "score")));
     }
 
     private Entry addLikerToDb(Long entryId, Long userId) {

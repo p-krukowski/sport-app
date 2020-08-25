@@ -65,7 +65,7 @@ class Entry extends Component {
             paddingRight: '20px'
           }}>
             <Row>
-             <Col dangerouslySetInnerHTML={this.formatText(entry.value)}></Col>
+             <Col dangerouslySetInnerHTML={this.formatText(entry.value)}/>
             </Row>
           </Card.Body>
           <Card.Footer style={{

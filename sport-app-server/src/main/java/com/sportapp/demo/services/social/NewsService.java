@@ -4,23 +4,24 @@ import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
 import com.sportapp.demo.models.social.News;
 import com.sportapp.demo.repo.NewsRepo;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class NewsService {
 
     NewsRepo newsRepo;
     UserService userService;
+    TagService tagService;
 
     @Autowired
-    public NewsService(NewsRepo newsRepo, UserService userService) {
+    public NewsService(NewsRepo newsRepo, UserService userService, TagService tagService) {
         this.newsRepo = newsRepo;
         this.userService = userService;
+        this.tagService = tagService;
     }
 
     public List<News> findAll(int page) {
@@ -45,6 +46,7 @@ public class NewsService {
         news.setImageUrl(newsPostDto.getImageURL());
         news.setValue(newsPostDto.getDescription());
         news.setLink(newsPostDto.getLink());
+        news.setTags(tagService.filterTagsFromText(newsPostDto.getTags()));
         return news;
     }
 }

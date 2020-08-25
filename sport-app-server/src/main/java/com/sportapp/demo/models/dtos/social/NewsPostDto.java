@@ -6,6 +6,7 @@ public class NewsPostDto {
     private String description;
     private String imageURL;
     private String link;
+    private String tags;
 
     public String getTitle() {
         return title;
@@ -37,5 +38,13 @@ public class NewsPostDto {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }
