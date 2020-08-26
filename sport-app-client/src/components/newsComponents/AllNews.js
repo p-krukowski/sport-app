@@ -38,7 +38,9 @@ class AllNews extends Component {
             <>
                 {
                     this.state.allNews && this.state.allNews.map(news => (
-                        <News key={news.id} news={news} />
+                        <News key={news.id}
+                              news={news}
+                              isAuthenticated={this.props.isAuthenticated} />
                     ))
                 }
             </>

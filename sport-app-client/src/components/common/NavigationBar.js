@@ -25,16 +25,16 @@ class NavigationBar extends Component {
     render() {
         return (
             <Navbar id='navbar'>
-                <Logo to={""}>SportApp</Logo>
+                <Logo to={"/"}>SportApp</Logo>
                 <MenuDiv>
-                    <LinkCustom to={"panel"}>Panel</LinkCustom>
-                    <LinkCustom to={"newsy"}>Newsy</LinkCustom>
-                    <LinkCustom to={"wpisy"}>Wpisy</LinkCustom>
-                    <LinkCustom to={"wyniki"}>Wyniki</LinkCustom>
+                    <LinkCustom to={"/panel"}>Panel</LinkCustom>
+                    <LinkCustom to={"/newsy"}>Newsy</LinkCustom>
+                    <LinkCustom to={"/wpisy"}>Wpisy</LinkCustom>
+                    <LinkCustom to={"/wyniki"}>Wyniki</LinkCustom>
                 </MenuDiv>
                 {this.props.isAuthenticated ?
                     <AuthenticationDiv>
-                        <Button as={LinkInButton} to={"moje-konto"}>
+                        <Button as={LinkInButton} to={"/moje-konto"}>
                             Moje konto
                         </Button>
                         <Button as={LinkInButton} to={"#"} onClick={this.handleLogout}>
@@ -43,10 +43,10 @@ class NavigationBar extends Component {
                     </AuthenticationDiv>
                     :
                     <AuthenticationDiv>
-                        <Button as={LinkInButton} to={"login"}>
+                        <Button as={LinkInButton} to={"/login"}>
                             Zaloguj
                         </Button>
-                        <Button as={LinkInButton} to={"signup"}>
+                        <Button as={LinkInButton} to={"/signup"}>
                             Rejestracja
                         </Button>
                     </AuthenticationDiv>

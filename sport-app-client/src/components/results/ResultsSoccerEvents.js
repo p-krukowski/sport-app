@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import CloseSoccerEvents from "./CloseSoccerEvents";
 import {
-    fetchEventsByLeagueIdAndRoundNr,
-    fetchNextEventsByLeagueId,
-    fetchRecentEventsByLeagueId
+  fetchEventsByLeagueIdAndRoundNr,
+  fetchNextEventsByLeagueId,
+  fetchRecentEventsByLeagueId
 } from "../../util/apiUtils/EventsUtils";
 import SoccerEventsRounds from "./SoccerEventsRounds";
 import {fetchRoundsAmountByLeagueId} from "../../util/apiUtils/RoundsUtils";

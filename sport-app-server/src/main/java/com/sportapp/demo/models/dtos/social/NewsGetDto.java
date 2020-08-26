@@ -1,7 +1,6 @@
 package com.sportapp.demo.models.dtos.social;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
 
 public class NewsGetDto {
@@ -9,7 +8,7 @@ public class NewsGetDto {
     private Long id;
     private String value;
     private int score;
-    private AuthorDto author;
+    private String authorName;
     private String title;
     private String content;
     private String imageUrl;
@@ -23,7 +22,7 @@ public class NewsGetDto {
     }
 
     public NewsGetDto(Long id, String value, int score, String title,
-                      String imageUrl, String link, LocalDateTime createdAt) {
+                      String imageUrl, String link, LocalDateTime createdAt, String authorName) {
         this.id = id;
         this.value = value;
         this.score = score;
@@ -31,6 +30,7 @@ public class NewsGetDto {
         this.imageUrl = imageUrl;
         this.link = link;
         this.createdAt = createdAt;
+        this.authorName = authorName;
     }
 
     //----------Getters&Setters-----------
@@ -59,12 +59,12 @@ public class NewsGetDto {
         this.score = score;
     }
 
-    public AuthorDto getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public String getTitle() {

@@ -7,11 +7,12 @@ import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import AccountPage from './pages/AccountPage';
 import PanelPage from "./pages/PanelPage";
-import NewsPage from "./pages/NewsPage";
+import AllNewsPage from "./pages/AllNewsPage";
 import ResultsPage from "./pages/ResultsPage";
 import Layout from "./layout/Layout";
 import {getCurrentUser} from "./util/apiUtils/AuthUtils";
 import NavigationBar from "./components/common/NavigationBar";
+import NewsPage from "./pages/NewsPage";
 
 export default class App extends Component {
 
@@ -63,8 +64,8 @@ export default class App extends Component {
                             props => <PanelPage {...props}
                                                 isAuthenticated={this.state.isAuthenticated} />}/>
                         <Route path="/newsy" exact render={
-                            props => <NewsPage {...props}
-                                               isAuthenticated={this.state.isAuthenticated} />}/>
+                            props => <AllNewsPage {...props}
+                                                  isAuthenticated={this.state.isAuthenticated} />}/>
                         <Route path="/wpisy" exact render={
                             props =>
                                 <EntriesPage {...props}
@@ -81,6 +82,9 @@ export default class App extends Component {
                                                 isAuthenticated={this.state.isAuthenticated} />}/>
                         <Route path="/moje-konto" exact render={
                             props => <AccountPage {...props}
+                                                  isAuthenticated={this.state.isAuthenticated} />}/>
+                        <Route path="/newsy/:id" render={
+                            props => <NewsPage {...props}
                                                   isAuthenticated={this.state.isAuthenticated} />}/>
                     </MainContainer>
                 </Layout>

@@ -49,8 +49,11 @@ public class EntryController {
     @PostMapping("/{entryId}/like")
     @PreAuthorize("isAuthenticated()")
     public int updateLikers(@PathVariable Long entryId, @CurrentUser UserPrincipal currentUser) {
-        if(entryService.isNotLiked(entryId, currentUser.getId())) entryService.addLiker(entryId, currentUser.getId());
-        else entryService.removeLiker(entryId, currentUser.getId());
+        if(entryService.isNotLiked(entryId, currentUser.getId())) {
+            entryService.addLiker(entryId, currentUser.getId());
+        } else {
+            entryService.removeLiker(entryId, currentUser.getId());
+        }
         return entryService.findEntryScoreById(entryId);
     }
 
