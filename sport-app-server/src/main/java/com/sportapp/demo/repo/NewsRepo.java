@@ -2,6 +2,7 @@ package com.sportapp.demo.repo;
 
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.social.News;
+import com.sportapp.demo.models.social.NewsComment;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -24,4 +25,8 @@ public interface NewsRepo extends JpaRepository<News, Long> {
       ".NewsGetDto(n.id, n.value, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n"
       + " where n.id = ?1")
   Optional<NewsGetDto> findNewsGetDtoById(Long id);
+
+  @Query("select n.newsComments from News n"
+      + " where n.id = ?1")
+  List<NewsComment> findNewsCommentsById(Long id);
 }

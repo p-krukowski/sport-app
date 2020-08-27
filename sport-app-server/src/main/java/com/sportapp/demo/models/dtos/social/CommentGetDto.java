@@ -1,7 +1,6 @@
 package com.sportapp.demo.models.dtos.social;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
 
 public class CommentGetDto {
@@ -9,11 +8,22 @@ public class CommentGetDto {
     private Long id;
     private String value;
     private AuthorDto author;
+    private int score;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime createdAt;
 
-    private int score;
+    public CommentGetDto() {
+    }
+
+    public CommentGetDto(Long id, String value, AuthorDto author, int score,
+        LocalDateTime createdAt) {
+        this.id = id;
+        this.value = value;
+        this.author = author;
+        this.score = score;
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.sportapp.demo.services.social;
 
 import com.sportapp.demo.models.dtos.social.EntryGetDto;
+import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.Tag;
 import com.sportapp.demo.models.social.User;
@@ -69,6 +70,14 @@ public class EntryService {
     public List<EntryGetDto> findBest() {
         return entryRepo.findBest(PageRequest.of(
             0, 3, Sort.by(Sort.Direction.DESC, "createdAt", "score")));
+    }
+
+    public Entry save(Entry entry) {
+        return entryRepo.save(entry);
+    }
+
+    public List<Comment> findCommentsByEntryId(Long entryId) {
+        return entryRepo.findCommentsByEntryId(entryId);
     }
 
     private Entry addLikerToDb(Long entryId, Long userId) {

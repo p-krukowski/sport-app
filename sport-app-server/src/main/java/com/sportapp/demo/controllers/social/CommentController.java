@@ -1,23 +1,27 @@
 package com.sportapp.demo.controllers.social;
 
-import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.dtos.social.CommentGetDto;
 import com.sportapp.demo.models.dtos.social.CommentPostDto;
+import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.CommentService;
-import com.sportapp.demo.services.social.EntryService;
+import java.lang.reflect.Type;
+import java.util.List;
+import javax.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.lang.reflect.Type;
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/entry")
@@ -25,26 +29,19 @@ public class CommentController {
 
     CommentService commentService;
     ModelMapper modelMapper;
-    EntryService entryService;
 
     @Autowired
-    public CommentController(CommentService commentService, ModelMapper modelMapper, EntryService entryService) {
+    public CommentController(CommentService commentService, ModelMapper modelMapper) {
         this.commentService = commentService;
         this.modelMapper = modelMapper;
-        this.entryService = entryService;
     }
 
     @PostMapping("/{entryId}/comments")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> addComment(@PathVariable Long entryId, @Valid @RequestBody CommentPostDto commentPostDto, @CurrentUser UserPrincipal currentUser) {
+    public ResponseEntity<HttpStatus> addComment(@PathVariable Long entryId, @Valid @RequestBody CommentPostDto commentPostDto, @CurrentUser UserPrincipal currentUser) {
         Comment comment = convertToEntity(commentPostDto);
-        comment.setEntry(entryService.findEntryById(entryId));
-        commentService.addComment(comment, currentUser.getId());
+        commentService.addComment(entryId, comment, currentUser.getId());
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private Comment convertToEntity(CommentPostDto commentPostDto) {
-        return modelMapper.map(commentPostDto, Comment.class);
     }
 
     @GetMapping("/{entryId}/comments")
@@ -57,5 +54,9 @@ public class CommentController {
     private List<CommentGetDto> convertToDto(List<Comment> comments) {
         Type typeMap = new TypeToken<List<CommentGetDto>>() {}.getType();
         return modelMapper.map(comments, typeMap);
+    }
+
+    private Comment convertToEntity(CommentPostDto commentPostDto) {
+        return modelMapper.map(commentPostDto, Comment.class);
     }
 }

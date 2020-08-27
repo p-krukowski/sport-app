@@ -8,6 +8,7 @@ const Card = styled.div`
   height: 100%;
   background: ${theme.colors.navbar};
   border-radius: 5px;
+  border-color: ${theme.colors.background};
 `
 
 const CardHeader = styled.div`
@@ -16,7 +17,8 @@ const CardHeader = styled.div`
   align-content: center;
   padding: 5px 15px;
   background: inherit;
-  border-bottom: 1px solid ${theme.colors.background};
+  border-bottom: 1px solid;
+  border-color: inherit;
   font-weight: ${theme.font.bold};
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -36,7 +38,8 @@ const CardFoot = styled.div`
   flex-direction: row;
   align-content: center;
   background: inherit;
-  border-top: 1px solid ${theme.colors.background};
+  border-top: 1px solid;
+  border-color: inherit;
   height: 2rem;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;

@@ -1,16 +1,15 @@
 package com.sportapp.demo.controllers.social;
 
+import com.sportapp.demo.models.dtos.social.NewsCommentGetDto;
+import com.sportapp.demo.models.dtos.social.NewsCommentPostDto;
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
-import com.sportapp.demo.models.social.News;
 import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.NewsService;
-import java.lang.reflect.Type;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +54,11 @@ public class NewsController {
     return newsService.findBest();
   }
 
+  @GetMapping("/{id}/comments")
+  public List<NewsCommentGetDto> fetchNewsCommentsByNewsId(@PathVariable Long id) {
+    return newsService.findNewsCommentsByNewsId(id);
+  }
+
   @PostMapping("/new")
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<HttpStatus> addNews(@RequestBody NewsPostDto newsPostDto,
@@ -63,9 +67,10 @@ public class NewsController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-  private List<NewsGetDto> convertListToDto(List<News> news) {
-    Type typeMap = new TypeToken<List<NewsGetDto>>() {
-    }.getType();
-    return modelMapper.map(news, typeMap);
+  @PostMapping("/{id}/comments/new")
+  public ResponseEntity<HttpStatus> addNewsComment(@PathVariable Long id,
+      @RequestBody NewsCommentPostDto newsCommentPostDto, @CurrentUser UserPrincipal currentUser) {
+    newsService.saveNewsComment(id, newsCommentPostDto, currentUser.getId());
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 }

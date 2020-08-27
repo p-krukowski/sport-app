@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import News from "./News";
+import NewsCover from "./NewsCover";
 import {getAllNews} from "../../util/apiUtils/NewsUtils";
 
 class AllNews extends Component {
@@ -38,9 +38,9 @@ class AllNews extends Component {
             <>
                 {
                     this.state.allNews && this.state.allNews.map(news => (
-                        <News key={news.id}
-                              news={news}
-                              isAuthenticated={this.props.isAuthenticated} />
+                        <NewsCover key={news.id}
+                                   news={news}
+                                   isAuthenticated={this.props.isAuthenticated} />
                     ))
                 }
             </>

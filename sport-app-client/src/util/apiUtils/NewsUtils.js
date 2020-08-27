@@ -31,3 +31,11 @@ export function addNews(news) {
         data: news
     });
 }
+
+export function addNewsComment(newsId, comment) {
+    return request({
+        url: componentUrl + newsId + '/comments/new',
+        method: 'POST',
+        data: comment
+    });
+}

@@ -1,6 +1,8 @@
 package com.sportapp.demo.models.social;
 
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class News extends Post {
@@ -9,6 +11,9 @@ public class News extends Post {
     private String content;
     private String imageUrl;
     private String link;
+
+    @OneToMany
+    private List<NewsComment> newsComments;
 
     //----------Getters&Setters-----------
 
@@ -42,5 +47,13 @@ public class News extends Post {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public List<NewsComment> getNewsComments() {
+        return newsComments;
+    }
+
+    public void setNewsComments(List<NewsComment> comments) {
+        this.newsComments = comments;
     }
 }

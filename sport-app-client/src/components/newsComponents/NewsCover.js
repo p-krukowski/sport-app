@@ -9,11 +9,11 @@ import ForumIcon from '@material-ui/icons/Forum';
 import {theme} from "../../util/theme";
 import LinkBlank from "../common/LinkBlank";
 
-class News extends Component {
+class NewsCover extends Component {
   render() {
     const news = this.props.news;
     return (
-        <NewsLayout>
+        <NewsCoverLayout>
           <ImageDiv>
             <LinkBlank to={"/newsy/" + news.id}>
               <ImageCustom src={news.imageUrl}
@@ -62,14 +62,14 @@ class News extends Component {
               </CardFoot>
             </Card>
           </InfoDiv>
-        </NewsLayout>
+        </NewsCoverLayout>
     );
   }
 }
 
-export default News;
+export default NewsCover;
 
-const NewsLayout = styled.div`
+const NewsCoverLayout = styled.div`
   display: flex;
   flex-direction: row;
   height: 170px;

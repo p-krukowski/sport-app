@@ -8,7 +8,6 @@ import Button from "./Button";
 import LinkInButton from "./LinkInButton";
 import LinkCustom from "./LinkCustom";
 
-
 class NavigationBar extends Component {
 
     handleLogout = () => {

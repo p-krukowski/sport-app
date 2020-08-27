@@ -1,15 +1,15 @@
 package com.sportapp.demo.models.social;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity(name = "Entry")
 @Table(name = "entries")
 public class Entry extends Post {
 
-    @OneToMany(mappedBy = "entry")
+    @OneToMany
     private List<Comment> comments;
 
     //----------Getters&Setters-----------
