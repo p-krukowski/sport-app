@@ -18,6 +18,7 @@ public class Post extends DateAudit {
 
     private String value;
     private int score;
+    private String imageUrl;
 
     @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tags;
@@ -81,5 +82,13 @@ public class Post extends DateAudit {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

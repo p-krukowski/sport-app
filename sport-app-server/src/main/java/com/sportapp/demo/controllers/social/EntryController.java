@@ -43,7 +43,7 @@ public class EntryController {
     @PostMapping("/new")
     @PreAuthorize("isAuthenticated()")
     public HttpStatus addEntry(@RequestBody EntryPostDto entryPostDto, @CurrentUser UserPrincipal currentUser) {
-        entryService.addEntry(entryPostDto.getValue(), currentUser.getId());
+        entryService.addEntry(entryPostDto, currentUser.getId());
         return HttpStatus.OK;
     }
 

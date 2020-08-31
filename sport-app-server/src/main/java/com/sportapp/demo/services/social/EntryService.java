@@ -1,6 +1,7 @@
 package com.sportapp.demo.services.social;
 
 import com.sportapp.demo.models.dtos.social.EntryGetDto;
+import com.sportapp.demo.models.dtos.social.EntryPostDto;
 import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.Tag;
@@ -35,12 +36,13 @@ public class EntryService {
                 Sort.by(Sort.Direction.DESC, "createdAt")) ));
     }
 
-    public void addEntry(String value, Long userId) {
+    public void addEntry(EntryPostDto entryPostDto, Long userId) {
         Entry entry = new Entry();
-        entry.setValue(value);
+        entry.setValue(entryPostDto.getValue());
         entry.setAuthor(userService.findUserById(userId));
-        List<Tag> tags = tagService.filterTagsFromText(value);
+        List<Tag> tags = tagService.filterTagsFromText(entryPostDto.getValue());
         entry.setTags(tags);
+        entry.setImageUrl(entryPostDto.getImageUrl());
         entryRepo.save(entry);
     }
 

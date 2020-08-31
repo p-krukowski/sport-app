@@ -1,19 +1,22 @@
 package com.sportapp.demo.services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
+
+import com.sportapp.demo.models.dtos.social.EntryPostDto;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryRepo;
 import com.sportapp.demo.services.social.EntryService;
 import com.sportapp.demo.services.social.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 class EntryServiceTest {
 
@@ -49,10 +52,11 @@ class EntryServiceTest {
     void shouldAddEntry() {
         User user = new User();
         Entry entry = new Entry();
+        EntryPostDto entryPostDto = new EntryPostDto();
         when(userService.findUserById(231L)).thenReturn(user);
         when(entryRepo.save(entry)).thenReturn(addToList(entry));
 
-        entryService.addEntry("test", 231L);
+        entryService.addEntry(entryPostDto, 231L);
 
         assertEquals(1, entries.size());
     }
