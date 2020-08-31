@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import styled from "styled-components";
 
-import {Button, Card, Col, Row} from "react-bootstrap";
 import CommentsSection from "./CommentsSection";
 import {addPointToEntry} from "../../util/apiUtils/EntriesUtils";
 import {
   ImageModal,
   ImageModalContent
 } from "../common/ImageModal";
+import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import Button from "../common/Button";
 
 class Entry extends Component {
   constructor(props) {
@@ -70,28 +72,21 @@ class Entry extends Component {
     const {entry} = this.state;
 
     return (
-        <Card bg="dark" text="white" style={{marginBottom: '5px'}}>
-          <Card.Header>
-            <Row>
-              <Col md="auto">{entry.author.username}</Col>
-              <Col>{entry.createdAt}</Col>
-              <Col className="text-right" xs={"auto"}>{entry.score}</Col>
-              {
-                this.props.isAuthenticated &&
-                <Col className="text-right" xs={"auto"}><Button
-                    onClick={() => this.handleAddButton(
-                        entry.id)}><b>+</b></Button></Col>
-              }
-            </Row>
-          </Card.Header>
-          <Card.Body style={{
-            padding: '10px',
-            paddingLeft: '20px',
-            paddingRight: '20px'
-          }}>
-            <Row>
-              <Col dangerouslySetInnerHTML={this.formatText(entry.value)}/>
-            </Row>
+        <Card>
+          <CardHeader style={{fontSize: '1rem'}}>
+            <b style={{marginRight: '7px'}}>{entry.author.username}</b>
+            {entry.createdAt}
+            <div style={{margin: "0 5px 0 auto"}}>{entry.score}</div>
+            {
+              this.props.isAuthenticated &&
+              <Button onClick={() => this.handleAddButton(
+                  entry.id)}>
+                <ArrowDropUpIcon />
+              </Button>
+            }
+          </CardHeader>
+          <CardBody >
+             <div dangerouslySetInnerHTML={this.formatText(entry.value)}/>
             {
               entry.imageUrl !== null &&
               <>
@@ -103,16 +98,12 @@ class Entry extends Component {
                            target="_blank">Źródło</ImageLink>
               </>
             }
-          </Card.Body>
-          <Card.Footer style={{
-            padding: '0px',
-            paddingRight: '20px',
-            paddingLeft: '20px'
-          }}>
+          </CardBody>
+          <CardFoot style={{fontSize: '1rem'}}>
             <CommentsSection entryId={entry.id}
                              commentsAmount={entry.commentsAmount}
                              isAuthenticated={this.props.isAuthenticated}/>
-          </Card.Footer>
+          </CardFoot>
 
           {
             this.state.showImageModal &&
