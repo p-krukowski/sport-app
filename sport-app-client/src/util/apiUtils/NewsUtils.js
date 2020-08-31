@@ -39,3 +39,10 @@ export function addNewsComment(newsId, comment) {
         data: comment
     });
 }
+
+export function addPointToNews(newsId) {
+    return request({
+        url: componentUrl + newsId + "/upvote",
+        method: 'POST'
+    });
+}

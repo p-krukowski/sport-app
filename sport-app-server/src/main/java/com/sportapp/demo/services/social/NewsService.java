@@ -82,6 +82,29 @@ public class NewsService {
     }
   }
 
+  public int upvoteNews(Long newsId, Long userId) {
+    Optional<News> newsOptional = newsRepo.findByIdWithLikers(newsId);
+    User user = userService.findUserById(userId);
+    if (newsOptional.isPresent()) {
+      return updateUpvoters(newsOptional, user);
+    } else {
+      return 0;
+    }
+  }
+
+  private int updateUpvoters(Optional<News> newsOptional, User user) {
+    News news = newsOptional.get();
+    List<User> likers = news.getLikers();
+    if (likers.contains(user)) {
+      likers.remove(user);
+    } else {
+      likers.add(user);
+    }
+    news.setScore(likers);
+    newsRepo.save(news);
+    return news.getLikers().size();
+  }
+
   private List<NewsCommentGetDto> mapEntityToDto(List<NewsComment> newsComments) {
     Type typeMap = new TypeToken<List<NewsCommentGetDto>>() {}.getType();
     return modelMapper.map(newsComments, typeMap);
@@ -97,5 +120,4 @@ public class NewsService {
     news.setTags(tagService.filterTagsFromText(newsPostDto.getTags()));
     return news;
   }
-
 }

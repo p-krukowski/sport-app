@@ -5,16 +5,37 @@ import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import {theme} from "../../util/theme";
 import ReportIcon from '@material-ui/icons/Report';
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
+import {addPointToNews} from "../../util/apiUtils/NewsUtils";
 
 class News extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      news: this.props.news
+    }
+  }
+
+  addPoint = (newsId) => {
+    addPointToNews(newsId)
+    .then(response => {
+      this.setState({
+        news: {
+          ...this.state.news,
+          score: response
+        }
+      })
+    })
+  }
+
   render() {
-    const {news} = this.props;
+    const {news} = this.state;
     return (
         <NewsLayout>
           {
             this.props.isAuthenticated &&
             <ScoreDiv>
-              <ArrowDropUpIconCustom/>
+              <ArrowDropUpIconCustom onClick={() => this.addPoint(news.id)}/>
               <b>{news.score}</b>
               <ReportIconCustom/>
             </ScoreDiv>

@@ -29,4 +29,9 @@ public interface NewsRepo extends JpaRepository<News, Long> {
   @Query("select n.newsComments from News n"
       + " where n.id = ?1")
   List<NewsComment> findNewsCommentsById(Long id);
+
+  @Query("select n from News n"
+      + " left join fetch n.likers"
+      + " where n.id = ?1")
+  Optional<News> findByIdWithLikers(Long id);
 }

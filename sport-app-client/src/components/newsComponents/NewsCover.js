@@ -4,14 +4,35 @@ import {Badge} from "react-bootstrap";
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import ReportIcon from '@material-ui/icons/Report';
 import ForumIcon from '@material-ui/icons/Forum';
 import {theme} from "../../util/theme";
 import LinkBlank from "../common/LinkBlank";
+import {addPointToNews} from "../../util/apiUtils/NewsUtils";
 
 class NewsCover extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      news: this.props.news
+    }
+  }
+
+  addPoint = (newsId) => {
+    addPointToNews(newsId)
+    .then(response => {
+      this.setState({
+        news: {
+          ...this.state.news,
+          score: response
+        }
+      })
+    })
+  }
+
   render() {
-    const news = this.props.news;
+    const news = this.state.news;
     return (
         <NewsCoverLayout>
           <ImageDiv>
@@ -22,9 +43,9 @@ class NewsCover extends Component {
             {
               this.props.isAuthenticated &&
               <ImageInfoBgTop>
-                <ArrowDropUpIconCustom/>
+                <ArrowDropUpIconCustom onClick={() => this.addPoint(news.id)}/>
                 <b style={{margin: "0 10%"}}>{news.score}</b>
-                <ArrowDropDownIconCustom/>
+                <ReportIconCustom/>
               </ImageInfoBgTop>
             }
             <ImageInfoBgBottom>
@@ -54,11 +75,10 @@ class NewsCover extends Component {
                   <OpenInNewIcon/>
                   TODO: short url
                 </SourceUrlDiv>
-                <SourceUrlDiv style={{marginLeft: 'auto', width: 'auto'}}>
-                  <LinkBlank to={"/newsy/" + news.id}>
-                    <ForumIcon/> Komentarze
-                  </LinkBlank>
-                </SourceUrlDiv>
+                <LinkBlank style={{marginLeft: 'auto', width: 'auto'}}
+                           to={"/newsy/" + news.id}>
+                  <ForumIcon/> Komentarze
+                </LinkBlank>
               </CardFoot>
             </Card>
           </InfoDiv>
@@ -98,7 +118,7 @@ const ImageInfoBgBottom = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.6);
   margin: 0;
   padding: 5%;
   height: 2rem;
@@ -141,7 +161,7 @@ const SourceUrlDiv = styled.a`
   }
 `
 
-const ArrowDropDownIconCustom = styled(ArrowDropDownIcon)`
+const ReportIconCustom = styled(ReportIcon)`
   font-size: 1.4rem;
   border: white 1px solid;
   border-radius: 5px;

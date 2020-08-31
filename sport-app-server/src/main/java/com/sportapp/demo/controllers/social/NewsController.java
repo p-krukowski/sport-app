@@ -73,4 +73,11 @@ public class NewsController {
     newsService.saveNewsComment(id, newsCommentPostDto, currentUser.getId());
     return new ResponseEntity<>(HttpStatus.OK);
   }
+
+  @PostMapping("/{id}/upvote")
+  public ResponseEntity<Integer> upvoteNews(@PathVariable Long id,
+      @CurrentUser UserPrincipal currentUser) {
+    int score = newsService.upvoteNews(id, currentUser.getId());
+    return new ResponseEntity<>(score, HttpStatus.OK);
+  }
 }
