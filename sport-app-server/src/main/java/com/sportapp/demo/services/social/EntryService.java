@@ -8,6 +8,7 @@ import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryRepo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -41,6 +42,29 @@ public class EntryService {
         List<Tag> tags = tagService.filterTagsFromText(value);
         entry.setTags(tags);
         entryRepo.save(entry);
+    }
+
+    public int upvoteEntry(Long entryId, Long userId) {
+        Optional<Entry> entryOptional = entryRepo.findByIdWithLikers(entryId);
+        User user = userService.findUserById(userId);
+        if (entryOptional.isPresent()) {
+            return updateUpvoters(entryOptional, user);
+        } else {
+            return 0;
+        }
+    }
+
+    private int updateUpvoters(Optional<Entry> entryOptional, User user) {
+        Entry entry = entryOptional.get();
+        List<User> likers = entry.getLikers();
+        if (likers.contains(user)) {
+            likers.remove(user);
+        } else {
+            likers.add(user);
+        }
+        entry.setScore(likers);
+        entryRepo.save(entry);
+        return entry.getLikers().size();
     }
 
     public boolean isNotLiked(Long entryId, Long userId) {

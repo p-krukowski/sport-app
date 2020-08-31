@@ -13,14 +13,13 @@ class Entry extends Component {
   }
 
   handleAddButton = (entryId) => {
-
-    const entryTemp = this.state.entry;
-
     addPointToEntry(entryId)
     .then(response => {
-      entryTemp.score = response;
       this.setState({
-        entry: entryTemp
+        entry: {
+          ...this.state.entry,
+          score: response
+        }
       });
     })
     .catch(error => {
@@ -37,7 +36,6 @@ class Entry extends Component {
       }
       newTextArray = newTextArray.concat(" ", word);
     }
-    console.log(newTextArray)
     return {__html: newTextArray};
   }
 

@@ -5,6 +5,7 @@ import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.User;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -29,4 +30,9 @@ public interface EntryRepo extends CrudRepository<Entry, Long> {
   @Query("select e.comments from Entry e"
       + " where e.id = ?1")
   List<Comment> findCommentsByEntryId(Long entryId);
+
+  @Query("select e from Entry e"
+      + " left join fetch e.likers"
+      + " where e.id = ?1")
+  Optional<Entry> findByIdWithLikers(Long entryId);
 }

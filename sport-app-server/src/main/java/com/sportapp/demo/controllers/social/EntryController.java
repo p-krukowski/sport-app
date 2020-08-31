@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,13 +49,9 @@ public class EntryController {
 
     @PostMapping("/{entryId}/like")
     @PreAuthorize("isAuthenticated()")
-    public int updateLikers(@PathVariable Long entryId, @CurrentUser UserPrincipal currentUser) {
-        if(entryService.isNotLiked(entryId, currentUser.getId())) {
-            entryService.addLiker(entryId, currentUser.getId());
-        } else {
-            entryService.removeLiker(entryId, currentUser.getId());
-        }
-        return entryService.findEntryScoreById(entryId);
+    public ResponseEntity<Integer> upvoteEntry(@PathVariable Long entryId, @CurrentUser UserPrincipal currentUser) {
+        int score = entryService.upvoteEntry(entryId, currentUser.getId());
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 
     @GetMapping("/best")
