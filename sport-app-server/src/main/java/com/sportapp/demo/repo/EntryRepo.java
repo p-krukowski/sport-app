@@ -3,7 +3,6 @@ package com.sportapp.demo.repo;
 import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.social.Entry;
-import com.sportapp.demo.models.social.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +20,6 @@ public interface EntryRepo extends CrudRepository<Entry, Long> {
 
   List<Entry> findAll();
 
-  Entry findByIdAndLikers(Long id, User user);
-
   @Query("select new com.sportapp.demo.models.dtos.social." +
       "EntryGetDto(e.id, e.value, e.score, e.createdAt) from Entry e")
   List<EntryGetDto> findBest(Pageable pageable);
@@ -32,7 +29,7 @@ public interface EntryRepo extends CrudRepository<Entry, Long> {
   List<Comment> findCommentsByEntryId(Long entryId);
 
   @Query("select e from Entry e"
-      + " left join fetch e.likers"
+      + " left join fetch e.upvoters"
       + " where e.id = ?1")
-  Optional<Entry> findByIdWithLikers(Long entryId);
+  Optional<Entry> findByIdWithUpvoters(Long entryId);
 }

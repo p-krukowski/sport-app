@@ -10,95 +10,99 @@ import Results from "../components/results/Results";
 import {fetchUserLeagues} from "../util/apiUtils/UserUtils";
 
 class ResultsPage extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            isComponentReady: false,
-            leagues: null,
-            league: null
-        }
+    this.state = {
+      isComponentReady: false,
+      leagues: null,
+      league: null
     }
+  }
 
-    fetchAllDisciplines = () => {
-        getAllDisciplines()
-            .then(response => {
-                this.setState({
-                    disciplines: response,
-                    isComponentReady: true
-                })
-            })
-    }
+  fetchAllDisciplines = () => {
+    getAllDisciplines()
+    .then(response => {
+      this.setState({
+        disciplines: response,
+        isComponentReady: true
+      })
+    })
+  }
 
-    fetchLeaguesByDiscipline = (discipline) => {
-        getAllLeaguesByDiscipline(discipline)
-            .then(response => {
-                this.setState({
-                    leagues: response
-                })
-            })
-    }
+  fetchLeaguesByDiscipline = (discipline) => {
+    getAllLeaguesByDiscipline(discipline)
+    .then(response => {
+      this.setState({
+        leagues: response
+      })
+    })
+  }
 
-    setCurrentLeague = (league) => {
+  setCurrentLeague = (league) => {
+    this.setState({
+      league: league
+    })
+  }
+
+  hideLeagueNCountryMenu = () => {
+    this.setState({
+      leagues: null
+    })
+  }
+
+  getUserLeagues = () => {
+    fetchUserLeagues()
+    .then(response => {
+      if (response.length !== 0) {
         this.setState({
-            league: league
+          league: response[0]
         })
-    }
+      } else {
+        this.getLeagues();
+      }
+    });
+  }
 
-    hideLeagueNCountryMenu = () => {
-        this.setState({
-            leagues: null
-        })
-    }
+  getLeagues = () => {
+    getAllLeaguesByDiscipline("soccer")
+    .then(response => {
+      this.setState({
+        league: response[0]
+      })
+    });
+  }
 
-    getUserLeagues = () => {
-        fetchUserLeagues()
-            .then(response => {
-                    this.setState({
-                        league: response[0]
-                    })
-            });
+  componentDidMount() {
+    this.fetchAllDisciplines();
+    if (this.props.isAuthenticated) {
+      this.getUserLeagues();
+    } else {
+      this.getLeagues();
     }
+  }
 
-    getLeagues = () => {
-        getAllLeaguesByDiscipline("soccer")
-            .then(response => {
-                this.setState({
-                    league: response[0]
-                })
-            });
-    }
-
-    componentDidMount() {
-        this.fetchAllDisciplines();
-        if (this.props.isAuthenticated) {
-            this.getUserLeagues();
-        } else {
-            this.getLeagues();
-        }
-    }
-
-    render() {
-        return (
-            this.state.isComponentReady &&
-            <Row style={{width: '100%', height: '100%', margin: 0}}>
-                <ResultsMenu>
-                    <DisciplineMenu disciplines={this.state.disciplines}
-                                    fetchLeaguesByDiscipline={this.fetchLeaguesByDiscipline}/>
-                    {
-                        this.state.leagues !== null &&
-                        <LeagueNCountryMenu leagues={this.state.leagues}
-                                            hideLeagueNCountryMenu={this.hideLeagueNCountryMenu}
-                                            setCurrentLeague={this.setCurrentLeague}/>
-                    }
-                </ResultsMenu>
-                {
-                    this.state.league !== null &&
-                    <Results league={this.state.league} />
-                }
-            </Row>
-        );
-    }
+  render() {
+    return (
+        this.state.isComponentReady &&
+        <Row style={{width: '100%', height: '100%', margin: 0}}>
+          <ResultsMenu>
+            <DisciplineMenu disciplines={this.state.disciplines}
+                            fetchLeaguesByDiscipline={this.fetchLeaguesByDiscipline}/>
+            {
+              this.state.leagues !== null &&
+              <LeagueNCountryMenu leagues={this.state.leagues}
+                                  hideLeagueNCountryMenu={this.hideLeagueNCountryMenu}
+                                  setCurrentLeague={this.setCurrentLeague}/>
+            }
+          </ResultsMenu>
+          {
+            this.state.league !== null &&
+            <Results league={this.state.league}/>
+          }
+        </Row>
+    );
+  }
 }
 
 export default ResultsPage;

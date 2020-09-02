@@ -5,21 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-@Entity(name = "Comment")
+@Entity
 @Table(name = "comments")
 public class Comment extends Post {
 
-    @ManyToMany
-    private List<User> dislikers;
+  @ManyToMany
+  private List<User> downvoters;
 
-    //----------Getters&Setters-----------
+  //----------Getters&Setters-----------
 
-    public List<User> getDislikers() {
-        return dislikers;
-    }
+  public List<User> getDownvoters() {
+    return downvoters;
+  }
 
-    public void setDislikers(List<User> dislikers) {
-        this.dislikers = dislikers;
-    }
+  public void setDownvoters(List<User> downvoters) {
+    this.downvoters = downvoters;
+  }
 
 }

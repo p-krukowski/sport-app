@@ -27,7 +27,7 @@ public class Post extends DateAudit {
     private User author;
 
     @ManyToMany
-    private List<User> likers;
+    private List<User> upvoters;
 
     //----------Getters&Setters-----------
 
@@ -56,7 +56,7 @@ public class Post extends DateAudit {
     }
 
     public void setScore(List<User> likers) {
-        setLikers(likers);
+        setUpvoters(likers);
         setScore(likers.size());
     }
 
@@ -68,12 +68,12 @@ public class Post extends DateAudit {
         this.author = author;
     }
 
-    public List<User> getLikers() {
-        return likers;
+    public List<User> getUpvoters() {
+        return upvoters;
     }
 
-    public void setLikers(List<User> likers) {
-        this.likers = likers;
+    public void setUpvoters(List<User> upvoters) {
+        this.upvoters = upvoters;
     }
 
     public List<Tag> getTags() {

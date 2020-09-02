@@ -31,6 +31,7 @@ class GameTables extends Component {
                 if (response.length === 0) {
                     this.setState({
                         hasUserLeagues: false,
+                        userLeagues: [],
                         componentReady: true
                     })
                 } else {

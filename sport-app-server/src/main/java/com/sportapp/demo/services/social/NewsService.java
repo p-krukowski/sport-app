@@ -94,7 +94,7 @@ public class NewsService {
 
   private int updateUpvoters(Optional<News> newsOptional, User user) {
     News news = newsOptional.get();
-    List<User> likers = news.getLikers();
+    List<User> likers = news.getUpvoters();
     if (likers.contains(user)) {
       likers.remove(user);
     } else {
@@ -102,7 +102,7 @@ public class NewsService {
     }
     news.setScore(likers);
     newsRepo.save(news);
-    return news.getLikers().size();
+    return news.getUpvoters().size();
   }
 
   private List<NewsCommentGetDto> mapEntityToDto(List<NewsComment> newsComments) {

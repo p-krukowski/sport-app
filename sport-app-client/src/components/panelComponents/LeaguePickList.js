@@ -25,6 +25,9 @@ class LeaguePickList extends Component {
     }
 
     hasUserTheLeague(league) {
+        if (this.state.userLeagues.length == 0) {
+            return false;
+        }
         for(let userLeague of this.state.userLeagues) {
             if (userLeague.id == league.id) {
                 return true;

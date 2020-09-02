@@ -1,175 +1,112 @@
 package com.sportapp.demo.models.social;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "UserEntity")
-@Table (name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "username"
-        }),
-        @UniqueConstraint(columnNames = {
-                "mail"
-        })
+@Table(name = "users", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+        "username"
+    }),
+    @UniqueConstraint(columnNames = {
+        "mail"
+    })
 })
 public class User extends DateAudit {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @NotBlank
-    @Size(max = 30)
-    private String username;
+  @NotBlank
+  @Size(max = 30)
+  private String username;
 
-    @NotBlank
-    @Size(max = 100)
-    private String password;
+  @NotBlank
+  @Size(max = 100)
+  private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role = Role.ROLE_USER;
+  @Enumerated(EnumType.STRING)
+  private Role role = Role.ROLE_USER;
 
-    @NotBlank
-    @Email
-    private String mail;
+  @NotBlank
+  @Email
+  private String mail;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private UserProps userProps;
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private UserProps userProps;
 
-    @OneToMany(mappedBy = "author")
-    private List<Entry> entries;
+  //----------------Constructors--------------------
 
-    @OneToMany(mappedBy = "author")
-    private List<News> newsList;
+  public User(String username, String password, String mail) {
+    this.username = username;
+    this.password = password;
+    this.mail = mail;
+  }
 
-    @ManyToMany(mappedBy = "likers")
-    private List<Entry> likedEntries;
+  public User() {
+  }
 
-    @ManyToMany(mappedBy = "likers")
-    private List<Comment> likedComments;
+  //----------------Getters&Setters--------------------
 
-    @ManyToMany(mappedBy = "dislikers")
-    private List<Comment> dislikedComments;
+  public Role getRole() {
+    return role;
+  }
 
-    //----------------Constructors--------------------
+  public void setRole(Role role) {
+    this.role = role;
+  }
 
-    public User(String username, String password, String mail) {
-        this.username = username;
-        this.password = password;
-        this.mail = mail;
-    }
+  public UserProps getUserProps() {
+    return userProps;
+  }
 
-    public User() {
-    }
+  public void setUserProps(UserProps userProps) {
+    this.userProps = userProps;
+  }
 
-    //----------------Methods--------------------
+  public String getMail() {
+    return mail;
+  }
 
-    public void addLikedEntry(Entry entry) {
-        List<Entry> entries = new ArrayList<>();
-        if(getLikedEntries() != null) {
-            entries = getLikedEntries();
-        }
-        entries.add(entry);
-        setLikedEntries(entries);
-    }
+  public void setMail(String mail) {
+    this.mail = mail;
+  }
 
-    public void removeLikedEntry(Entry entry) {
-        List<Entry> entryList = getLikedEntries();
-        entryList.remove(entry);
-        setLikedEntries(entryList);
-    }
+  public Long getId() {
+    return id;
+  }
 
-    //----------------Getters&Setters--------------------
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public List<Entry> getEntries() {
-        return entries;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public void setEntries(List<Entry> entries) {
-        this.entries = entries;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public List<Entry> getLikedEntries() {
-        return likedEntries;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setLikedEntries(List<Entry> likedEntries) {
-        this.likedEntries = likedEntries;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public UserProps getUserProps() {
-        return userProps;
-    }
-
-    public void setUserProps(UserProps userProps) {
-        this.userProps = userProps;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public List<Comment> getLikedComments() {
-        return likedComments;
-    }
-
-    public void setLikedComments(List<Comment> likedComments) {
-        this.likedComments = likedComments;
-    }
-
-    public List<Comment> getDislikedComments() {
-        return dislikedComments;
-    }
-
-    public void setDislikedComments(List<Comment> dislikedComments) {
-        this.dislikedComments = dislikedComments;
-    }
-
-    public List<News> getNewsList() {
-        return newsList;
-    }
-
-    public void setNewsList(List<News> newsList) {
-        this.newsList = newsList;
-    }
 }
