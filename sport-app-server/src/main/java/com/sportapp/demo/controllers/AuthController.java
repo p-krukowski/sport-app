@@ -69,13 +69,13 @@ public class AuthController {
     if (usernameExists(signUpRequest)) {
       throw new SignUpException("Username already exists");
     }
-    if (mailExists(signUpRequest)) {
+    if (emailExists(signUpRequest)) {
       throw new SignUpException("Email already in use");
     }
   }
 
-  private boolean mailExists(SignUpRequest signUpRequest) {
-    return userService.existsByMail(signUpRequest.getMail());
+  private boolean emailExists(SignUpRequest signUpRequest) {
+    return userService.existsByEmail(signUpRequest.getEmail());
   }
 
   private boolean usernameExists(SignUpRequest signUpRequest) {

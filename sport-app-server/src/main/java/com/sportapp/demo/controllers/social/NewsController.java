@@ -4,8 +4,8 @@ import com.sportapp.demo.models.dtos.social.NewsCommentGetDto;
 import com.sportapp.demo.models.dtos.social.NewsCommentPostDto;
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
+import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.security.CurrentUser;
-import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.NewsService;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
@@ -62,22 +62,22 @@ public class NewsController {
   @PostMapping("/new")
   @PreAuthorize("isAuthenticated()")
   public ResponseEntity<HttpStatus> addNews(@RequestBody NewsPostDto newsPostDto,
-      @CurrentUser UserPrincipal currentUser) {
+      @CurrentUser User currentUser) {
     newsService.save(newsPostDto, currentUser.getId());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PostMapping("/{id}/comments/new")
   public ResponseEntity<HttpStatus> addNewsComment(@PathVariable Long id,
-      @RequestBody NewsCommentPostDto newsCommentPostDto, @CurrentUser UserPrincipal currentUser) {
-    newsService.saveNewsComment(id, newsCommentPostDto, currentUser.getId());
+      @RequestBody NewsCommentPostDto newsCommentPostDto, @CurrentUser User currentUser) {
+    newsService.saveNewsComment(id, newsCommentPostDto, currentUser);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PostMapping("/{id}/upvote")
   public ResponseEntity<Integer> upvoteNews(@PathVariable Long id,
-      @CurrentUser UserPrincipal currentUser) {
-    int score = newsService.upvoteNews(id, currentUser.getId());
+      @CurrentUser User currentUser) {
+    int score = newsService.upvoteNews(id, currentUser);
     return new ResponseEntity<>(score, HttpStatus.OK);
   }
 }

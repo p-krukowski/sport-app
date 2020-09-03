@@ -26,8 +26,7 @@ public class CommentService {
     public CommentService() {
     }
 
-    public void addComment(Long entryId, Comment comment, Long userId) {
-        User user = userService.findUserById(userId);
+    public void addComment(Long entryId, Comment comment, User user) {
         comment.setAuthor(user);
         commentRepo.save(comment);
         Entry entry = entryService.findEntryById(entryId);

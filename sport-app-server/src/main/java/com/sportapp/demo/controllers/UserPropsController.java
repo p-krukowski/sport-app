@@ -1,8 +1,8 @@
 package com.sportapp.demo.controllers;
 
 import com.sportapp.demo.models.dtos.sportdata.soccer.get.LeagueSoccerGetDto;
+import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.security.CurrentUser;
-import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.UserPropsService;
 import com.sportapp.demo.services.social.UserService;
 import java.util.List;
@@ -25,13 +25,13 @@ public class UserPropsController {
 
     @GetMapping("/leagues-ids")
     @ResponseBody
-    public List<Long> fetchUserLeaguesIds(@CurrentUser UserPrincipal currentUser) {
+    public List<Long> fetchUserLeaguesIds(@CurrentUser User currentUser) {
         return userPropsService.findLeaguesIdsByUserId(currentUser.getId());
     }
 
     @GetMapping("/leagues")
     @ResponseBody
-    public List<LeagueSoccerGetDto> fetchUserLeagues(@CurrentUser UserPrincipal currentUser) {
+    public List<LeagueSoccerGetDto> fetchUserLeagues(@CurrentUser User currentUser) {
         return userPropsService.findLeaguesDtosByUserId(currentUser.getId());
     }
 

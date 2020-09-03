@@ -1,5 +1,7 @@
 package com.sportapp.demo.models.social;
 
+import java.util.Collection;
+import java.util.Collections;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,6 +16,9 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity(name = "UserEntity")
 @Table(name = "users", uniqueConstraints = {
@@ -21,10 +26,10 @@ import javax.validation.constraints.Size;
         "username"
     }),
     @UniqueConstraint(columnNames = {
-        "mail"
+        "email"
     })
 })
-public class User extends DateAudit {
+public class User extends DateAudit implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,17 +48,21 @@ public class User extends DateAudit {
 
   @NotBlank
   @Email
-  private String mail;
+  private String email;
+
+  boolean enabled = false;
+
+  boolean locked = false;
 
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private UserProps userProps;
 
   //----------------Constructors--------------------
 
-  public User(String username, String password, String mail) {
+  public User(String username, String password, String email) {
     this.username = username;
     this.password = password;
-    this.mail = mail;
+    this.email = email;
   }
 
   public User() {
@@ -77,12 +86,12 @@ public class User extends DateAudit {
     this.userProps = userProps;
   }
 
-  public String getMail() {
-    return mail;
+  public String getEmail() {
+    return email;
   }
 
-  public void setMail(String mail) {
-    this.mail = mail;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   public Long getId() {
@@ -93,20 +102,52 @@ public class User extends DateAudit {
     this.id = id;
   }
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
   public String getUsername() {
     return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
   }
 
   public String getPassword() {
     return password;
   }
 
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public void setLocked(boolean locked) {
+    this.locked = locked;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return !locked;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return Collections.singleton(new SimpleGrantedAuthority(role.name()));
+  }
 }

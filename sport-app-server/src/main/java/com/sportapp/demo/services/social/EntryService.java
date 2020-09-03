@@ -45,9 +45,8 @@ public class EntryService {
     entryRepo.save(entry);
   }
 
-  public int upvoteEntry(Long entryId, Long userId) {
+  public int upvoteEntry(Long entryId, User user) {
     Optional<Entry> entryOptional = entryRepo.findByIdWithUpvoters(entryId);
-    User user = userService.findUserById(userId);
     if (entryOptional.isPresent()) {
       return updateUpvoters(entryOptional, user);
     } else {

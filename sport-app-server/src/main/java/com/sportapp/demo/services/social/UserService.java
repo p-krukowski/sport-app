@@ -31,7 +31,7 @@ public class UserService {
   public void saveNewUser(SignUpRequest signUpRequest) {
     User user = new User();
     user.setUsername(signUpRequest.getUsername());
-    user.setMail(signUpRequest.getMail());
+    user.setEmail(signUpRequest.getEmail());
     user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
     UserProps userProps = new UserProps();
     userProps.setUser(user);
@@ -43,7 +43,7 @@ public class UserService {
     return userRepo.existsByUsername(username);
   }
 
-  public boolean existsByMail(String mail) {
-    return userRepo.existsByMail(mail);
+  public boolean existsByEmail(String email) {
+    return userRepo.existsByEmail(email);
   }
 }

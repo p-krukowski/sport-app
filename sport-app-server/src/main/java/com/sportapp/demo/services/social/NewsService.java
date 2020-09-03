@@ -66,8 +66,7 @@ public class NewsService {
     return mapEntityToDto(newsRepo.findNewsCommentsById(id));
   }
 
-  public void saveNewsComment(Long newsId, NewsCommentPostDto newsCommentPostDto, Long userId) {
-    User user = userService.findUserById(userId);
+  public void saveNewsComment(Long newsId, NewsCommentPostDto newsCommentPostDto, User user) {
     NewsComment newsComment = new NewsComment();
     newsComment.setValue(newsCommentPostDto.getValue());
     newsComment.setAuthor(user);
@@ -82,9 +81,8 @@ public class NewsService {
     }
   }
 
-  public int upvoteNews(Long newsId, Long userId) {
+  public int upvoteNews(Long newsId, User user) {
     Optional<News> newsOptional = newsRepo.findByIdWithLikers(newsId);
-    User user = userService.findUserById(userId);
     if (newsOptional.isPresent()) {
       return updateUpvoters(newsOptional, user);
     } else {

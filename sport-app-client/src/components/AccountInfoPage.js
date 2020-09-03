@@ -11,7 +11,7 @@ export default class AccountInfoPage extends Component {
             accountInfo: {
                 id: '',
                 username: '',
-                mail: '',
+                email: '',
                 userProps: {
                     score: ''
                 }
@@ -64,7 +64,7 @@ export default class AccountInfoPage extends Component {
                     </Row>
                     <Row>
                         <Col>
-                            mail: {accountInfo.mail}
+                            e-mail: {accountInfo.email}
                         </Col>
                     </Row>
                 </Card.Body>}

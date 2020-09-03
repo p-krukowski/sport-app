@@ -3,8 +3,8 @@ package com.sportapp.demo.controllers.social;
 import com.sportapp.demo.models.dtos.social.CommentGetDto;
 import com.sportapp.demo.models.dtos.social.CommentPostDto;
 import com.sportapp.demo.models.social.Comment;
+import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.security.CurrentUser;
-import com.sportapp.demo.security.UserPrincipal;
 import com.sportapp.demo.services.social.CommentService;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -27,36 +27,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/entry")
 public class CommentController {
 
-    CommentService commentService;
-    ModelMapper modelMapper;
+  CommentService commentService;
+  ModelMapper modelMapper;
 
-    @Autowired
-    public CommentController(CommentService commentService, ModelMapper modelMapper) {
-        this.commentService = commentService;
-        this.modelMapper = modelMapper;
-    }
+  @Autowired
+  public CommentController(CommentService commentService, ModelMapper modelMapper) {
+    this.commentService = commentService;
+    this.modelMapper = modelMapper;
+  }
 
-    @PostMapping("/{entryId}/comments")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<HttpStatus> addComment(@PathVariable Long entryId, @Valid @RequestBody CommentPostDto commentPostDto, @CurrentUser UserPrincipal currentUser) {
-        Comment comment = convertToEntity(commentPostDto);
-        commentService.addComment(entryId, comment, currentUser.getId());
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+  @PostMapping("/{entryId}/comments")
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<HttpStatus> addComment(@PathVariable Long entryId,
+      @Valid @RequestBody CommentPostDto commentPostDto, @CurrentUser User currentUser) {
+    Comment comment = convertToEntity(commentPostDto);
+    commentService.addComment(entryId, comment, currentUser);
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 
-    @GetMapping("/{entryId}/comments")
-    @ResponseBody
-    public List<CommentGetDto> fetchAllComments(@PathVariable Long entryId) {
-        List<Comment> comments = commentService.findCommentsByEntryId(entryId);
-        return convertToDto(comments);
-    }
+  @GetMapping("/{entryId}/comments")
+  @ResponseBody
+  public List<CommentGetDto> fetchAllComments(@PathVariable Long entryId) {
+    List<Comment> comments = commentService.findCommentsByEntryId(entryId);
+    return convertToDto(comments);
+  }
 
-    private List<CommentGetDto> convertToDto(List<Comment> comments) {
-        Type typeMap = new TypeToken<List<CommentGetDto>>() {}.getType();
-        return modelMapper.map(comments, typeMap);
-    }
+  private List<CommentGetDto> convertToDto(List<Comment> comments) {
+    Type typeMap = new TypeToken<List<CommentGetDto>>() {
+    }.getType();
+    return modelMapper.map(comments, typeMap);
+  }
 
-    private Comment convertToEntity(CommentPostDto commentPostDto) {
-        return modelMapper.map(commentPostDto, Comment.class);
-    }
+  private Comment convertToEntity(CommentPostDto commentPostDto) {
+    return modelMapper.map(commentPostDto, Comment.class);
+  }
 }

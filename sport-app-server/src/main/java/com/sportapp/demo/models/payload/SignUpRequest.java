@@ -14,7 +14,7 @@ public class SignUpRequest {
 
     @NotBlank
     @ValidEmail
-    private String mail;
+    private String email;
 
     @NotBlank
     @Size(min = 8, max = 20)
@@ -40,12 +40,12 @@ public class SignUpRequest {
         this.username = username;
     }
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
