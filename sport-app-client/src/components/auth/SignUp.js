@@ -16,7 +16,7 @@ export default class SignUp extends Component {
         username: {
             value: ''
         },
-        mail: {
+        email: {
             value: ''
         },
         password: {
@@ -35,7 +35,7 @@ export default class SignUp extends Component {
         if (!this.isFormInvalid()) {
             const signUpRequest = {
                 username: this.state.username.value,
-                mail: this.state.mail.value,
+                email: this.state.email.value,
                 password: this.state.password.value,
                 passwordConfirm: this.state.passwordConfirm.value
             };
@@ -68,13 +68,13 @@ export default class SignUp extends Component {
 
     isFormInvalid = () => {
         return !(this.state.username.validateStatus === 'success' &&
-            this.state.mail.validateStatus === 'success' &&
+            this.state.email.validateStatus === 'success' &&
             this.state.password.validateStatus === 'success' &&
             this.state.passwordConfirm.validateStatus === 'success');
     };
 
     render() {
-        const {username, mail, password, passwordConfirm} = this.state;
+        const {username, email, password, passwordConfirm} = this.state;
 
         return (
             <React.Fragment>
@@ -99,8 +99,8 @@ export default class SignUp extends Component {
                                     <Form.Label>E-mail</Form.Label>
                                     <Form.Control
                                         required
-                                        name="mail"
-                                        value={mail.value}
+                                        name="email"
+                                        value={email.value}
                                         onChange={(event) => this.handleInputChange(event, this.validateMail)}
                                         type="email"
                                         placeholder="E-mail"/>
@@ -166,18 +166,18 @@ export default class SignUp extends Component {
         }
     };
 
-    validateMail = (mail) => {
+    validateMail = (email) => {
 
         const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
 
-        if (!mail) {
+        if (!email) {
             this.setState({
                 errorMsg: "E-mail nie może być pusty"
             });
             return {
                 validateStatus: 'error'
             };
-        } else if (!EMAIL_REGEX.test(mail)) {
+        } else if (!EMAIL_REGEX.test(email)) {
             this.setState({
                 errorMsg: "Niepoprawny e-mail"
             });

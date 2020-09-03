@@ -2,9 +2,10 @@ package com.sportapp.demo.configs;
 
 import com.sportapp.demo.security.JwtAuthenticationEntryPoint;
 import com.sportapp.demo.security.JwtAuthenticationFilter;
-import com.sportapp.demo.security.UserDetailsServiceImpl;
+import com.sportapp.demo.services.social.UserDetailsServiceImpl;
+import java.util.Collections;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,106 +26,102 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.Collections;
-
 @EnableScheduling
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
+    securedEnabled = true,
+    jsr250Enabled = true,
+    prePostEnabled = true
 )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsService;
-    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+  @Value("${allowedOrigin}")
+  private String allowedOrigin;
 
-    @Autowired
-    public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler) {
-        this.userDetailsService = userDetailsService;
-        this.unauthorizedHandler = unauthorizedHandler;
-    }
+  private final UserDetailsServiceImpl userDetailsService;
+  private final JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+  public WebSecurityConfig(UserDetailsServiceImpl userDetailsService,
+      JwtAuthenticationEntryPoint unauthorizedHandler) {
+    this.userDetailsService = userDetailsService;
+    this.unauthorizedHandler = unauthorizedHandler;
+  }
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
+  @Bean
+  public ModelMapper modelMapper() {
+    return new ModelMapper();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public JwtAuthenticationFilter jwtAuthenticationFilter() {
+    return new JwtAuthenticationFilter();
+  }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-            .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+      throws Exception {
+    authenticationManagerBuilder
+        .userDetailsService(userDetailsService)
+        .passwordEncoder(passwordEncoder());
+  }
 
-    @Bean
-    public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList("*"));
-        config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
-    }
+  @Bean(BeanIds.AUTHENTICATION_MANAGER)
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/console/**").permitAll()
-                .antMatchers("/entries/**").permitAll()
-                .antMatchers("/users/**").permitAll()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/entry/**").permitAll()
-                .antMatchers("/sport/**").permitAll()
-                .antMatchers("/news/**").permitAll()
-                .antMatchers("/front/public/index.html").authenticated()
-                .antMatchers("/",
-                        "/*.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .formLogin().permitAll()
-                .and()
-                .cors()
-                .and()
-                .csrf().disable()
-                .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
-                .headers().frameOptions().disable();
+  @Bean
+  public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowCredentials(true);
+    config.setAllowedOrigins(Collections.singletonList(allowedOrigin));
+    config.setAllowedMethods(Collections.singletonList("*"));
+    config.setAllowedHeaders(Collections.singletonList("*"));
+    source.registerCorsConfiguration("/**", config);
+    FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+    bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    return bean;
+  }
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+        .antMatchers("/entries/**").permitAll()
+        .antMatchers("/users/**").permitAll()
+        .antMatchers("/api/auth/**").permitAll()
+        .antMatchers("/sport/**").permitAll()
+        .antMatchers("/news/**").permitAll()
+        .antMatchers("/",
+            "/*.ico",
+            "/**/*.png",
+            "/**/*.gif",
+            "/**/*.svg",
+            "/**/*.jpg",
+            "/**/*.html",
+            "/**/*.css",
+            "/**/*.js")
+        .permitAll()
+        .anyRequest().authenticated()
+        .and()
+        .cors()
+        .and()
+        .csrf().disable()
+        .exceptionHandling()
+        .authenticationEntryPoint(unauthorizedHandler)
+        .and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .headers().frameOptions().disable();
+
+    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+  }
 }
