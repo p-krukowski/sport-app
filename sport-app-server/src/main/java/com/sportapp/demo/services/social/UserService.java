@@ -3,8 +3,9 @@ package com.sportapp.demo.services.social;
 import com.sportapp.demo.models.payload.SignUpRequest;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.models.social.UserProps;
+import com.sportapp.demo.models.social.VerificationToken;
 import com.sportapp.demo.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sportapp.demo.repo.VerificationTokenRepo;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,13 @@ public class UserService {
 
   private final UserRepo userRepo;
   PasswordEncoder passwordEncoder;
+  private VerificationTokenRepo tokenRepository;
 
-  @Autowired
-  public UserService(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+  public UserService(UserRepo userRepo,
+      PasswordEncoder passwordEncoder, VerificationTokenRepo tokenRepository) {
     this.userRepo = userRepo;
     this.passwordEncoder = passwordEncoder;
+    this.tokenRepository = tokenRepository;
   }
 
   public User findUserById(Long id) {
@@ -28,7 +31,7 @@ public class UserService {
     return userRepo.findUserWithPropsById(id);
   }
 
-  public void saveNewUser(SignUpRequest signUpRequest) {
+  public User saveNewUser(SignUpRequest signUpRequest) {
     User user = new User();
     user.setUsername(signUpRequest.getUsername());
     user.setEmail(signUpRequest.getEmail());
@@ -36,7 +39,7 @@ public class UserService {
     UserProps userProps = new UserProps();
     userProps.setUser(user);
     user.setUserProps(userProps);
-    userRepo.save(user);
+    return userRepo.save(user);
   }
 
   public boolean existsByUsername(String username) {
@@ -45,5 +48,20 @@ public class UserService {
 
   public boolean existsByEmail(String email) {
     return userRepo.existsByEmail(email);
+  }
+
+  public VerificationToken getVerificationToken(String VerificationToken) {
+    return tokenRepository.findByToken(VerificationToken);
+  }
+
+  public void createVerificationToken(User user, String token) {
+    VerificationToken myToken = new VerificationToken();
+    myToken.setToken(token);
+    myToken.setUser(user);
+    tokenRepository.save(myToken);
+  }
+
+  public User save(User user) {
+    return userRepo.save(user);
   }
 }

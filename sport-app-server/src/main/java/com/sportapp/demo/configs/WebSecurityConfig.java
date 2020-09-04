@@ -99,6 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/api/auth/**").permitAll()
         .antMatchers("/sport/**").permitAll()
         .antMatchers("/news/**").permitAll()
+        .antMatchers("/registrationConfirm/**").permitAll()
         .antMatchers("/",
             "/*.ico",
             "/**/*.png",
