@@ -5,11 +5,11 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
   background: ${theme.colors.navbar};
   border-radius: 5px;
   border-color: ${theme.colors.background};
   margin-bottom: 10px;
+  font-size: 1rem;
 `
 
 const CardHeader = styled.div`
@@ -19,20 +19,20 @@ const CardHeader = styled.div`
   width: 100%;
   justify-content: space-between;
   padding: 5px 15px;
-  background: inherit;
+  background: none;
   border-bottom: 1px solid;
   border-color: inherit;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  font-size: 1.1rem;
+  font-size: 1.1em;
 `
 
 const CardBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 5px 15px;
-  background: inherit;
-  font-size: 1rem;
+  background: none;
+  font-size: 1em;
   overflow: scroll;
 `
 
@@ -40,14 +40,14 @@ const CardFoot = styled.div`
   display: flex;
   flex-direction: row;
   align-content: center;
-  background: inherit;
+  background: none;
   border-top: 1px solid;
   border-color: inherit;
-  min-height: 2rem;
+  min-height: 2em;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   padding: 5px 15px;
-  font-size: 0.85rem;
+  font-size: 0.85em;
 `
 
 export {Card, CardBody, CardHeader, CardFoot};

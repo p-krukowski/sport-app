@@ -10,55 +10,54 @@ import LinkCustom from "./LinkCustom";
 
 class NavigationBar extends Component {
 
-    handleLogout = () => {
-        if (localStorage.getItem(ACCESS_TOKEN)) {
-            localStorage.removeItem(ACCESS_TOKEN);
-        }
-        window.location.reload();
+  handleLogout = () => {
+    if (localStorage.getItem(ACCESS_TOKEN)) {
+      localStorage.removeItem(ACCESS_TOKEN);
     }
+    window.location.reload();
+  }
 
-    componentDidMount() {
-        this.props.updateNavbarHeight(document.getElementById('navbar').clientHeight);
-    }
+  componentDidMount() {
+    this.props.updateNavbarHeight(
+        document.getElementById('navbar').clientHeight);
+  }
 
-    render() {
-        return (
-            <Navbar id='navbar'>
-                <Logo to={"/"}>SportApp</Logo>
-                <MenuDiv>
-                    <LinkCustom to={"/panel"}>Panel</LinkCustom>
-                    <LinkCustom to={"/newsy"}>Newsy</LinkCustom>
-                    <LinkCustom to={"/wpisy"}>Wpisy</LinkCustom>
-                    <LinkCustom to={"/wyniki"}>Wyniki</LinkCustom>
-                </MenuDiv>
-                {this.props.isAuthenticated ?
-                    <AuthenticationDiv>
-                        <Button as={LinkInButton} to={"/moje-konto"}>
-                            Moje konto
-                        </Button>
-                        <Button as={LinkInButton} to={"#"} onClick={this.handleLogout}>
-                            Wyloguj
-                        </Button>
-                    </AuthenticationDiv>
-                    :
-                    <AuthenticationDiv>
-                        <Button as={LinkInButton} to={"/login"}>
-                            Zaloguj
-                        </Button>
-                        <Button as={LinkInButton} to={"/signup"}>
-                            Rejestracja
-                        </Button>
-                    </AuthenticationDiv>
+  render() {
+    return (
+        <NavbarLayout id='navbar'>
+          <Logo to={"/"}>SportApp</Logo>
+          <LogoForMobile to={"/"}>S</LogoForMobile>
+          <MenuDiv>
+            <LinkCustom to={"/panel"}>Panel</LinkCustom>
+            <LinkCustom to={"/newsy"}>Newsy</LinkCustom>
+            <LinkCustom to={"/wpisy"}>Wpisy</LinkCustom>
+            <LinkCustom to={"/wyniki"}>Wyniki</LinkCustom>
+          </MenuDiv>
+          {this.props.isAuthenticated ?
+              <AuthenticationDiv>
+                <Button as={LinkInButton} to={"/moje-konto"}>
+                  Moje konto
+                </Button>
+                <Button as={LinkInButton} to={"#"} onClick={this.handleLogout}>
+                  Wyloguj
+                </Button>
+              </AuthenticationDiv>
+              :
+              <AuthenticationDiv>
+                <Button as={LinkInButton} to={"/logowanie"}>
+                  Zaloguj | Zarejestruj
+                </Button>
+              </AuthenticationDiv>
 
-                }
-            </Navbar>
-        )
-    }
+          }
+        </NavbarLayout>
+    )
+  }
 }
 
 export default NavigationBar;
 
-const Navbar = styled.div`
+const NavbarLayout = styled.div`
   width: 100%;
   padding: 3px 8px;
   display: flex;
@@ -87,5 +86,26 @@ const Logo = styled(Link)`
   :hover {
     color: ${theme.colors.primary};
     text-decoration: none;
+  }
+  
+  @media (max-width: 767px) {
+    display: none;
+  }
+`
+
+const LogoForMobile = styled(Link)`
+  color: white;
+  font-size: 1.2em;
+  font-weight: 500;
+  font-style: italic;
+  margin: 5px 20px 5px 5px;
+  
+  :hover {
+    color: ${theme.colors.primary};
+    text-decoration: none;
+  }
+  
+  @media (min-width: 768px) {
+    display: none;
   }
 `

@@ -57,6 +57,7 @@ class NewsCover extends Component {
           </ImageDiv>
           <InfoDiv>
             <Card style={{
+              height: '100%',
               borderTopLeftRadius: 0,
               borderBottomLeftRadius: 0
             }}>
