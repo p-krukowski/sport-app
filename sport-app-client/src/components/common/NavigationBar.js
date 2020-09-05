@@ -7,6 +7,7 @@ import {theme} from "../../util/theme";
 import Button from "./Button";
 import LinkInButton from "./LinkInButton";
 import LinkCustom from "./LinkCustom";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 class NavigationBar extends Component {
 
@@ -44,11 +45,13 @@ class NavigationBar extends Component {
               </AuthenticationDiv>
               :
               <AuthenticationDiv>
-                <Button as={LinkInButton} to={"/logowanie"}>
+                <ButtonC as={LinkInButton} to={"/logowanie"}>
                   Zaloguj | Zarejestruj
-                </Button>
+                </ButtonC>
+                <ButtonForMobile as={LinkInButton} to={"/logowanie"}>
+                  <AccountCircleIconCustom/>
+                </ButtonForMobile>
               </AuthenticationDiv>
-
           }
         </NavbarLayout>
     )
@@ -58,10 +61,10 @@ class NavigationBar extends Component {
 export default NavigationBar;
 
 const NavbarLayout = styled.div`
-  width: 100%;
-  padding: 3px 8px;
   display: flex;
   flex-direction: row;
+  width: 100%;
+  padding: 3px 8px;
   align-items: center;
   color: white;
   background: ${theme.colors.navbar};
@@ -74,6 +77,12 @@ const AuthenticationDiv = styled.div`
 `
 
 const MenuDiv = styled.div`
+  overflow-x: auto;
+  margin: auto;
+    
+  @media only screen and (min-width: 768px) {
+    margin-left: 0;
+  }  
 `
 
 const Logo = styled(Link)`
@@ -98,7 +107,7 @@ const LogoForMobile = styled(Link)`
   font-size: 1.2em;
   font-weight: 500;
   font-style: italic;
-  margin: 5px 20px 5px 5px;
+  margin: 5px 5px 5px 5px;
   
   :hover {
     color: ${theme.colors.primary};
@@ -108,4 +117,23 @@ const LogoForMobile = styled(Link)`
   @media (min-width: 768px) {
     display: none;
   }
+`
+
+const ButtonC = styled(Button)`
+  @media only screen and (max-width: 768px) {
+    display: none
+  }
+`
+
+const ButtonForMobile = styled.div`
+  svg {
+    font-size: 2em;
+  }
+
+  @media only screen and (min-width: 767px) {
+    display: none
+  }  
+`
+
+const AccountCircleIconCustom = styled(AccountCircleIcon)`
 `

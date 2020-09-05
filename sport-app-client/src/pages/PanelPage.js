@@ -1,26 +1,31 @@
 import React, {Component} from 'react';
-import GameTables from "../components/panelComponents/GameTables";
-import GameEvents from "../components/panelComponents/GameEvents";
-import {Col, Row} from "react-bootstrap";
+import styled from "styled-components";
+
 import SocialPanel from "../components/panelComponents/SocialPanel";
+import SportPanel from "../components/panelComponents/SportPanel";
 
 class PanelPage extends Component {
 
-    render() {
-        return (
-            <Row style={{width: '99.7%', margin: 0, justifyContent: 'space-between'}}>
-                <Col style={{paddingLeft: "0px", paddingRight: "5px"}}>
-                    <SocialPanel />
-                </Col>
-                <Col md='2' style={{paddingLeft: "0px", paddingRight: "5px"}}>
-                    <GameEvents {...this.props}/>
-                </Col>
-                <Col md='2' style={{padding: "0px"}}>
-                    <GameTables {...this.props}/>
-                </Col>
-            </Row>
-        );
-    }
+  render() {
+    return (
+        <PanelPageLayout>
+          <SocialPanel/>
+          <SportPanel {...this.props}/>
+        </PanelPageLayout>
+    );
+  }
 }
 
 export default PanelPage;
+
+const PanelPageLayout = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`

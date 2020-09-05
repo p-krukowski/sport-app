@@ -6,22 +6,31 @@ class BestEntries extends Component {
 
     render() {
         return (
-            <ColCustom style={{paddingTop: '10px'}}>
+            <BestEntriesLayout>
                 {
                     this.props.entries.map((entry) => (
                         <EntryPanel key={entry.id} isAuthenticated={false} entry={entry}/>
                     ))
                 }
-            </ColCustom>
+                {
+                    this.props.entries.map((entry) => (
+                        <EntryPanel key={entry.id} isAuthenticated={false} entry={entry}/>
+                    ))
+                }
+            </BestEntriesLayout>
         );
     }
 }
 
 export default BestEntries;
 
-const ColCustom = styled.div`
+const BestEntriesLayout = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100%;
   width: 100%;
+  margin-top: 10px;
+  
+  @media only screen and (min-width: 768px) {
+    overflow: auto;
+  }
 `

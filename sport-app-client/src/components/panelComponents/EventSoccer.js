@@ -1,41 +1,70 @@
 import React, {Component} from 'react';
-import {Card, Row} from "react-bootstrap";
-import Col from "react-bootstrap/Col";
+import styled from "styled-components";
+
 import Badge from "react-bootstrap/Badge";
+import {theme} from "../../util/theme";
 
 class EventSoccer extends Component {
 
-    render() {
-        const event = this.props.event;
+  render() {
+    const event = this.props.event;
 
-        return (
-            <Card bg='primary' style={{
-                fontSize: '0.8em',
-                margin: '10px',
-                padding: '2px 8px',
-                textAlign: 'center'
-            }}>
-                <Row className="justify-content-md-center">
-                    <Col md='auto' style={{margin: 0, padding: '5px', paddingRight: 0}}>
-                        <Badge pill variant="light" style={{fontSize: '1em'}}>{event.date}</Badge>
-                    </Col>
-                </Row>
-                <Row className="justify-content-md-center">
-                    <Col style={{margin: "auto 0px", padding: "5px 5px", textAlign: 'right'}}>
-                        {event.homeTeamName}
-                    </Col>
-                    <Col md='auto' style={{margin: 'auto', padding: "5px 0",}}>
-                        <Badge variant="light" style={{fontSize: 'inherit'}}>
-                            {event.homeScore}:{event.awayScore}
-                        </Badge>
-                    </Col>
-                    <Col style={{margin: "auto 0", padding: "5px 5px", textAlign: 'left'}}>
-                        {event.awayTeamName}
-                    </Col>
-                </Row>
-            </Card>
-        );
-    }
+    return (
+        <EventSoccerLayout>
+          <Badge pill variant="light"
+                 style={{fontSize: '1em'}}>
+            {event.date}
+          </Badge>
+          <ResultRow>
+            <TeamNameDiv style={{textAlign: 'right'}}>
+              {event.homeTeamName}
+            </TeamNameDiv>
+            <ResultBadge>
+              {event.homeScore}:{event.awayScore}
+            </ResultBadge>
+            <TeamNameDiv>
+              {event.awayTeamName}
+            </TeamNameDiv>
+          </ResultRow>
+        </EventSoccerLayout>
+    );
+  }
 }
 
 export default EventSoccer;
+
+const EventSoccerLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: ${theme.colors.navbar};
+  margin-bottom: 5px;
+  align-items: center;
+  padding: 5px 3px;
+  border-radius: 3px;
+`
+
+const ResultRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+`
+const ResultBadge = styled.div`
+  background: white;
+  color: black;
+  border-radius: 3px;
+  font-weight: ${theme.font.bold};
+  padding: 0.1em 0.5em;
+  margin: 0 0.2em;
+`
+
+const TeamNameDiv = styled.p`
+  display: block;
+  min-width: 120px;
+  overflow: hidden;  
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0;
+`

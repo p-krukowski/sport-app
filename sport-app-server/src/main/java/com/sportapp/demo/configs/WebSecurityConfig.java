@@ -95,6 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
         .antMatchers("/entries/**").permitAll()
+        .antMatchers("/entry/**").permitAll()
         .antMatchers("/users/**").permitAll()
         .antMatchers("/api/auth/**").permitAll()
         .antMatchers("/sport/**").permitAll()

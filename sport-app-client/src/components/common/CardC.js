@@ -2,6 +2,8 @@ import styled from "styled-components";
 import {theme} from "../../util/theme";
 
 const Card = styled.div`
+  position: relative;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -30,6 +32,7 @@ const CardHeader = styled.div`
 const CardBody = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
   padding: 5px 15px;
   background: none;
   font-size: 1em;

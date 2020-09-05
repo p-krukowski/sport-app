@@ -1,26 +1,32 @@
 import React, {Component} from 'react';
-import {Card, Col, Row} from "react-bootstrap";
+import styled from "styled-components";
+
 import Events from "./Events";
+import {Card, CardBody, CardHeader} from "../common/CardC";
+import {theme} from "../../util/theme";
 
 class GameEvents extends Component {
     render() {
         return (
-            <Card bg="dark" text="white">
-                <Card.Header style={{padding: "3px 15px"}}>
-                    <Row>
-                        <Col style={{lineHeight: '38px', textAlign: 'left'}}>
-                                <span style={{verticalAlign: 'middle'}}>
-                                        <p style={{fontSize: '17px', margin: 0}}>Wyniki</p>
-                                </span>
-                        </Col>
-                    </Row>
-                </Card.Header>
-                <Card.Body style={{padding: "8px"}}>
+            <CardCustom>
+                <CardHeader style={{justifyContent: 'center'}}>
+                  Wyniki
+                </CardHeader>
+                <CardBody style={{padding: "5px"}}>
                     <Events/>
-                </Card.Body>
-            </Card>
+                </CardBody>
+            </CardCustom>
         );
     }
 }
 
 export default GameEvents;
+
+const CardCustom = styled(Card)`
+  background: ${theme.colors.background};
+  justify-content: flex-start;
+  
+  @media only screen and (min-width: 768px) {
+    margin-right: 5px;
+  }
+`

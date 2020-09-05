@@ -6,12 +6,8 @@ class BestNews extends Component {
     render() {
         return (
             <BestNewsLayout>
-                <img src={this.props.news.imageUrl}
-                     alt="Brak zdjęcia"
-                     style={{
-                         height: '100%',
-                         width: '100%',
-                         objectFit: 'cover'}}/>
+                <Image src={this.props.news.imageUrl}
+                     alt="Brak zdjęcia"/>
                 <ContentDiv>
                     <Title>
                         {this.props.news.title}
@@ -26,9 +22,26 @@ class BestNews extends Component {
 export default BestNews;
 
 const BestNewsLayout = styled.div`
-  height: 100%;
+  height: 50vw;
   width: 100%;
   position: relative;
+  border-radius: 3px;
+  
+  @media only screen and (min-width: 768px) {
+    border-radius: 0;
+    height: 100%;
+  }
+`
+
+const Image = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  
+  @media only screen and (min-width: 768px) {
+    border-radius: 0;
+  }
 `
 
 const ContentDiv = styled.div`
@@ -37,17 +50,17 @@ const ContentDiv = styled.div`
   justify-content: center;
   position: absolute;
   bottom: 0;
-  margin: 0;
-  height: auto;
   width: 100%;
-  background: black;
-  opacity: .8;
-  padding: 1% 2%;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 0.3em;
 `
 
 const Title = styled.div`
-  display: flex;  
-  font-size: 1.5em;
+  display: flex;
   font-weight: ${theme.font.bold};
-  
+  margin-bottom: 0.3em;  
+    
+  @media only screen and (min-width: 768px) {
+    font-size: 1.5em;
+  }
 `

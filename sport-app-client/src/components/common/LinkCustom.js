@@ -4,12 +4,16 @@ import {theme} from "../../util/theme";
 
 const LinkCustom = styled(Link)`
   color: white;
-  margin: 0 10px;
+  margin: 0 5px;
   transition: color .2s;
   
   :hover {
     color: ${theme.colors.primary};
     text-decoration: none;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    margin: 0 10px;
   }
 `
 export default LinkCustom;

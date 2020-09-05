@@ -12,7 +12,6 @@ class Entry extends Component {
       }
       newTextArray = newTextArray.concat(" ", word);
     }
-    console.log(newTextArray)
     return {__html: newTextArray};
   }
 
