@@ -74,20 +74,23 @@ class NewEntry extends Component {
   render() {
     return (
         <NewEntryLayout>
-          <CommentInputSection>
-            <CommentInput id='entryInput'
+          <EntryInputSection>
+            <EntryInput id='entryInput'
                           type='textarea'
                           maxLength='2000'/>
             {
               this.state.showMinLengthInfo &&
-              <text style={{color: 'red', marginTop: '5px'}}>Wpis musi mieć co
-                najmniej 10 znaków</text>
+              <text style={{color: 'red', marginTop: '5px'}}>
+                Wpis musi mieć co najmniej 10 znaków
+              </text>
             }
             {
               this.state.showImageUrlField &&
-              <ImageUrlInput id='imageUrlInput' onChange={this.addImageUrl}/>
+              <ImageUrlInput id='imageUrlInput'
+                             placeholder="link do zdjęcia"
+                             onChange={this.addImageUrl}/>
             }
-          </CommentInputSection>
+          </EntryInputSection>
           <Options>
             <TextEdition>
               <FormatBoldIconCustom/>
@@ -131,28 +134,31 @@ export default NewEntry;
 
 const NewEntryLayout = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
   padding: 10px;
   border-radius: 5px;
   background: ${theme.colors.navbar};
   margin-bottom: 10px;
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
 
-const CommentInputSection = styled.div`
+const EntryInputSection = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 `
 
-const CommentInput = styled.textarea`
+const EntryInput = styled.textarea`
   border: none;
   min-height: 6rem;
   display: flex;
   height: 100%;
   border-radius: 5px;
-  margin-right: 10px;
   padding: 10px;
   background: ${theme.colors.background};
   
@@ -162,18 +168,26 @@ const CommentInput = styled.textarea`
     border: none;
     color: white;
   }
+  
+  @media only screen and (min-width: 768px) {
+    margin-right: 10px;
+  }
 `
 
 const ImageUrlInput = styled.input`
   border: none;
   border-radius: 5px;
-  margin: 10px 10px 0 0;
+  margin: 5px 0;
   padding: 10px;
   background: ${theme.colors.background};
   
   :focus {
     outline: none;
     color: white;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    margin: 10px 10px 0 0;
   }
 `
 
@@ -187,6 +201,7 @@ const Options = styled.div`
 const TextEdition = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
 `
 
@@ -196,7 +211,7 @@ const InputButton = styled.button`
   font-size: 1rem !important;
   background: none;
   border-radius: 5px;
-  padding: 10px 5px;
+  padding: 5px 5px;
   transition: color .1s, background .1s;
   
   :hover {
@@ -205,6 +220,10 @@ const InputButton = styled.button`
   }
   :focus {
     outline: none;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    padding: 10px 5px;
   }
 `
 

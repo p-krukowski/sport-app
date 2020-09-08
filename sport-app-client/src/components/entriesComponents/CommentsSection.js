@@ -103,5 +103,4 @@ const CommentsSectionOptions = styled.div`
   display: flex;
   flex-direction: row;
   font-size: 0.9rem;
-  margin-bottom: 10px;
 `

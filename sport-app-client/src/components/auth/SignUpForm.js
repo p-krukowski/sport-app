@@ -46,10 +46,18 @@ export default class SignUpForm extends Component {
   handleInputChange = event => {
     const inputName = event.target.name;
     const inputValue = event.target.value;
-    if (inputName === 'username') this.username = inputValue;
-    if (inputName === 'email') this.email = inputValue;
-    if (inputName === 'password') this.password = inputValue;
-    if (inputName === 'passwordConfirm') this.passwordConfirm = inputValue;
+    if (inputName === 'username') {
+      this.username = inputValue;
+    }
+    if (inputName === 'email') {
+      this.email = inputValue;
+    }
+    if (inputName === 'password') {
+      this.password = inputValue;
+    }
+    if (inputName === 'passwordConfirm') {
+      this.passwordConfirm = inputValue;
+    }
   };
 
   isFormValid = () => {
@@ -116,75 +124,80 @@ export default class SignUpForm extends Component {
 
   render() {
     return (
-        <CardSingUp>
-          <CardHeader style={{padding: "10px 30px"}}>Rejestracja</CardHeader>
-          <CardBody style={{padding: "20px 30px"}}>
-            <form onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <Label>Nazwa użytkownika</Label>
-                <Input required
-                       autoComplete="new-password"
-                       name="username"
-                       onChange={(event) => this.handleInputChange(event)}
-                       type="text"
-                       placeholder="Nazwa użytkownika"/>
-                <InputTip>Minimum 3 znaki</InputTip>
-              </FormGroup>
+        <SignUpFormLayout>
+          <CardSingUp>
+            <CardHeader style={{padding: "10px 30px"}}>Rejestracja</CardHeader>
+            <CardBody style={{padding: "20px 30px"}}>
+              <form onSubmit={this.handleSubmit}>
+                <FormGroup>
+                  <Label>Nazwa użytkownika</Label>
+                  <Input required
+                         autoComplete="new-password"
+                         name="username"
+                         onChange={(event) => this.handleInputChange(event)}
+                         type="text"
+                         placeholder="Nazwa użytkownika"/>
+                  <InputTip>Minimum 3 znaki</InputTip>
+                </FormGroup>
 
-              <FormGroup>
-                <Label>E-mail</Label>
-                <Input required
-                       name="email"
-                       onChange={(event) => this.handleInputChange(event)}
-                       type="email"
-                       placeholder="E-mail"/>
-              </FormGroup>
+                <FormGroup>
+                  <Label>E-mail</Label>
+                  <Input required
+                         name="email"
+                         onChange={(event) => this.handleInputChange(event)}
+                         type="email"
+                         placeholder="E-mail"/>
+                </FormGroup>
 
-              <FormGroup>
-                <Label>Hasło</Label>
-                <Input required
-                       autoComplete="new-password"
-                       name="password"
-                       onChange={(event) => this.handleInputChange(event)}
-                       type="password"
-                       placeholder="Hasło"/>
-                <InputTip>Minimum 8 znaków</InputTip>
-              </FormGroup>
+                <FormGroup>
+                  <Label>Hasło</Label>
+                  <Input required
+                         autoComplete="new-password"
+                         name="password"
+                         onChange={(event) => this.handleInputChange(event)}
+                         type="password"
+                         placeholder="Hasło"/>
+                  <InputTip>Minimum 8 znaków</InputTip>
+                </FormGroup>
 
-              <FormGroup>
-                <Label>Powtórz hasło</Label>
-                <Input required
-                       autoComplete="new-password"
-                       name="passwordConfirm"
-                       onChange={(event) => this.handleInputChange(event)}
-                       type="password"
-                       placeholder="Hasło"/>
-              </FormGroup>
+                <FormGroup>
+                  <Label>Powtórz hasło</Label>
+                  <Input required
+                         autoComplete="new-password"
+                         name="passwordConfirm"
+                         onChange={(event) => this.handleInputChange(event)}
+                         type="password"
+                         placeholder="Hasło"/>
+                </FormGroup>
 
-              <FormGroup style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Input required
-                       type='checkbox'/>
-                <div style={{marginLeft: '5px'}}>Akceptuję regulamin</div>
-              </FormGroup>
+                <FormGroup style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Input required
+                         type='checkbox'/>
+                  <div style={{marginLeft: '5px'}}>Akceptuję regulamin</div>
+                </FormGroup>
 
-              <Button type='submit'>
-                Zarejestruj
-              </Button>
-            </form>
-          </CardBody>
-        </CardSingUp>
+                <Button type='submit'>
+                  Zarejestruj
+                </Button>
+              </form>
+            </CardBody>
+          </CardSingUp>
+        </SignUpFormLayout>
     );
   }
 }
 
-const CardSingUp = styled(Card)`
-  border-radius: 5px;
-  font-size: 1.2em;
-  margin: 20px 50px;
+const SignUpFormLayout = styled.div`
+  margin: 10px 0;
   
-  @media (max-width: 768px) {
-    margin: 10px 0;
+  @media (min-width: 768px) {
+    margin: 20px 50px;
   }
+`
+
+const CardSingUp = styled(Card)`
+  font-size: 1.2em;
+  border-radius: 5px;
 `
 
 const FormGroup = styled.div`

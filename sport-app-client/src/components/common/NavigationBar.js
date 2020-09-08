@@ -36,12 +36,15 @@ class NavigationBar extends Component {
           </MenuDiv>
           {this.props.isAuthenticated ?
               <AuthenticationDiv>
-                <Button as={LinkInButton} to={"/moje-konto"}>
+                <ButtonC as={LinkInButton} to={"/moje-konto"}>
                   Moje konto
-                </Button>
-                <Button as={LinkInButton} to={"#"} onClick={this.handleLogout}>
+                </ButtonC>
+                <ButtonForMobile as={LinkInButton} to={"/moje-konto"}>
+                  <AccountCircleIconCustom/>
+                </ButtonForMobile>
+                <ButtonC as={LinkInButton} to={"#"} onClick={this.handleLogout}>
                   Wyloguj
-                </Button>
+                </ButtonC>
               </AuthenticationDiv>
               :
               <AuthenticationDiv>

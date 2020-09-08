@@ -38,20 +38,20 @@ class NewsPage extends Component {
   render() {
     return (
         this.state.isComponentReady &&
-        <>
+        <NewsPageLayout>
           {
             this.state.isNewsFound ?
-                <NewsPageLayout>
+                <>
                   <News news={this.state.news}
                         isAuthenticated={this.props.isAuthenticated}/>
                   <NewsCommentSection newsId={this.state.news.id}
                                       isAuthenticated={this.props.isAuthenticated}/>
-                </NewsPageLayout>
+                </>
                 :
                 <div>Nie ma takiego newsa</div>
           }
 
-        </>
+        </NewsPageLayout>
     );
   }
 }
@@ -61,5 +61,9 @@ export default NewsPage;
 const NewsPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  
+  @media only screen and (min-width: 768px) {
+    width: 55%;
+    margin: auto;
+  }
 `

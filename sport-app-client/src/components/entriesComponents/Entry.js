@@ -118,8 +118,13 @@ export default Entry;
 const ImageDiv = styled.div`
   margin-top: 10px;
   overflow: scroll;   
-  width: 50%;
+  width: 100%;
   max-height: 500px;
+  
+  @media only screen and (min-width: 768px) {
+    max-height: 500px;
+    width: 50%;
+  }
 `
 
 const ImageCustom = styled.img`

@@ -47,7 +47,6 @@ export default EntriesPage;
 const EntriesPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   
   @media only screen and (min-width: 768px) {
     width: 55%;

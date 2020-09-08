@@ -103,12 +103,16 @@ export default NewNewsComment;
 
 const NewNewsCommentLayout = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
   min-height: 6rem;
   padding: 10px 0 30px 0;
   border-bottom: 1px solid ${theme.colors.background};
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `
 
 const CommentInputSection = styled.div`

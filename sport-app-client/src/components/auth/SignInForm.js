@@ -34,46 +34,51 @@ class SignInForm extends Component {
   render() {
 
     return (
-        <CardSingIn>
-          <CardHeader style={{padding: "10px 30px"}}>Logowanie</CardHeader>
-          <CardBody style={{padding: "20px 30px"}}>
-            <form onSubmit={(event) => this.handleLogin(event)}>
-              <FormGroup>
-                <Label>Login</Label>
-                <Input required
-                       name="username"
-                       type="text"
-                       placeholder="Nazwa użytkownika"/>
-              </FormGroup>
+        <SignInFormLayout>
+          <CardSingIn>
+            <CardHeader style={{padding: "10px 30px"}}>Logowanie</CardHeader>
+            <CardBody style={{padding: "20px 30px"}}>
+              <form onSubmit={(event) => this.handleLogin(event)}>
+                <FormGroup>
+                  <Label>Login</Label>
+                  <Input required
+                         name="username"
+                         type="text"
+                         placeholder="Nazwa użytkownika"/>
+                </FormGroup>
 
-              <FormGroup>
-                <Label>Hasło</Label>
-                <Input required
-                       name="password"
-                       type="password"
-                       placeholder="Hasło"/>
-              </FormGroup>
+                <FormGroup>
+                  <Label>Hasło</Label>
+                  <Input required
+                         name="password"
+                         type="password"
+                         placeholder="Hasło"/>
+                </FormGroup>
 
-              <Button type="submit">
-                Zaloguj
-              </Button>
-            </form>
-          </CardBody>
-        </CardSingIn>
+                <Button type="submit">
+                  Zaloguj
+                </Button>
+              </form>
+            </CardBody>
+          </CardSingIn>
+        </SignInFormLayout>
     );
   }
 }
 
 export default SignInForm;
 
-const CardSingIn = styled(Card)`
-  border-radius: 5px;
-  font-size: 1.2em;
-  margin: 20px 50px;
+const SignInFormLayout = styled.div`
+  margin: 10px 0;
   
-  @media (max-width: 768px) {
-    margin: 10px 0;
+  @media (min-width: 768px) {
+    margin: 20px 50px;
   }
+`
+
+const CardSingIn = styled(Card)`
+  font-size: 1.2em;
+  border-radius: 5px;
 `
 
 const FormGroup = styled.div`

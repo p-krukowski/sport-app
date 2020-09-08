@@ -58,7 +58,7 @@ class News extends Component {
             </Description>
             <Foot>
               <b>@{news.authorName}</b>
-              {news.createdAt}
+              <span>{news.createdAt}</span>
               <SourceUrlDiv href={news.link} target="_blank">
                 <OpenInNewIcon/>
                 TODO: short url
@@ -74,20 +74,46 @@ export default News;
 
 const NewsLayout = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-radius: 10px;
   background: ${theme.colors.navbar};
   margin-bottom: 10px;
-  padding: 20px;
-  height: 290px;
-  width: 100%;
+  padding: 10px;
+    
+  @media only screen and (min-width: 768px) {
+    padding: 20px;
+    flex-direction: row;
+    height: 290px;
+    width: 100%;
+  }
+`
+
+const ScoreDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  height: 100%;
+  font-size: 2rem;
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: column;
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
 `
 
 const ImageDiv = styled.div`
   position: relative;
-  width: 30%;
-  height: 100%;  
-  margin-right: 20px;
+  width: 100%;
+  height: 200px;
+  
+  @media only screen and (min-width: 768px) {
+    width: 30%;
+    height: 100%;  
+    margin-right: 20px;
+  }
 `
 
 const Image = styled.img`
@@ -97,21 +123,14 @@ const Image = styled.img`
   border-radius: 5px;
 `
 
-const ScoreDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-right: 20px;
-  height: 100%;
-  font-size: 2rem;
-`
-
 const NewsContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 70%;
+  
+  @media only screen and (min-width: 768px) {
+    width: 70%;
+  }
 `
 
 const Title = styled.div`
@@ -150,22 +169,33 @@ const SourceUrlDiv = styled.a`
 const ReportIconCustom = styled(ReportIcon)`
   font-size: 2rem !important;
   border-radius: 5px;
-  margin-top: 8px;
+  margin-left: 20px;
   
   :hover {
     color: ${theme.colors.navbar};
     background: white;
     cursor: pointer;
   }
+  
+  @media only screen and (min-width: 768px) {
+    margin-top: 8px;
+    margin-left: 0;
+  }
 `
 
 const ArrowDropUpIconCustom = styled(ArrowDropUpIcon)`
   font-size: 2rem !important;
   border-radius: 5px;
+  margin-right: 20px;
   
   :hover {
     color: ${theme.colors.navbar};
     background: white;
     cursor: pointer;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    margin-top: 8px;
+    margin-right: 0;
   }
 `

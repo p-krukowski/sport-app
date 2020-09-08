@@ -56,22 +56,18 @@ class NewsCover extends Component {
             </ImageInfoBgBottom>
           </ImageDiv>
           <InfoDiv>
-            <Card style={{
-              height: '100%',
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0
-            }}>
+            <CardCustom>
               <CardHeader>
                 <LinkBlank to={"/newsy/" + news.id}>
-                  {news.title}
+                  <b>{news.title}</b>
                 </LinkBlank>
               </CardHeader>
-              <CardBody>
+              <CardBody style={{fontSize: '0.9em'}}>
                 <LinkBlank to={"/newsy/" + news.id}>
                   {news.value}
                 </LinkBlank>
               </CardBody>
-              <CardFoot>
+              <CardFootCustom>
                 <SourceUrlDiv href={news.link} target="_blank">
                   <OpenInNewIcon/>
                   TODO: short url
@@ -80,8 +76,8 @@ class NewsCover extends Component {
                            to={"/newsy/" + news.id}>
                   <ForumIcon/> Komentarze
                 </LinkBlank>
-              </CardFoot>
-            </Card>
+              </CardFootCustom>
+            </CardCustom>
           </InfoDiv>
         </NewsCoverLayout>
     );
@@ -92,9 +88,13 @@ export default NewsCover;
 
 const NewsCoverLayout = styled.div`
   display: flex;
-  flex-direction: row;
-  height: 170px;
+  flex-direction: column;
   margin: 0 0 10px 0;
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+    height: 200px;
+  }
 `
 
 const ImageDiv = styled.div`
@@ -102,17 +102,26 @@ const ImageDiv = styled.div`
   flex-direction: row;
   justify-content: center;
   position: relative;
+  height: 150px;
+  width: 100%;
+  
+  @media only screen and (min-width: 768px) {  
   height: 100%;
   width: 220px;
-  padding: 0px;
+  }  
 `
 
 const ImageCustom = styled.img`
-  border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   height: 100%;
   width: 100%;
   object-fit: cover;
+  
+  @media only screen and (min-width: 768px) {
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+  }
 `
 
 const ImageInfoBgBottom = styled.div`
@@ -127,15 +136,22 @@ const ImageInfoBgBottom = styled.div`
   position: absolute;
   bottom: 0;
   font-size: 0.8em;
-  border-bottom-left-radius: 5px;
+  
+  @media only screen and (min-width: 768px) {
+    border-bottom-left-radius: 5px;
+  }
 `
 
 const ImageInfoBgTop = styled(ImageInfoBgBottom)`
   top: 0;
   justify-content: center;
-  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
   border-top-left-radius: 5px;
   font-size: 1.2rem;
+  
+  @media only screen and (min-width: 768px) {
+    border-top-right-radius: 5px;
+  }
 `
 
 const BadgeCustom = styled(Badge)`
@@ -145,8 +161,31 @@ const BadgeCustom = styled(Badge)`
 const InfoDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 70%;
-  height: 100%;
+  width: 100%;
+  
+  @media only screen and (min-width: 768px) {
+    width: 70%;
+    height: 100%;
+  }
+`
+
+const CardCustom = styled(Card)`
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+
+  @media only screen and (min-width: 768px) {
+    height: 100%;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  } 
+`
+
+const CardFootCustom = styled(CardFoot)`
+  display: none;
+  
+  @media only screen and (min-width: 768px) {
+    display: flex;
+  }
 `
 
 const SourceUrlDiv = styled.a`
