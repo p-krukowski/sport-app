@@ -34,7 +34,7 @@ class ResultSoccerTable extends Component {
     render() {
         return (
             this.state.isComponentReady &&
-            <TableCustom>
+            <TableCustom style={{marginBottom: 0}}>
                 <THead>
                     <TR>
                         <TD>#</TD>

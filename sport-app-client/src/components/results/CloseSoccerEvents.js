@@ -40,7 +40,7 @@ class CloseSoccerEvents extends Component {
                             <TR>
                                 <TD>Data</TD>
                                 <TD>Gospodarze</TD>
-                                <TD>Wynik</TD>
+                                <TD style={{padding: "0"}}>Wynik</TD>
                                 <TD>Goście</TD>
                             </TR>
                         </THead>
@@ -72,7 +72,11 @@ export default CloseSoccerEvents;
 
 const CloseSoccerEventsLayout = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `
 
 const TableOutside = styled.div`

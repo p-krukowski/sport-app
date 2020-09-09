@@ -80,9 +80,9 @@ class SoccerEventsRounds extends Component {
                                 this.state.roundEvents.map((event, index) => (
                                     <TR key={index}>
                                         <TD>{event.date}</TD>
-                                        <TD style={{textAlign: 'right'}}>{event.homeTeamName}</TD>
+                                        <TD style={{textAlign: 'right', paddingRight: 5}}>{event.homeTeamName}</TD>
                                         <TD style={{padding: "0"}}>{event.homeScore} : {event.awayScore}</TD>
-                                        <TD style={{textAlign: 'left'}}>{event.awayTeamName}</TD>
+                                        <TD style={{textAlign: 'left', paddingLeft: 5}}>{event.awayTeamName}</TD>
                                     </TR>
                                 ))
                             }

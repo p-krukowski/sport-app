@@ -3,7 +3,9 @@ package com.sportapp.demo.configs;
 import com.sportapp.demo.security.JwtAuthenticationEntryPoint;
 import com.sportapp.demo.security.JwtAuthenticationFilter;
 import com.sportapp.demo.services.social.UserDetailsServiceImpl;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -81,8 +83,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
+    List<String> allowedOrigins = new ArrayList<>();
+    allowedOrigins.add(allowedOrigin);
+    allowedOrigins.add("http://sport-app.pl");
     config.setAllowCredentials(true);
-    config.setAllowedOrigins(Collections.singletonList(allowedOrigin));
+    config.setAllowedOrigins(allowedOrigins);
     config.setAllowedMethods(Collections.singletonList("*"));
     config.setAllowedHeaders(Collections.singletonList("*"));
     source.registerCorsConfiguration("/**", config);

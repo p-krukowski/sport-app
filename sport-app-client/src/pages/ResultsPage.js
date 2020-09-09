@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import styled from "styled-components";
 
-import {Row} from 'react-bootstrap';
 import DisciplineMenu from "../components/results/DisciplineMenu";
 import LeagueNCountryMenu from "../components/results/LeagueNCountryMenu";
 import {getAllDisciplines} from "../util/apiUtils/DisciplinesUtils";
 import {getAllLeaguesByDiscipline} from "../util/apiUtils/LeaguesUtils";
 import Results from "../components/results/Results";
 import {fetchUserLeagues} from "../util/apiUtils/UserUtils";
+
+//TODO Add phone league switch
 
 class ResultsPage extends Component {
   constructor(props) {
@@ -85,7 +86,7 @@ class ResultsPage extends Component {
   render() {
     return (
         this.state.isComponentReady &&
-        <Row style={{width: '100%', height: '100%', margin: 0}}>
+        <ResultsPageLayout>
           <ResultsMenu>
             <DisciplineMenu disciplines={this.state.disciplines}
                             fetchLeaguesByDiscipline={this.fetchLeaguesByDiscipline}/>
@@ -100,15 +101,28 @@ class ResultsPage extends Component {
             this.state.league !== null &&
             <Results league={this.state.league}/>
           }
-        </Row>
+        </ResultsPageLayout>
     );
   }
 }
 
 export default ResultsPage;
 
-const ResultsMenu = styled.div`
+const ResultsPageLayout = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: -10px 0 -10px -10px;
+  flex-direction: column;
+  
+  @media only screen and (min-width: 768px) {
+    flex-direction: row;
+  }
+`
+
+const ResultsMenu = styled.div`
+  display: none;
+  
+  @media only screen and (min-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    margin: -10px 0 -10px -10px;
+  }
 `

@@ -40,7 +40,11 @@ const THead = styled.thead`
   border-bottom: 1px solid ${theme.colors.background};
   
   TD {
-    padding: 0.3em 20px;
+    padding: 0.2em 5px;
+    
+    @media only screen and (min-width: 768px) {
+      padding: 0.3em 20px;
+    }
   }
 `
 
