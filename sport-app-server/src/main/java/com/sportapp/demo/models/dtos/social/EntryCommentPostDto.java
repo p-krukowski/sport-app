@@ -2,7 +2,7 @@ package com.sportapp.demo.models.dtos.social;
 
 import javax.validation.constraints.NotBlank;
 
-public class CommentPostDto {
+public class EntryCommentPostDto {
 
     @NotBlank
     private String value;

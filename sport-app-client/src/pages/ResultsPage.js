@@ -114,6 +114,7 @@ const ResultsPageLayout = styled.div`
   
   @media only screen and (min-width: 768px) {
     flex-direction: row;
+    width: 100%;
   }
 `
 

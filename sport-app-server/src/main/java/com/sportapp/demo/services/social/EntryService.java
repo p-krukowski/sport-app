@@ -2,7 +2,6 @@ package com.sportapp.demo.services.social;
 
 import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.dtos.social.EntryPostDto;
-import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.Tag;
 import com.sportapp.demo.models.social.User;
@@ -79,10 +78,6 @@ public class EntryService {
 
   public Entry save(Entry entry) {
     return entryRepo.save(entry);
-  }
-
-  public List<Comment> findCommentsByEntryId(Long entryId) {
-    return entryRepo.findCommentsByEntryId(entryId);
   }
 
   public Entry findEntryByIdWithComments(Long entryId) {

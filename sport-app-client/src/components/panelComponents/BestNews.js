@@ -3,20 +3,20 @@ import styled from "styled-components";
 import {theme} from "../../util/theme";
 
 class BestNews extends Component {
-    render() {
-        return (
-            <BestNewsLayout>
-                <Image src={this.props.news.imageUrl}
-                     alt="Brak zdjęcia"/>
-                <ContentDiv>
-                    <Title>
-                        {this.props.news.title}
-                    </Title>
-                    {this.props.news.createdAt}
-                </ContentDiv>
-            </BestNewsLayout>
-        );
-    }
+  render() {
+    return (
+        <BestNewsLayout>
+          <Image src={this.props.news.imageUrl}
+                 alt="Brak zdjęcia"/>
+          <ContentDiv>
+            <Title>
+              {this.props.news.title}
+            </Title>
+            {this.props.news.createdAt}
+          </ContentDiv>
+        </BestNewsLayout>
+    );
+  }
 }
 
 export default BestNews;

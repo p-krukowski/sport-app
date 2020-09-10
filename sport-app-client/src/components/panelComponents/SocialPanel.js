@@ -49,7 +49,10 @@ class SocialPanel extends Component {
         <SocialPanelLayout>
           <NewsPanel>
             <BestNewsColumn>
-              <BestNews news={this.state.bestNews}/>
+              {
+                this.state.bestNews &&
+                <BestNews news={this.state.bestNews}/>
+              }
             </BestNewsColumn>
             <NextNewsColumn>
               <NextBestNews news={this.state.news}/>

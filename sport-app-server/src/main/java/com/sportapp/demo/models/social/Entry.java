@@ -1,7 +1,6 @@
 package com.sportapp.demo.models.social;
 
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -10,17 +9,16 @@ import javax.persistence.Table;
 @Table(name = "entries")
 public class Entry extends Post {
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "entry", orphanRemoval = true)
+    private List<EntryComment> comments;
 
     //----------Getters&Setters-----------
 
-
-    public List<Comment> getComments() {
+    public List<EntryComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<EntryComment> comments) {
         this.comments = comments;
     }
 }

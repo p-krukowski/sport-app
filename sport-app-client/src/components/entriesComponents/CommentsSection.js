@@ -3,6 +3,7 @@ import styled from "styled-components";
 import NewComment from "./NewComment";
 import AllComments from "./AllComments";
 import Button from "../common/Button";
+import {getComments} from "../../util/apiUtils/CommentUtils";
 
 const showCommentsText = "Pokaż komentarze";
 const hideCommentsText = "Ukryj komentarze";
@@ -14,13 +15,13 @@ class CommentsSection extends Component {
     this.state = {
       showComments: false,
       buttonText: showCommentsText,
-      entryToUpdate: null,
-      showNewComment: false
+      showNewComment: false,
+      commentsAmount: this.props.commentsAmount
     }
   }
 
-  handleShowComments = () => {
-    if (!this.state.showComments) {
+  setShowComments = (b) => {
+    if (b) {
       this.showComments();
     } else {
       this.hideComments();
@@ -28,10 +29,7 @@ class CommentsSection extends Component {
   };
 
   showComments = () => {
-    this.setState({
-      showComments: true,
-      buttonText: hideCommentsText
-    });
+    this.updateComments();
   };
 
   hideComments = () => {
@@ -41,10 +39,16 @@ class CommentsSection extends Component {
     });
   };
 
-  updateComments = (entryId) => {
-    this.setState({
-      entryToUpdate: entryId
-    })
+  updateComments = () => {
+    getComments(this.props.entryId)
+    .then(response => {
+      this.setState({
+        comments: response,
+        commentsAmount: response.length,
+        showComments: true,
+        buttonText: hideCommentsText
+      });
+    });
   };
 
   handleComment = () => {
@@ -56,7 +60,9 @@ class CommentsSection extends Component {
       this.setState({
         showNewComment: true
       });
-      this.showComments();
+      if (!this.state.showComments) {
+        this.showComments(true);
+      }
     }
   }
 
@@ -64,13 +70,13 @@ class CommentsSection extends Component {
     return (
         <CommentsSectionLayout>
           <CommentsSectionOptions>
-            <Button onClick={this.handleShowComments}>
-              {this.state.buttonText} ({this.props.commentsAmount})
+            <Button
+                onClick={() => this.setShowComments(!this.state.showComments)}>
+              {this.state.buttonText} ({this.state.commentsAmount})
             </Button>
             {
               this.props.isAuthenticated &&
-              <Button onClick={this.handleComment}
-                      disabled={this.state.showNewComment}>
+              <Button onClick={this.handleComment}>
                 Skomentuj
               </Button>
             }
@@ -84,13 +90,13 @@ class CommentsSection extends Component {
           }
           {
             this.state.showComments &&
-            <AllComments entryId={this.props.entryId}
-                         entryToUpdate={this.state.entryToUpdate}/>
+            <AllComments comments={this.state.comments}/>
           }
         </CommentsSectionLayout>
     );
   }
 }
+
 export default CommentsSection;
 
 const CommentsSectionLayout = styled.div`

@@ -3,11 +3,11 @@ import {request} from "./Request";
 
 const componentUrl = API_BASE_URL + '/';
 
-export function addComment(commentData) {
+export function addComment(commentValue, entryId) {
     return request({
-        url: componentUrl + 'entry/' + commentData.entryId + "/comments",
+        url: componentUrl + 'entry/' + entryId + "/comments",
         method: 'POST',
-        data: commentData
+        data: commentValue
     });
 }
 

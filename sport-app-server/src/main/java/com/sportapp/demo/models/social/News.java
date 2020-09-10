@@ -1,6 +1,7 @@
 package com.sportapp.demo.models.social;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
@@ -12,7 +13,7 @@ public class News extends Post {
     private String imageUrl;
     private String link;
 
-    @OneToMany
+    @OneToMany(mappedBy = "news", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsComment> newsComments;
 
     //----------Getters&Setters-----------

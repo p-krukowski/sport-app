@@ -9,7 +9,7 @@ public class NewsCommentGetDto {
   private String value;
   private int score;
   private AuthorDto author;
-  private List<CommentGetDto> comments;
+  private List<EntryCommentGetDto> comments;
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
   private LocalDateTime createdAt;
 
@@ -17,7 +17,7 @@ public class NewsCommentGetDto {
   }
 
   public NewsCommentGetDto(String value, int score, AuthorDto author,
-      List<CommentGetDto> comments) {
+      List<EntryCommentGetDto> comments) {
     this.value = value;
     this.score = score;
     this.author = author;
@@ -48,11 +48,11 @@ public class NewsCommentGetDto {
     this.author = author;
   }
 
-  public List<CommentGetDto> getComments() {
+  public List<EntryCommentGetDto> getComments() {
     return comments;
   }
 
-  public void setComments(List<CommentGetDto> comments) {
+  public void setComments(List<EntryCommentGetDto> comments) {
     this.comments = comments;
   }
 

@@ -1,12 +1,10 @@
 package com.sportapp.demo.models.social;
 
 import java.util.List;
-import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Table(name = "comments")
+@MappedSuperclass
 public class Comment extends Post {
 
   @ManyToMany
