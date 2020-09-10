@@ -1,4 +1,4 @@
-package com.sportapp.demo.services.registration;
+package com.sportapp.demo.models.registration;
 
 import com.sportapp.demo.models.social.User;
 import org.springframework.context.ApplicationEvent;

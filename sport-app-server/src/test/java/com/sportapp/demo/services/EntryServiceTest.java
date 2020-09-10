@@ -38,12 +38,16 @@ class EntryServiceTest {
 
     @Test
     void shouldGetEntryById() {
+        //given
         Entry entry = new Entry();
         entry.setId(0L);
         entry.setValue("test");
+
+        //when
         when(entryRepo.findById(342L)).thenReturn(java.util.Optional.of(entry));
         Entry entry1 = entryService.findEntryById(342L);
 
+        //then
         assertNotNull(entry1);
         assertEquals("test", entry1.getValue());
     }

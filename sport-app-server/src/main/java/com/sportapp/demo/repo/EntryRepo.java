@@ -32,4 +32,9 @@ public interface EntryRepo extends CrudRepository<Entry, Long> {
       + " left join fetch e.upvoters"
       + " where e.id = ?1")
   Optional<Entry> findByIdWithUpvoters(Long entryId);
+
+  @Query("select e from Entry e"
+      + " left join fetch e.comments"
+      + " where e.id = ?1")
+  Entry findEntryByIdWithComments(Long entryId);
 }

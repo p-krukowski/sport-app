@@ -1,5 +1,6 @@
 package com.sportapp.demo.services.registration;
 
+import com.sportapp.demo.models.registration.OnRegistrationCompleteEvent;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.services.social.UserService;
 import java.util.UUID;
@@ -12,12 +13,14 @@ import org.springframework.stereotype.Component;
 public class RegistrationListener implements
     ApplicationListener<OnRegistrationCompleteEvent> {
 
-  private UserService service;
-  private JavaMailSender mailSender;
+  private static final String SUBJECT = "Potwierdzenie rejestracji w SportApp";
 
-  public RegistrationListener(UserService service,
+  private final UserService userService;
+  private final JavaMailSender mailSender;
+
+  public RegistrationListener(UserService userService,
       JavaMailSender mailSender) {
-    this.service = service;
+    this.userService = userService;
     this.mailSender = mailSender;
   }
 
@@ -29,18 +32,27 @@ public class RegistrationListener implements
   private void confirmRegistration(OnRegistrationCompleteEvent event) {
     User user = event.getUser();
     String token = UUID.randomUUID().toString();
-    service.createVerificationToken(user, token);
+    userService.createVerificationToken(user, token);
 
-    String recipientAddress = user.getEmail();
-    String subject = "Potwierdzenie rejestracji";
-    String confirmationUrl
-        = event.getAppUrl() + "/registrationConfirm?token=" + token;
-    String message = "Wejdź w poniższy link aby aktywować konto:\n" + confirmationUrl;
-
-    SimpleMailMessage email = new SimpleMailMessage();
-    email.setTo(recipientAddress);
-    email.setSubject(subject);
-    email.setText(message);
-    mailSender.send(email);
+    String confirmationUrl = getConfirmationUrl(event.getAppUrl(), token);
+    sendMail(user.getEmail(), getMessage(confirmationUrl));
   }
+
+  private void sendMail(String email, String text) {
+    SimpleMailMessage mail = new SimpleMailMessage();
+    mail.setTo(email);
+    mail.setSubject(SUBJECT);
+    mail.setText(text);
+    mailSender.send(mail);
+  }
+
+  private String getConfirmationUrl(String appUrl, String token) {
+    return appUrl + "/registrationConfirm?token=" + token;
+  }
+
+  private String getMessage(String confirmationUrl) {
+    String message = "Wejdź w poniższy link aby aktywować konto:\n" + confirmationUrl;
+    return message;
+  }
+
 }

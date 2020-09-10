@@ -1,6 +1,7 @@
 package com.sportapp.demo.models.social;
 
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -9,7 +10,7 @@ import javax.persistence.Table;
 @Table(name = "entries")
 public class Entry extends Post {
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     //----------Getters&Setters-----------

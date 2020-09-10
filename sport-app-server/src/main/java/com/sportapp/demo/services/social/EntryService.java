@@ -84,4 +84,8 @@ public class EntryService {
   public List<Comment> findCommentsByEntryId(Long entryId) {
     return entryRepo.findCommentsByEntryId(entryId);
   }
+
+  public Entry findEntryByIdWithComments(Long entryId) {
+    return entryRepo.findEntryByIdWithComments(entryId);
+  }
 }

@@ -3,7 +3,6 @@ package com.sportapp.demo.services.social;
 import com.sportapp.demo.models.social.Comment;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.User;
-import com.sportapp.demo.repo.CommentRepo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +10,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommentService {
 
-    private CommentRepo commentRepo;
-    private UserService userService;
     private EntryService entryService;
 
     @Autowired
-    public CommentService(CommentRepo commentRepo, UserService userService,
-        EntryService entryService) {
-        this.commentRepo = commentRepo;
-        this.userService = userService;
+    public CommentService(EntryService entryService) {
         this.entryService = entryService;
     }
 
@@ -27,10 +21,9 @@ public class CommentService {
     }
 
     public void addComment(Long entryId, Comment comment, User user) {
-        comment.setAuthor(user);
-        commentRepo.save(comment);
-        Entry entry = entryService.findEntryById(entryId);
+        Entry entry = entryService.findEntryByIdWithComments(entryId);
         List<Comment> entryComments = entry.getComments();
+        comment.setAuthor(user);
         entryComments.add(comment);
         entry.setComments(entryComments);
         entryService.save(entry);
