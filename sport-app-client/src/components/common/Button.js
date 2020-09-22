@@ -16,9 +16,19 @@ const Button = styled.button`
   }
   
   :focus {
-    background: ${theme.colors.primary};
-    color: ${theme.colors.background};
     outline: none;
+  }
+  
+  :disabled {
+    color: gray;
+    background: none;
+    border: solid 1px gray;
+    
+    :hover {
+      color: gray;
+      background: none;
+      border: solid 1px gray;
+    }
   }
 `
 export default Button;

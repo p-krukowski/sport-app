@@ -13,7 +13,7 @@ class Events extends Component {
   }
 
   fetchEvents = () => {
-    fetchRecentEventsByLeagueId(4328)
+    fetchRecentEventsByLeagueId(this.props.league.id)
     .then(response => {
       this.setState({
         recentEvents: response,
@@ -24,6 +24,12 @@ class Events extends Component {
 
   componentDidMount() {
     this.fetchEvents();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.league !== this.props.league) {
+      this.fetchEvents();
+    }
   }
 
   render() {

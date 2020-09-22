@@ -1,86 +1,104 @@
 import React, {Component} from 'react';
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import LeaguePickList from "./LeaguePickList";
-import {setPanelLeagues} from "../../util/apiUtils/LeaguesUtils";
+import {
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFoot,
+  ModalHeader
+} from "../common/Modal";
+import CloseIcon from "@material-ui/icons/Close";
+import Button from "../common/Button";
+import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
 
 class LeaguePickModal extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            page: 'disciplines'
-        }
+    this.state = {
+      show: this.props.show,
+      leaguesReady: false
     }
+  }
 
-    changePage = (page) => {
-        this.setState({
-            page: page
-        })
-    }
+  getLeaguesByDiscipline = (discipline) => {
+    getAllLeaguesByDiscipline(discipline)
+    .then(response => {
+      this.setState({
+        leagues: response,
+        leaguesReady: true
+      });
+    });
+  }
 
-    updateUserLeagues = (leagues) => {
-        this.setState({
-            userLeagues: leagues
-        })
-    }
+  handleSportButton(discipline) {
+    this.getLeaguesByDiscipline(discipline);
+  }
 
-    getLeaguesIdsFromLeagues(leagues) {
-        let leaguesIds = [];
-        for (let league of leagues) {
-            leaguesIds.push(league.id);
-        }
-        return leaguesIds;
-    }
+  handleSave = () => {
+    this.setState({
+      leaguesReady: false
+    })
+    this.props.handleModal();
+  }
 
-    saveLeagues() {
-        setPanelLeagues(this.getLeaguesIdsFromLeagues(this.state.userLeagues))
-            .then(response => {
-                this.props.setModalShow(false);
-                this.changePage('disciplines')
-                this.props.getUserLeagues();
-            })
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.show !== this.props.show) {
+      this.setState({
+        show: this.props.show
+      })
     }
+  }
 
-    render() {
-        return (
-            <Modal centered
-                   show={this.props.show}
-                   onHide={() => {
-                       this.changePage('disciplines');
-                       this.props.setModalShow(false);
-                   }} >
-                <Modal.Header closeButton>
-                    {
-                        this.state.page === 'disciplines' &&
-                        <Modal.Title style={{color: 'black'}}>Wybierz dyscyplinę</Modal.Title>
-                    }
-                    {
-                        this.state.page === 'leagues' &&
-                        <Modal.Title style={{color: 'black'}}>Wybierz ligę</Modal.Title>
-                    }
-                </Modal.Header>
-                <Modal.Body>
-                    <LeaguePickList page={this.state.page}
-                                    changePage={this.changePage}
-                                    userLeagues={this.props.userLeagues}
-                                    updateUserLeagues={this.updateUserLeagues}/>
-                </Modal.Body>
-                <Modal.Footer>
-                    {
-                        this.state.page !== 'disciplines' &&
-                        <Button variant="secondary"
-                                onClick={() => this.changePage('disciplines')}>
-                            Wróć
-                        </Button>
-                    }
-                    <Button variant="primary" onClick={() => this.saveLeagues()}>
-                        Zapisz
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        );
-    }
+  render() {
+    return (
+        this.state.show &&
+        <Modal>
+          <ModalContent>
+            <ModalHeader>
+              <span>Wybierz sport</span>
+              <CloseIcon fontSize="large"
+                         onClick={() => {
+                           this.setState({
+                             leaguesReady: false
+                           });
+                           this.props.handleModal();
+                         }}
+                         style={{cursor: 'pointer'}}/>
+            </ModalHeader>
+            <ModalBody>
+              {
+                !this.state.leaguesReady ?
+                    <>
+                      <Button onClick={() => this.handleSportButton('soccer')}>Piłka
+                        nożna</Button>
+                      <Button disabled
+                              onClick={this.handleSportButton}>Siatkówka</Button>
+                      <Button disabled
+                              onClick={this.handleSportButton}>Koszykówka</Button>
+                      <Button disabled onClick={this.handleSportButton}>Futbol
+                        Amerykański</Button>
+                      <Button disabled onClick={this.handleSportButton}>Sztuki
+                        Walki</Button>
+                    </>
+                    :
+                    this.state.leagues.map(league => (
+                        <Button key={league.id}>{league.name}</Button>
+                    ))
+              }
+            </ModalBody>
+            <ModalFoot>
+              {
+                this.state.leaguesReady &&
+                <Button onClick={() => this.setState({leaguesReady: false})}>
+                  Wróć
+                </Button>
+              }
+              <Button onClick={this.handleSave}>Zapisz</Button>
+            </ModalFoot>
+          </ModalContent>
+        </Modal>
+    );
+  }
 }
 
 export default LeaguePickModal;

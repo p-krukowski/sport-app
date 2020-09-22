@@ -13,7 +13,7 @@ class GameEvents extends Component {
                   Wyniki
                 </CardHeader>
                 <CardBody style={{padding: "5px"}}>
-                    <Events/>
+                    <Events {...this.props}/>
                 </CardBody>
             </CardCustom>
         );

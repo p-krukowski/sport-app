@@ -111,16 +111,3 @@ const RoundsList = styled.div`
   justify-content: center;
   margin-bottom: 10px;
 `
-
-const RoundLink = styled.a`
-  padding: 5px;
-  
-  :hover {
-    cursor: pointer;
-  }
-  
-  :active {
-    background: white;
-    color: black;
-  }
-`
