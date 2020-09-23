@@ -51,6 +51,6 @@ const AllNewsPageLayout = styled.div`
   @media only screen and (min-width: 768px) {
     width: 55%;
     max-width: 850px;
-    margin: auto;
+    margin: 0 auto;
   }
 `

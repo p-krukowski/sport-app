@@ -10,15 +10,21 @@ const DDList = styled.div`
 `
 
 const DDListSelected = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   color: ${theme.colors.primary};
   background: ${theme.colors.background};
   border-radius: 5px;
   padding: 5px 20px;
   cursor: pointer;
+  width: 100%;
 `
 
 const DDListOptions = styled.div`
   position: absolute;
+  width: 100%;
   z-index: 1;
 `
 

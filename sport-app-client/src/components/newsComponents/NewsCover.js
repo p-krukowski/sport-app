@@ -93,7 +93,8 @@ const NewsCoverLayout = styled.div`
   
   @media only screen and (min-width: 768px) {
     flex-direction: row;
-    height: 200px;
+    height: 18vh;
+    min-height: 180px;
   }
 `
 
@@ -172,6 +173,7 @@ const InfoDiv = styled.div`
 const CardCustom = styled(Card)`
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  margin-bottom: 0;
 
   @media only screen and (min-width: 768px) {
     height: 100%;

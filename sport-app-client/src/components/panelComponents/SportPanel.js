@@ -12,6 +12,7 @@ import {
   DDListOptions,
   DDListSelected
 } from "../common/DropdownList";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 class SportPanel extends Component {
   constructor(props) {
@@ -98,9 +99,10 @@ class SportPanel extends Component {
                     <Button>+</Button>
                     :
                     <>
-                      <DDList>
+                      <DDListCustom>
                         <DDListSelected onClick={this.handleList}>
-                          {this.state.league.name}
+                          <span>{this.state.league.name}</span>
+                          <ArrowDropDownIcon/>
                         </DDListSelected>
                         <DDListOptions>
                           {
@@ -113,7 +115,7 @@ class SportPanel extends Component {
                             ))
                           }
                         </DDListOptions>
-                      </DDList>
+                      </DDListCustom>
                       <SportDataCard {...this.props}
                                      league={this.state.league}/>
                     </>
@@ -133,4 +135,12 @@ export default SportPanel;
 const SportPanelLayout = styled.div`
   display: flex;
   position: relative;
+`
+
+const DDListCustom = styled(DDList)`
+  width: 100%;
+  
+  @media only screen and (min-width: 786px) {
+   width: 45%;
+  }
 `
