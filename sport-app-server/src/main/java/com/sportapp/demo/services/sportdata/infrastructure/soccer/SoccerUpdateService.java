@@ -90,7 +90,13 @@ public class SoccerUpdateService {
 
   private void updateLeagueRoundsAndEvents(LeagueSoccer leagueSoccer) {
     roundSoccerService.deleteAllByLeagueId(leagueSoccer.getId());
-    roundSoccerService.saveAll(fetchLeagueRoundsWithEvents(leagueSoccer));
+    List<RoundSoccer> roundSoccerList = fetchLeagueRoundsWithEvents(leagueSoccer);
+    roundSoccerList.forEach(round -> {
+      List<EventSoccer> eventSoccerList = round.getEvents();
+      setEventsAfterUpdate(leagueSoccer, round, eventSoccerList);
+      setRoundAfterUpdate(round, eventSoccerList, leagueSoccer);
+    });
+    roundSoccerService.saveAll(roundSoccerList);
   }
 
   private void updateLeagueTeams(LeagueSoccer leagueSoccer) {
@@ -98,31 +104,39 @@ public class SoccerUpdateService {
     teamScoreSoccerService.saveAll(fetchLeagueTeams(leagueSoccer));
   }
 
-  //TODO: refactor
   private List<RoundSoccer> fetchLeagueRoundsWithEvents(LeagueSoccer leagueSoccer) {
     List<RoundSoccer> rounds = new ArrayList<>();
-    int roundNumber = 1;
-    while (true) {
+    fetchRoundsByIteratingApi(leagueSoccer, rounds);
+    return rounds;
+  }
+
+  private void fetchRoundsByIteratingApi(LeagueSoccer leagueSoccer, List<RoundSoccer> rounds) {
+    for (int roundNumber = 1; true; roundNumber++) {
       RoundSoccerApiDto roundDto = soccerApiCommunication
           .fetchRound(roundNumber, leagueSoccer.getExternalId());
       if (roundDto.getEvents() != null) {
         RoundSoccer round = convertRoundToEntity(roundDto);
-        List<EventSoccer> eventSoccerList = round.getEvents();
-        eventSoccerList.forEach(eventSoccer -> {
-          eventSoccer.setId(null);
-          eventSoccer.setLeague(leagueSoccer);
-          eventSoccer.setRound(round);
-        });
-        round.setEvents(eventSoccerList);
-        round.setLeague(leagueSoccer);
         round.setRoundNumber(roundNumber);
         rounds.add(round);
       } else {
         break;
       }
-      roundNumber++;
     }
-    return rounds;
+  }
+
+  private void setEventsAfterUpdate(LeagueSoccer leagueSoccer, RoundSoccer round,
+      List<EventSoccer> eventSoccerList) {
+    eventSoccerList.forEach(eventSoccer -> {
+      eventSoccer.setId(null);
+      eventSoccer.setLeague(leagueSoccer);
+      eventSoccer.setRound(round);
+    });
+  }
+
+  private void setRoundAfterUpdate(RoundSoccer round, List<EventSoccer> eventSoccerList,
+      LeagueSoccer leagueSoccer) {
+    round.setEvents(eventSoccerList);
+    round.setLeague(leagueSoccer);
   }
 
   private List<TeamScoreSoccer> fetchLeagueTeams(LeagueSoccer leagueSoccer) {
@@ -144,43 +158,51 @@ public class SoccerUpdateService {
     return teams;
   }
 
-  //TODO: refactor
   private void updateTeamsInLeague(LeagueSoccer leagueSoccer) {
     List<TeamScoreSoccer> teams = leagueSoccer.getTeamsScores();
     List<TeamScoreSoccer> fetchedTeams = fetchLeagueTeams(leagueSoccer);
-    teams.forEach(team -> {
-      Optional<TeamScoreSoccer> fetchedTeamOpt = fetchedTeams
-          .stream()
-          .filter(t -> t.getTeamId().equals(team.getTeamId()))
-          .findFirst();
-      if (fetchedTeamOpt.isPresent()) {
-        TeamScoreSoccer fetchedTeam = fetchedTeamOpt.get();
-        team.setGoalsAgainst(fetchedTeam.getGoalsAgainst());
-        team.setGoalsDifference(fetchedTeam.getGoalsDifference());
-        team.setGoalsFor(fetchedTeam.getGoalsFor());
-        team.setTotal(fetchedTeam.getTotal());
-        team.setDraw(fetchedTeam.getDraw());
-        team.setLoss(fetchedTeam.getLoss());
-        team.setPlayed(fetchedTeam.getPlayed());
-        team.setWin(fetchedTeam.getWin());
-      }
-    });
+    teams.forEach(team -> setTeamIfPresent(fetchedTeams, team));
     teamScoreSoccerService.saveAll(teams);
   }
 
-  //TODO: refactor
+  private void setTeamIfPresent(List<TeamScoreSoccer> fetchedTeams, TeamScoreSoccer team) {
+    Optional<TeamScoreSoccer> fetchedTeamOpt = fetchedTeams
+        .stream()
+        .filter(t -> t.getTeamId().equals(team.getTeamId()))
+        .findFirst();
+    if (fetchedTeamOpt.isPresent()) {
+      TeamScoreSoccer fetchedTeam = fetchedTeamOpt.get();
+      setTeamAfterUpdate(team, fetchedTeam);
+    }
+  }
+
+  private void setTeamAfterUpdate(TeamScoreSoccer team, TeamScoreSoccer fetchedTeam) {
+    team.setGoalsAgainst(fetchedTeam.getGoalsAgainst());
+    team.setGoalsDifference(fetchedTeam.getGoalsDifference());
+    team.setGoalsFor(fetchedTeam.getGoalsFor());
+    team.setTotal(fetchedTeam.getTotal());
+    team.setDraw(fetchedTeam.getDraw());
+    team.setLoss(fetchedTeam.getLoss());
+    team.setPlayed(fetchedTeam.getPlayed());
+    team.setWin(fetchedTeam.getWin());
+  }
+
   private EventSoccer updateEvent(EventSoccer event) {
     Optional<EventSoccerApiDto> fetchedEventDtoOpt = soccerApiCommunication
         .fetchEvent(event.getExternalId()).getEvents().stream().findAny();
     if (fetchedEventDtoOpt.isPresent()) {
       EventSoccerApiDto fetchedEventDto = fetchedEventDtoOpt.get();
       EventSoccer fetchedEvent = convertEventToEntity(fetchedEventDto);
-      event.setAwayScore(fetchedEvent.getAwayScore());
-      event.setHomeScore(fetchedEvent.getHomeScore());
-      event.setPostponed(fetchedEvent.getPostponed());
+      setEventAfterUpdate(event, fetchedEvent);
       eventSoccerService.save(event);
     }
     return event;
+  }
+
+  private void setEventAfterUpdate(EventSoccer event, EventSoccer fetchedEvent) {
+    event.setAwayScore(fetchedEvent.getAwayScore());
+    event.setHomeScore(fetchedEvent.getHomeScore());
+    event.setPostponed(fetchedEvent.getPostponed());
   }
 
   private EventSoccer convertEventToEntity(EventSoccerApiDto eventSoccer) {
