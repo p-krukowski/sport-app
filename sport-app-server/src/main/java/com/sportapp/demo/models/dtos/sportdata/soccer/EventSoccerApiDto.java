@@ -1,13 +1,12 @@
 package com.sportapp.demo.models.dtos.sportdata.soccer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDate;
 
 public class EventSoccerApiDto {
 
     @JsonProperty("idEvent")
-    private Long id;
+    private Long externalId;
     @JsonProperty("strEvent")
     private String name;
     @JsonProperty("strHomeTeam")
@@ -28,12 +27,13 @@ public class EventSoccerApiDto {
 
     //----------Getters&Setters-----------
 
-    public Long getId() {
-        return id;
+
+    public Long getExternalId() {
+        return externalId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setExternalId(Long externalId) {
+        this.externalId = externalId;
     }
 
     public String getName() {

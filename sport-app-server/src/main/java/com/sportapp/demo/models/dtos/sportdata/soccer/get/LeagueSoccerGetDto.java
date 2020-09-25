@@ -11,14 +11,15 @@ public class LeagueSoccerGetDto {
     public LeagueSoccerGetDto() {
     }
 
-    public LeagueSoccerGetDto(Long id, String discipline, String name, String nameAlternate) {
-        this.id = id;
+    public LeagueSoccerGetDto(Long externalId, String discipline, String name, String nameAlternate) {
+        this.id = externalId;
         this.discipline = discipline;
         this.name = name;
         this.nameAlternate = nameAlternate;
     }
 
     //----------Getters&Setters-----------
+
 
     public Long getId() {
         return id;

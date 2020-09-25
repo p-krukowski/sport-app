@@ -46,7 +46,7 @@ class SportPanel extends Component {
     if (this.props.isAuthenticated) {
       this.getUserLeagues();
     } else {
-      getAllLeaguesByDiscipline('soccer')
+      getAllLeaguesByDiscipline("soccer")
       .then(response => {
         this.setState({
           leagues: response,

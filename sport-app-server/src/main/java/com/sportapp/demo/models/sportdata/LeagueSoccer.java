@@ -1,44 +1,55 @@
 package com.sportapp.demo.models.sportdata;
 
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 @Entity
 public class LeagueSoccer extends League {
 
-    @OneToMany(mappedBy = "league")
-    private List<SeasonSoccer> seasons;
+  private Long externalId;
 
-    @OneToMany(mappedBy = "league")
-    private List<TeamScoreSoccer> teamsScores;
+  @OneToMany(mappedBy = "league")
+  private List<TeamScoreSoccer> teamsScores;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
-    private List<EventSoccer> events;
-    
-    //----------Getters&Setters-----------
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
+  private List<EventSoccer> events;
 
+  @OneToMany(mappedBy = "league")
+  private List<RoundSoccer> rounds;
 
-    public List<SeasonSoccer> getSeasons() {
-        return seasons;
-    }
+  //----------Getters&Setters-----------
 
-    public void setSeasons(List<SeasonSoccer> seasons) {
-        this.seasons = seasons;
-    }
+  public Long getExternalId() {
+    return externalId;
+  }
 
-    public List<TeamScoreSoccer> getTeamsScores() {
-        return teamsScores;
-    }
+  public void setExternalId(Long externalId) {
+    this.externalId = externalId;
+  }
 
-    public void setTeamsScores(List<TeamScoreSoccer> teamsScores) {
-        this.teamsScores = teamsScores;
-    }
+  public List<TeamScoreSoccer> getTeamsScores() {
+    return teamsScores;
+  }
 
-    public List<EventSoccer> getEvents() {
-        return events;
-    }
+  public void setTeamsScores(List<TeamScoreSoccer> teamsScores) {
+    this.teamsScores = teamsScores;
+  }
 
-    public void setEvents(List<EventSoccer> events) {
-        this.events = events;
-    }
+  public List<EventSoccer> getEvents() {
+    return events;
+  }
+
+  public void setEvents(List<EventSoccer> events) {
+    this.events = events;
+  }
+
+  public List<RoundSoccer> getRounds() {
+    return rounds;
+  }
+
+  public void setRounds(List<RoundSoccer> rounds) {
+    this.rounds = rounds;
+  }
 }

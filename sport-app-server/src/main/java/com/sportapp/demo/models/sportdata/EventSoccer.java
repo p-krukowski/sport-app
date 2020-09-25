@@ -6,75 +6,74 @@ import javax.persistence.ManyToOne;
 @Entity
 public class EventSoccer extends Event {
 
-    private String homeTeamName;
-    private String awayTeamName;
-    private Integer homeScore;
-    private Integer awayScore;
+  private Long externalId;
+  private String homeTeamName;
+  private String awayTeamName;
+  private Integer homeScore;
+  private Integer awayScore;
 
-    @ManyToOne
-    private RoundSoccer round;
+  @ManyToOne
+  private RoundSoccer round;
 
-    @ManyToOne
-    private LeagueSoccer league;
+  @ManyToOne
+  private LeagueSoccer league;
 
-    @ManyToOne
-    private SeasonSoccer season;
+  //----------Getters&Setters-----------
 
-    //----------Getters&Setters-----------
+  public Long getExternalId() {
+    return externalId;
+  }
 
-    public String getHomeTeamName() {
-        return homeTeamName;
-    }
+  public void setExternalId(Long externalId) {
+    this.externalId = externalId;
+  }
 
-    public void setHomeTeamName(String homeTeamName) {
-        this.homeTeamName = homeTeamName;
-    }
+  public String getHomeTeamName() {
+    return homeTeamName;
+  }
 
-    public String getAwayTeamName() {
-        return awayTeamName;
-    }
+  public void setHomeTeamName(String homeTeamName) {
+    this.homeTeamName = homeTeamName;
+  }
 
-    public void setAwayTeamName(String awayTeamName) {
-        this.awayTeamName = awayTeamName;
-    }
+  public String getAwayTeamName() {
+    return awayTeamName;
+  }
 
-    public Integer getHomeScore() {
-        return homeScore;
-    }
+  public void setAwayTeamName(String awayTeamName) {
+    this.awayTeamName = awayTeamName;
+  }
 
-    public void setHomeScore(Integer homeScore) {
-        this.homeScore = homeScore;
-    }
+  public Integer getHomeScore() {
+    return homeScore;
+  }
 
-    public Integer getAwayScore() {
-        return awayScore;
-    }
+  public void setHomeScore(Integer homeScore) {
+    this.homeScore = homeScore;
+  }
 
-    public void setAwayScore(Integer awayScore) {
-        this.awayScore = awayScore;
-    }
+  public Integer getAwayScore() {
+    return awayScore;
+  }
 
-    public RoundSoccer getRound() {
-        return round;
-    }
+  public void setAwayScore(Integer awayScore) {
+    this.awayScore = awayScore;
+  }
 
-    public void setRound(RoundSoccer round) {
-        this.round = round;
-    }
+  public RoundSoccer getRound() {
+    return round;
+  }
 
-    public LeagueSoccer getLeague() {
-        return league;
-    }
+  public void setRound(RoundSoccer round) {
+    this.round = round;
+  }
 
-    public void setLeague(LeagueSoccer league) {
-        this.league = league;
-    }
+  public LeagueSoccer getLeague() {
+    return league;
+  }
 
-    public SeasonSoccer getSeason() {
-        return season;
-    }
+  public void setLeague(LeagueSoccer league) {
+    this.league = league;
+  }
 
-    public void setSeason(SeasonSoccer season) {
-        this.season = season;
-    }
 }
