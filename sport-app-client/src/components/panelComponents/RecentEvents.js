@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import EventSoccer from "./EventSoccer";
 import {fetchRecentEventsByLeagueId} from "../../util/apiUtils/EventsUtils";
 
-class Events extends Component {
+class RecentEvents extends Component {
   constructor(props) {
     super(props);
 
@@ -43,4 +43,4 @@ class Events extends Component {
   }
 }
 
-export default Events;
+export default RecentEvents;

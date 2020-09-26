@@ -36,11 +36,10 @@ const CardHeader = styled.div`
 const CardBody = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   padding: 5px 15px;
   background: none;
   font-size: 1em;
-  overflow: scroll;
+  overflow-x: scroll;
 `
 
 const CardFoot = styled.div`

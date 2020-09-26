@@ -1,66 +1,39 @@
 import styled from "styled-components";
 import {theme} from "../../util/theme";
 
-const TableCustom = styled.table`
-  font-size: 0.95em;
-  margin-bottom: 20px;
-  
-  TD:first-child {
-    padding: 0.3em 5px;
-  }
-  TD:nth-child(2) {
-    padding-left: 0px;
-  }
-  TD:last-child {
-    padding: 0.3em 5px;
-  }
-  
-  TR:first-child {
-    TD:first-child {
-      border-top-left-radius: 5px;
-    }
-    TD:last-child {
-      border-top-right-radius: 5px;
-    }
-  }
-
-  TR:last-child {
-    TD:first-child {
-      border-bottom-left-radius: 5px;
-    }
-    TD:last-child {
-      border-bottom-right-radius: 5px;
-    }
-  }
+const TableCustom = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  overflow: scroll;
 `
 
-const THead = styled.thead`
+const THead = styled.div`
+  display: flex;
+  flex-direction: column;
   background: #292929;
   font-weight: ${theme.font.regular};
-  border-bottom: 1px solid ${theme.colors.background};
-  
-  TD {
-    padding: 0.2em 5px;
-    
-    @media only screen and (min-width: 768px) {
-      padding: 0.3em 20px;
-    }
-  }
+  margin-bottom: 2px;
 `
 
-const TBody = styled.tbody`
+const TBody = styled.div`
   background: ${theme.colors.navbar};
 `
 
-const TFoot = styled.tfoot`
+const TFoot = styled.div`
   background: ${theme.colors.navbar};
 `
 
-const TR = styled.tr`  
+const TR = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid ${theme.colors.background};
 `
-const TD = styled.td`
-  padding: 0 20px;
+const TD = styled.div`
+  display: flex;
   text-align: center;
+  padding: 0.1em 0.5em;
 `
 export {TableCustom, TD, TR, THead, TBody, TFoot};

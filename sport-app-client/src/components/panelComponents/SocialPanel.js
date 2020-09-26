@@ -75,6 +75,7 @@ const SocialPanelLayout = styled.div`
   @media only screen and (min-width: 768px) {
     margin-right: 10px;
     margin-top: 0;
+    width: 65%;
   }
 `
 

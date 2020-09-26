@@ -93,7 +93,7 @@ class SportPanel extends Component {
                   </CardHeader>
             }
 
-            <CardBody style={{alignItems: 'center', padding: '5px'}}>
+            <CardBody style={{alignItems: 'center', padding: '5px', overflow: 'scroll'}}>
               {
                 this.state.leagues.length === 0 ?
                     <Button>+</Button>
@@ -109,7 +109,8 @@ class SportPanel extends Component {
                             this.state.showDDList &&
                             this.state.leagues.map(league => (
                                 <DDListOption key={league.id}
-                                              onClick={() => this.setLeague(league)}>
+                                              onClick={() => this.setLeague(
+                                                  league)}>
                                   {league.name}
                                 </DDListOption>
                             ))
@@ -135,6 +136,10 @@ export default SportPanel;
 const SportPanelLayout = styled.div`
   display: flex;
   position: relative;
+  
+  @media only screen and (min-width: 768px) {
+    width: 35%;
+  }
 `
 
 const DDListCustom = styled(DDList)`

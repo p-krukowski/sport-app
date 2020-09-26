@@ -5,9 +5,43 @@ import Badge from "react-bootstrap/Badge";
 import {theme} from "../../util/theme";
 
 class EventSoccer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      event: this.props.event
+    }
+  }
+
+  setEvent = () => {
+    const event = this.props.event;
+    if (event.homeScore === null || event.awayScore === null) {
+      this.setState({
+        event: {
+          ...this.props.event,
+          homeScore: '-',
+          awayScore: '-'
+        }
+      })
+    } else {
+      this.setState({
+        event: this.props.event
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.setEvent();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps !== this.props) {
+      this.setEvent();
+    }
+  }
 
   render() {
-    const event = this.props.event;
+    const event = this.state.event;
 
     return (
         <EventSoccerLayout>
@@ -50,6 +84,7 @@ const ResultRow = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 5px;
+  width: 100%;
 `
 const ResultBadge = styled.div`
   background: white;
@@ -60,9 +95,9 @@ const ResultBadge = styled.div`
   margin: 0 0.2em;
 `
 
-const TeamNameDiv = styled.p`
+const TeamNameDiv = styled.span`
   display: block;
-  min-width: 120px;
+  width: 100%;
   overflow: hidden;  
   white-space: nowrap;
   text-overflow: ellipsis;

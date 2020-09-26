@@ -6,14 +6,14 @@ public class EventSoccerGetDto {
 
     private String homeTeamName;
     private String awayTeamName;
-    private int homeScore;
-    private int awayScore;
+    private Integer homeScore;
+    private Integer awayScore;
     private LocalDate date;
 
     public EventSoccerGetDto() {
     }
 
-    public EventSoccerGetDto(String homeTeamName, String awayTeamName, int homeScore, int awayScore, LocalDate date) {
+    public EventSoccerGetDto(String homeTeamName, String awayTeamName, Integer homeScore, Integer awayScore, LocalDate date) {
         this.homeTeamName = homeTeamName;
         this.awayTeamName = awayTeamName;
         this.homeScore = homeScore;
@@ -39,19 +39,19 @@ public class EventSoccerGetDto {
         this.awayTeamName = awayTeamName;
     }
 
-    public int getHomeScore() {
+    public Integer getHomeScore() {
         return homeScore;
     }
 
-    public void setHomeScore(int homeScore) {
+    public void setHomeScore(Integer homeScore) {
         this.homeScore = homeScore;
     }
 
-    public int getAwayScore() {
+    public Integer getAwayScore() {
         return awayScore;
     }
 
-    public void setAwayScore(int awayScore) {
+    public void setAwayScore(Integer awayScore) {
         this.awayScore = awayScore;
     }
 

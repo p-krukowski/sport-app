@@ -43,7 +43,7 @@ public class EventSoccerService {
 
   public List<EventSoccerGetDto> findNextByLeagueId(Long leagueId) {
     return eventSoccerRepo.findNextByLeagueId(leagueId, LocalDate.now(),
-        PageRequest.of(0, 5, Sort.Direction.DESC, "date"));
+        PageRequest.of(0, 5, Sort.Direction.ASC, "date"));
   }
 
   public List<EventSoccerGetDto> findEventsDtosByLeagueIdAndRoundNr(Long leagueId, int roundNr) {

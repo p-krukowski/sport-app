@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import styled from "styled-components";
 import {getBasicTableSoccer} from "../../util/apiUtils/TablesUtils";
 import {TableCustom, TBody, TD, THead, TR} from "../common/TableCustom";
 import {theme} from "../../util/theme";
@@ -34,25 +35,23 @@ class TableSoccer extends Component {
   render() {
     return (
         this.state.teams &&
-        <TableCustom style={{
-          width: "100%",
-          overflow: "scroll"}}>
+        <TableCustom>
           <THead style={{background: theme.colors.navbar}}>
-            <TR style={{marginBottom: '3px'}}>
-              <TD>#</TD>
-              <TD style={{textAlign: 'left'}}>Drużyna</TD>
-              <TD>M</TD>
-              <TD>P</TD>
+            <TR>
+              <TD style={{width: '3.5em', paddingRight: 0}}>#</TD>
+              <TDCustom>Drużyna</TDCustom>
+              <TD style={{width: '2.5em'}}>M</TD>
+              <TD style={{width: '2.5em'}}>P</TD>
             </TR>
           </THead>
-          <TBody>
+          <TBody style={{width: '100%'}}>
             {
               this.state.teams.map((team, index) => (
                   <TR key={index}>
-                    <TD>{index + 1}.</TD>
-                    <TD style={{textAlign: 'left'}}>{team.name}</TD>
-                    <TD>{team.played}</TD>
-                    <TD>{team.total}</TD>
+                    <TD style={{width: '3.5em', paddingRight: 0}}>{index + 1}.</TD>
+                    <TDCustom>{team.name}</TDCustom>
+                    <TD style={{width: '2.5em'}}>{team.played}</TD>
+                    <TD style={{width: '2.5em'}}>{team.total}</TD>
                   </TR>
               ))
             }
@@ -63,3 +62,12 @@ class TableSoccer extends Component {
 }
 
 export default TableSoccer;
+
+const TDCustom = styled.span`
+  display: block;
+  width: 100%;
+  overflow: hidden;  
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+`

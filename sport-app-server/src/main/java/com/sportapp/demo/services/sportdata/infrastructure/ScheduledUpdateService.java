@@ -1,7 +1,6 @@
 package com.sportapp.demo.services.sportdata.infrastructure;
 
 import com.sportapp.demo.services.sportdata.infrastructure.soccer.SoccerUpdateService;
-import javax.annotation.PostConstruct;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +9,7 @@ public class ScheduledUpdateService {
 
   private static final String LEAGUES_UPDATE_TIME = "0 0 3 ? * ?";
   private static final String TEAMS_UPDATE_TIME = "0 0/30 * ? * ?";
-  private static final String EVENTS_UPDATE_TIME = "0 0/2 * ? * ?";
+  private static final String EVENTS_UPDATE_TIME = "0 0/5 * ? * ?";
   private static final String YESTERDAY_EVENTS_UPDATE_TIME = "0 2 0 ? * ?";
 
   SoccerUpdateService soccerUpdateService;
@@ -20,8 +19,8 @@ public class ScheduledUpdateService {
     this.soccerUpdateService = soccerUpdateService;
   }
 
-  //@Scheduled(cron = LEAGUES_UPDATE_TIME)
-  @PostConstruct
+  @Scheduled(cron = LEAGUES_UPDATE_TIME)
+  //@PostConstruct
   public void updateLeagues() {
     soccerUpdateService.updateLeagues();
   }
