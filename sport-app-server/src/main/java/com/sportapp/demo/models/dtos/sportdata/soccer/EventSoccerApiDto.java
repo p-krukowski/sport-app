@@ -2,102 +2,111 @@ package com.sportapp.demo.models.dtos.sportdata.soccer;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class EventSoccerApiDto {
 
-    @JsonProperty("idEvent")
-    private Long externalId;
-    @JsonProperty("strEvent")
-    private String name;
-    @JsonProperty("strHomeTeam")
-    private String homeTeamName;
-    @JsonProperty("strAwayTeam")
-    private String awayTeamName;
-    @JsonProperty("intHomeScore")
-    private Integer homeScore;
-    @JsonProperty("intRound")
-    private int round;
-    @JsonProperty("intAwayScore")
-    private Integer awayScore;
-    @JsonProperty("dateEvent")
-    private LocalDate date;
-    @JsonProperty("strPostponed")
-    private String postponed;
+  @JsonProperty("idEvent")
+  private Long externalId;
+  @JsonProperty("strEvent")
+  private String name;
+  @JsonProperty("strHomeTeam")
+  private String homeTeamName;
+  @JsonProperty("strAwayTeam")
+  private String awayTeamName;
+  @JsonProperty("intHomeScore")
+  private Integer homeScore;
+  @JsonProperty("intRound")
+  private int round;
+  @JsonProperty("intAwayScore")
+  private Integer awayScore;
+  @JsonProperty("dateEvent")
+  private LocalDate date;
+  @JsonProperty("strTime")
+  private LocalTime time;
+  @JsonProperty("strPostponed")
+  private String postponed;
+
+  //----------Getters&Setters-----------
 
 
-    //----------Getters&Setters-----------
+  public Long getExternalId() {
+    return externalId;
+  }
 
+  public void setExternalId(Long externalId) {
+    this.externalId = externalId;
+  }
 
-    public Long getExternalId() {
-        return externalId;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setExternalId(Long externalId) {
-        this.externalId = externalId;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getHomeTeamName() {
+    return homeTeamName;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setHomeTeamName(String homeTeamName) {
+    this.homeTeamName = homeTeamName;
+  }
 
-    public String getHomeTeamName() {
-        return homeTeamName;
-    }
+  public String getAwayTeamName() {
+    return awayTeamName;
+  }
 
-    public void setHomeTeamName(String homeTeamName) {
-        this.homeTeamName = homeTeamName;
-    }
+  public void setAwayTeamName(String awayTeamName) {
+    this.awayTeamName = awayTeamName;
+  }
 
-    public String getAwayTeamName() {
-        return awayTeamName;
-    }
+  public Integer getHomeScore() {
+    return homeScore;
+  }
 
-    public void setAwayTeamName(String awayTeamName) {
-        this.awayTeamName = awayTeamName;
-    }
+  public void setHomeScore(Integer homeScore) {
+    this.homeScore = homeScore;
+  }
 
-    public Integer getHomeScore() {
-        return homeScore;
-    }
+  public int getRound() {
+    return round;
+  }
 
-    public void setHomeScore(Integer homeScore) {
-        this.homeScore = homeScore;
-    }
+  public void setRound(int round) {
+    this.round = round;
+  }
 
-    public int getRound() {
-        return round;
-    }
+  public Integer getAwayScore() {
+    return awayScore;
+  }
 
-    public void setRound(int round) {
-        this.round = round;
-    }
+  public void setAwayScore(Integer awayScore) {
+    this.awayScore = awayScore;
+  }
 
-    public Integer getAwayScore() {
-        return awayScore;
-    }
+  public LocalDate getDate() {
+    return date;
+  }
 
-    public void setAwayScore(Integer awayScore) {
-        this.awayScore = awayScore;
-    }
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
 
-    public LocalDate getDate() {
-        return date;
-    }
+  public LocalTime getTime() {
+    return time;
+  }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
+  public void setTime(LocalTime time) {
+    this.time = time;
+  }
 
+  public String getPostponed() {
+    return postponed;
+  }
 
-    public String getPostponed() {
-        return postponed;
-    }
-
-    public void setPostponed(String postponed) {
-        this.postponed = postponed;
-    }
+  public void setPostponed(String postponed) {
+    this.postponed = postponed;
+  }
 }

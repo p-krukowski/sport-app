@@ -12,6 +12,7 @@ import com.sportapp.demo.services.sportdata.LeagueSoccerService;
 import com.sportapp.demo.services.sportdata.RoundSoccerService;
 import com.sportapp.demo.services.sportdata.TeamScoreSoccerService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -130,6 +131,8 @@ public class SoccerUpdateService {
       eventSoccer.setId(null);
       eventSoccer.setLeague(leagueSoccer);
       eventSoccer.setRound(round);
+      eventSoccer.setTime(eventSoccer.getTime().plusHours(2));
+      eventSoccer.setDateTime(LocalDateTime.of(eventSoccer.getDate(), eventSoccer.getTime()));
     });
   }
 

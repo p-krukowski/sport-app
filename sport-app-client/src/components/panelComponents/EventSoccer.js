@@ -47,7 +47,7 @@ class EventSoccer extends Component {
         <EventSoccerLayout>
           <Badge pill variant="light"
                  style={{fontSize: '1em'}}>
-            {event.date}
+            {event.date}, {event.time}
           </Badge>
           <ResultRow>
             <TeamNameDiv style={{textAlign: 'right'}}>

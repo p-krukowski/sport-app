@@ -11,7 +11,7 @@ class GameEvents extends Component {
     return (
         <CardCustom>
           <CardHeader style={{justifyContent: 'center'}}>
-            Wyniki
+            Spotkania
           </CardHeader>
           <CardBody style={{padding: "5px"}}>
             <span>Ostatnie</span>
