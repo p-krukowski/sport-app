@@ -31,7 +31,7 @@ public interface EventSoccerRepo extends JpaRepository<EventSoccer, Long> {
   @Query("select new com.sportapp.demo.models.dtos.sportdata.soccer.get" +
       ".EventSoccerGetDto(e.homeTeamName, e.awayTeamName, e.homeScore, e.awayScore, e.date, e.time)" +
       " from EventSoccer e" +
-      " where e.league.id = ?1 and e.round.roundNumber = ?2")
+      " where e.league.id = ?1 and e.roundNumber = ?2")
   List<EventSoccerGetDto> findEventsDtosByLeagueIdAndRoundNr(Long leagueId, int roundNr);
 
   void deleteAllByLeagueId(Long leagueId);

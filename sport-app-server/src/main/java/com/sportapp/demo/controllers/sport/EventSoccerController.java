@@ -2,7 +2,6 @@ package com.sportapp.demo.controllers.sport;
 
 import com.sportapp.demo.models.dtos.sportdata.soccer.get.EventSoccerGetDto;
 import com.sportapp.demo.services.sportdata.EventSoccerService;
-import com.sportapp.demo.services.sportdata.RoundSoccerService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventSoccerController {
 
   EventSoccerService eventSoccerService;
-  RoundSoccerService roundSoccerService;
 
   @Autowired
-  public EventSoccerController(EventSoccerService eventSoccerService,
-      RoundSoccerService roundSoccerService) {
+  public EventSoccerController(EventSoccerService eventSoccerService) {
     this.eventSoccerService = eventSoccerService;
-    this.roundSoccerService = roundSoccerService;
   }
 
   @GetMapping("/recent/l={leagueId}")

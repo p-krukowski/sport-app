@@ -12,8 +12,7 @@ public class EventSoccer extends Event {
   private Integer homeScore;
   private Integer awayScore;
 
-  @ManyToOne
-  private RoundSoccer round;
+  private int roundNumber;
 
   @ManyToOne
   private LeagueSoccer league;
@@ -60,12 +59,12 @@ public class EventSoccer extends Event {
     this.awayScore = awayScore;
   }
 
-  public RoundSoccer getRound() {
-    return round;
+  public int getRoundNumber() {
+    return roundNumber;
   }
 
-  public void setRound(RoundSoccer round) {
-    this.round = round;
+  public void setRoundNumber(int roundNumber) {
+    this.roundNumber = roundNumber;
   }
 
   public LeagueSoccer getLeague() {

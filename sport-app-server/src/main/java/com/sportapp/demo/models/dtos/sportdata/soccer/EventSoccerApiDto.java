@@ -18,7 +18,7 @@ public class EventSoccerApiDto {
   @JsonProperty("intHomeScore")
   private Integer homeScore;
   @JsonProperty("intRound")
-  private int round;
+  private int roundNumber;
   @JsonProperty("intAwayScore")
   private Integer awayScore;
   @JsonProperty("dateEvent")
@@ -73,12 +73,12 @@ public class EventSoccerApiDto {
     this.homeScore = homeScore;
   }
 
-  public int getRound() {
-    return round;
+  public int getRoundNumber() {
+    return roundNumber;
   }
 
-  public void setRound(int round) {
-    this.round = round;
+  public void setRoundNumber(int roundNumber) {
+    this.roundNumber = roundNumber;
   }
 
   public Integer getAwayScore() {

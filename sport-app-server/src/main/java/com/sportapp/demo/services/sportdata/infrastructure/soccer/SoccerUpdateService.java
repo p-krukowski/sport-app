@@ -5,11 +5,9 @@ import com.sportapp.demo.models.dtos.sportdata.soccer.RoundSoccerApiDto;
 import com.sportapp.demo.models.dtos.sportdata.soccer.TeamScoreSoccerListApiDto;
 import com.sportapp.demo.models.sportdata.EventSoccer;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
-import com.sportapp.demo.models.sportdata.RoundSoccer;
 import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
 import com.sportapp.demo.services.sportdata.EventSoccerService;
 import com.sportapp.demo.services.sportdata.LeagueSoccerService;
-import com.sportapp.demo.services.sportdata.RoundSoccerService;
 import com.sportapp.demo.services.sportdata.TeamScoreSoccerService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,19 +25,16 @@ public class SoccerUpdateService {
   LeagueSoccerService leagueSoccerService;
   TeamScoreSoccerService teamScoreSoccerService;
   EventSoccerService eventSoccerService;
-  RoundSoccerService roundSoccerService;
   ModelMapper modelMapper;
 
   public SoccerUpdateService(SoccerApiCommunication soccerApiCommunication,
       LeagueSoccerService leagueSoccerService,
       TeamScoreSoccerService teamScoreSoccerService,
-      RoundSoccerService roundSoccerService,
       EventSoccerService eventSoccerService,
       ModelMapper modelMapper) {
     this.soccerApiCommunication = soccerApiCommunication;
     this.leagueSoccerService = leagueSoccerService;
     this.teamScoreSoccerService = teamScoreSoccerService;
-    this.roundSoccerService = roundSoccerService;
     this.eventSoccerService = eventSoccerService;
     this.modelMapper = modelMapper;
   }
@@ -80,7 +75,7 @@ public class SoccerUpdateService {
 
   private void updateEntireLeague(LeagueSoccer leagueSoccer, String fetchedSeason) {
     leagueSoccer = updateLeague(leagueSoccer, fetchedSeason);
-    updateLeagueRoundsAndEvents(leagueSoccer);
+    updateLeagueEvents(leagueSoccer);
     updateLeagueTeams(leagueSoccer);
   }
 
@@ -89,15 +84,11 @@ public class SoccerUpdateService {
     return leagueSoccerService.save(leagueSoccer);
   }
 
-  private void updateLeagueRoundsAndEvents(LeagueSoccer leagueSoccer) {
-    roundSoccerService.deleteAllByLeagueId(leagueSoccer.getId());
-    List<RoundSoccer> roundSoccerList = fetchLeagueRoundsWithEvents(leagueSoccer);
-    roundSoccerList.forEach(round -> {
-      List<EventSoccer> eventSoccerList = round.getEvents();
-      setEventsAfterUpdate(leagueSoccer, round, eventSoccerList);
-      setRoundAfterUpdate(round, eventSoccerList, leagueSoccer);
-    });
-    roundSoccerService.saveAll(roundSoccerList);
+  private void updateLeagueEvents(LeagueSoccer leagueSoccer) {
+    eventSoccerService.deleteAllByLeagueId(leagueSoccer.getId());
+    List<EventSoccer> events = fetchLeagueEvents(leagueSoccer);
+    setEventsAfterUpdate(leagueSoccer, events);
+    eventSoccerService.saveAll(events);
   }
 
   private void updateLeagueTeams(LeagueSoccer leagueSoccer) {
@@ -105,41 +96,35 @@ public class SoccerUpdateService {
     teamScoreSoccerService.saveAll(fetchLeagueTeams(leagueSoccer));
   }
 
-  private List<RoundSoccer> fetchLeagueRoundsWithEvents(LeagueSoccer leagueSoccer) {
-    List<RoundSoccer> rounds = new ArrayList<>();
-    fetchRoundsByIteratingApi(leagueSoccer, rounds);
-    return rounds;
+  private List<EventSoccer> fetchLeagueEvents(LeagueSoccer leagueSoccer) {
+    List<EventSoccer> events = new ArrayList<>();
+    fetchRoundEventsByIteratingApi(leagueSoccer, events);
+    return events;
   }
 
-  private void fetchRoundsByIteratingApi(LeagueSoccer leagueSoccer, List<RoundSoccer> rounds) {
+  private void fetchRoundEventsByIteratingApi(LeagueSoccer leagueSoccer, List<EventSoccer> events) {
     for (int roundNumber = 1; true; roundNumber++) {
       RoundSoccerApiDto roundDto = soccerApiCommunication
           .fetchRound(roundNumber, leagueSoccer.getExternalId());
       if (roundDto.getEvents() != null) {
-        RoundSoccer round = convertRoundToEntity(roundDto);
-        round.setRoundNumber(roundNumber);
-        rounds.add(round);
+        roundDto.getEvents().forEach(eventDto -> {
+          if (eventDto.getIsPostponed().equals("yes")) {
+            eventDto.setPostponed(true);
+          }
+          events.add(convertEventToEntity(eventDto));
+        });
       } else {
         break;
       }
     }
   }
 
-  private void setEventsAfterUpdate(LeagueSoccer leagueSoccer, RoundSoccer round,
-      List<EventSoccer> eventSoccerList) {
-    eventSoccerList.forEach(eventSoccer -> {
-      eventSoccer.setId(null);
-      eventSoccer.setLeague(leagueSoccer);
-      eventSoccer.setRound(round);
-      eventSoccer.setTime(eventSoccer.getTime().plusHours(2));
-      eventSoccer.setDateTime(LocalDateTime.of(eventSoccer.getDate(), eventSoccer.getTime()));
+  private void setEventsAfterUpdate(LeagueSoccer leagueSoccer, List<EventSoccer> events) {
+    events.forEach(event -> {
+      event.setLeague(leagueSoccer);
+      event.setTime(event.getTime().plusHours(2));
+      event.setDateTime(LocalDateTime.of(event.getDate(), event.getTime()));
     });
-  }
-
-  private void setRoundAfterUpdate(RoundSoccer round, List<EventSoccer> eventSoccerList,
-      LeagueSoccer leagueSoccer) {
-    round.setEvents(eventSoccerList);
-    round.setLeague(leagueSoccer);
   }
 
   private List<TeamScoreSoccer> fetchLeagueTeams(LeagueSoccer leagueSoccer) {
@@ -147,15 +132,6 @@ public class SoccerUpdateService {
         soccerApiCommunication.fetchLeagueTeams(leagueSoccer));
     teams.forEach(team -> team.setLeague(leagueSoccer));
     return teams;
-  }
-
-  private RoundSoccer convertRoundToEntity(RoundSoccerApiDto roundDto) {
-    roundDto.getEvents().forEach(eventDto -> {
-      if (eventDto.getIsPostponed().equals("yes")) {
-        eventDto.setPostponed(true);
-      }
-    });
-    return modelMapper.map(roundDto, RoundSoccer.class);
   }
 
   private List<TeamScoreSoccer> convertTeamsToEntities(

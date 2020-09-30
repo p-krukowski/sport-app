@@ -16,9 +16,6 @@ public class LeagueSoccer extends League {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
   private List<EventSoccer> events;
 
-  @OneToMany(mappedBy = "league")
-  private List<RoundSoccer> rounds;
-
   //----------Getters&Setters-----------
 
   public Long getExternalId() {
@@ -45,11 +42,4 @@ public class LeagueSoccer extends League {
     this.events = events;
   }
 
-  public List<RoundSoccer> getRounds() {
-    return rounds;
-  }
-
-  public void setRounds(List<RoundSoccer> rounds) {
-    this.rounds = rounds;
-  }
 }
