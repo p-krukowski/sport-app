@@ -149,8 +149,13 @@ public class SoccerUpdateService {
     return teams;
   }
 
-  private RoundSoccer convertRoundToEntity(RoundSoccerApiDto round) {
-    return modelMapper.map(round, RoundSoccer.class);
+  private RoundSoccer convertRoundToEntity(RoundSoccerApiDto roundDto) {
+    roundDto.getEvents().forEach(eventDto -> {
+      if (eventDto.getIsPostponed().equals("yes")) {
+        eventDto.setPostponed(true);
+      }
+    });
+    return modelMapper.map(roundDto, RoundSoccer.class);
   }
 
   private List<TeamScoreSoccer> convertTeamsToEntities(

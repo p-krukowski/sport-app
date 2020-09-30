@@ -18,7 +18,7 @@ public class Event {
   private LocalDate date;
   private LocalTime time;
   private LocalDateTime dateTime;
-  private String postponed;
+  private boolean postponed;
 
   //----------Getters&Setters-----------
 
@@ -38,11 +38,11 @@ public class Event {
     this.name = name;
   }
 
-  public String getPostponed() {
+  public boolean getPostponed() {
     return postponed;
   }
 
-  public void setPostponed(String postponed) {
+  public void setPostponed(boolean postponed) {
     this.postponed = postponed;
   }
 

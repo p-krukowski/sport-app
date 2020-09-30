@@ -1,5 +1,6 @@
 package com.sportapp.demo.models.dtos.sportdata.soccer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,7 +26,9 @@ public class EventSoccerApiDto {
   @JsonProperty("strTime")
   private LocalTime time;
   @JsonProperty("strPostponed")
-  private String postponed;
+  private String isPostponed;
+  @JsonIgnore
+  private boolean postponed;
 
   //----------Getters&Setters-----------
 
@@ -102,11 +105,19 @@ public class EventSoccerApiDto {
     this.time = time;
   }
 
-  public String getPostponed() {
+  public String getIsPostponed() {
+    return isPostponed;
+  }
+
+  public void setIsPostponed(String isPostponed) {
+    this.isPostponed = isPostponed;
+  }
+
+  public boolean isPostponed() {
     return postponed;
   }
 
-  public void setPostponed(String postponed) {
+  public void setPostponed(boolean postponed) {
     this.postponed = postponed;
   }
 }
