@@ -19,13 +19,14 @@ public class EventSoccerGetDto {
   }
 
   public EventSoccerGetDto(String homeTeamName, String awayTeamName, Integer homeScore,
-      Integer awayScore, LocalDate date, LocalTime time) {
+      Integer awayScore, LocalDate date, LocalTime time, LocalDateTime dateTime) {
     this.homeTeamName = homeTeamName;
     this.awayTeamName = awayTeamName;
     this.homeScore = homeScore;
     this.awayScore = awayScore;
     this.date = date;
     this.time = time;
+    this.dateTime = dateTime;
   }
 
   //----------Getters&Setters-----------

@@ -40,4 +40,9 @@ public class ScheduledUpdateService {
   public void updateYesterdayEvents() {
     soccerUpdateService.updateYesterdayEvents();
   }
+
+  @PostConstruct
+  public void updateAllPastEvents() {
+    soccerUpdateService.updateAllPastEvents();
+  }
 }

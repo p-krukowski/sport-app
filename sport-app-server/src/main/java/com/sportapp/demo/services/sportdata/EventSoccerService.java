@@ -54,4 +54,8 @@ public class EventSoccerService {
   public void deleteAllByLeagueId(Long leagueId) {
     eventSoccerRepo.deleteAllByLeagueId(leagueId);
   }
+
+  public List<EventSoccer> findAllUnsetBeforeDate(LocalDate now) {
+    return eventSoccerRepo.findAllUnsetBeforeDate(now);
+  }
 }

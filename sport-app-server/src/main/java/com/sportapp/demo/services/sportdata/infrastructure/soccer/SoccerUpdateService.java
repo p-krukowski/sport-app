@@ -73,6 +73,13 @@ public class SoccerUpdateService {
     eventSoccerService.saveAll(eventSoccerList);
   }
 
+  @Transactional
+  public void updateAllPastEvents() {
+    List<EventSoccer> events = eventSoccerService.findAllUnsetBeforeDate(LocalDate.now());
+    events.forEach(this::updateEvent);
+    eventSoccerService.saveAll(events);
+  }
+
   private void updateEntireLeague(LeagueSoccer leagueSoccer, String fetchedSeason) {
     leagueSoccer = updateLeague(leagueSoccer, fetchedSeason);
     updateLeagueEvents(leagueSoccer);
@@ -122,8 +129,9 @@ public class SoccerUpdateService {
   private void setEventsAfterUpdate(LeagueSoccer leagueSoccer, List<EventSoccer> events) {
     events.forEach(event -> {
       event.setLeague(leagueSoccer);
-      event.setTime(event.getTime().plusHours(2));
-      event.setDateTime(LocalDateTime.of(event.getDate(), event.getTime()));
+      event.setDateTime(LocalDateTime.of(event.getDate(), event.getTime()).plusHours(2));
+      event.setTime(event.getTime());
+      event.setDate(event.getDateTime().toLocalDate());
     });
   }
 
@@ -187,6 +195,9 @@ public class SoccerUpdateService {
     event.setAwayScore(fetchedEvent.getAwayScore());
     event.setHomeScore(fetchedEvent.getHomeScore());
     event.setPostponed(fetchedEvent.getPostponed());
+    event.setDateTime(LocalDateTime.of(fetchedEvent.getDate(), fetchedEvent.getTime()).plusHours(2));
+    event.setTime(event.getDateTime().toLocalTime());
+    event.setDate(event.getDateTime().toLocalDate());
   }
 
   private EventSoccer convertEventToEntity(EventSoccerApiDto eventSoccer) {
