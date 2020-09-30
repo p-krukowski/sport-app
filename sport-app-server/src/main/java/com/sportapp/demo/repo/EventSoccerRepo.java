@@ -19,13 +19,13 @@ public interface EventSoccerRepo extends JpaRepository<EventSoccer, Long> {
       ".EventSoccerGetDto(e.homeTeamName, e.awayTeamName, e.homeScore, e.awayScore, e.date, e.time)"
       +
       " from EventSoccer e" +
-      " where e.league.id = ?1 and e.dateTime < ?2")
+      " where e.league.id = ?1 and e.dateTime < ?2 and e.postponed <> true")
   List<EventSoccerGetDto> findRecentByLeagueId(Long leagueId, LocalDateTime now, Pageable pageable);
 
   @Query("select new com.sportapp.demo.models.dtos.sportdata.soccer.get" +
       ".EventSoccerGetDto(e.homeTeamName, e.awayTeamName, e.homeScore, e.awayScore, e.date, e.time)" +
       " from EventSoccer e" +
-      " where e.league.id = ?1 and e.dateTime >= ?2")
+      " where e.league.id = ?1 and e.dateTime >= ?2 and e.postponed <> true")
   List<EventSoccerGetDto> findNextByLeagueId(Long leagueId, LocalDateTime now, Pageable pageable);
 
   @Query("select new com.sportapp.demo.models.dtos.sportdata.soccer.get" +
