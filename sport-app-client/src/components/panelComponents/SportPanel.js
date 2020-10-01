@@ -80,7 +80,7 @@ class SportPanel extends Component {
         <SportPanelLayout>
           <Card style={{justifyContent: 'flex-start', marginBottom: 0}}>
             {
-              this.props.isAuthenticated ?
+              this.props.isAuthenticated && this.state.leagues.length !== 0 ?
                   <CardHeader>
                     <div>Moje ligi</div>
                     <Button onClick={this.handleModal}>
@@ -89,14 +89,22 @@ class SportPanel extends Component {
                   </CardHeader>
                   :
                   <CardHeader>
-                    <div>Ligi</div>
+                    <div>Wyniki</div>
                   </CardHeader>
             }
 
-            <CardBody style={{alignItems: 'center', padding: '5px', overflow: 'scroll'}}>
+            <CardBody style={{
+              alignItems: 'center',
+              padding: '5px',
+              overflow: 'auto',
+              height: '100%'
+            }}>
               {
                 this.state.leagues.length === 0 ?
-                    <Button>+</Button>
+                    <ButtonAdjusted onClick={this.handleModal}>
+                      <span>+</span><br/>
+                      <span>Dodaj ligi</span>
+                    </ButtonAdjusted>
                     :
                     <>
                       <DDListCustom>
@@ -125,7 +133,8 @@ class SportPanel extends Component {
             </CardBody>
           </Card>
           <LeaguePickModal show={this.state.isModalVisible}
-                           handleModal={this.handleModal}/>
+                           handleModal={this.handleModal}
+                           leagues={this.state.leagues}/>
         </SportPanelLayout>
     );
   }
@@ -148,4 +157,9 @@ const DDListCustom = styled(DDList)`
   @media only screen and (min-width: 786px) {
    width: 45%;
   }
+`
+
+const ButtonAdjusted = styled(Button)`
+  width: 100%;
+  height: 100%;
 `

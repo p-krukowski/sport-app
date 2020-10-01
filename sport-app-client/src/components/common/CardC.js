@@ -39,7 +39,7 @@ const CardBody = styled.div`
   padding: 5px 15px;
   background: none;
   font-size: 1em;
-  overflow-x: scroll;
+  overflow-x: auto;
 `
 
 const CardFoot = styled.div`

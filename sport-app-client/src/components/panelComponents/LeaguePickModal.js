@@ -8,7 +8,11 @@ import {
 } from "../common/Modal";
 import CloseIcon from "@material-ui/icons/Close";
 import Button from "../common/Button";
-import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
+import {
+  getAllLeaguesByDiscipline,
+  setPanelLeagues
+} from "../../util/apiUtils/LeaguesUtils";
+import ButtonActive from "../common/ButtonActive";
 
 class LeaguePickModal extends Component {
   constructor(props) {
@@ -16,8 +20,14 @@ class LeaguePickModal extends Component {
 
     this.state = {
       show: this.props.show,
+      userLeaguesIds: this.props.leagues.length !== 0 ?
+          this.props.leagues.map(this.mapToId) : [],
       leaguesReady: false
     }
+  }
+
+  mapToId(league) {
+    return league.id;
   }
 
   getLeaguesByDiscipline = (discipline) => {
@@ -34,7 +44,27 @@ class LeaguePickModal extends Component {
     this.getLeaguesByDiscipline(discipline);
   }
 
+  handleLeagueButton = (leagueId) => {
+    let leaguesIds = this.state.userLeaguesIds;
+    if (!leaguesIds.includes(leagueId)) {
+      leaguesIds.push(leagueId)
+    } else {
+      for (let i = 0; i < leaguesIds.length; i++) {
+        if (leagueId === leaguesIds[i]) {
+          leaguesIds.splice(i, 1);
+        }
+      }
+    }
+    this.setState({
+      userLeaguesIds: leaguesIds
+    })
+  }
+
   handleSave = () => {
+    setPanelLeagues(this.state.userLeaguesIds)
+    .then(response => {
+      window.location.reload();
+    })
     this.setState({
       leaguesReady: false
     })
@@ -44,14 +74,17 @@ class LeaguePickModal extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.show !== this.props.show) {
       this.setState({
-        show: this.props.show
+        show: this.props.show,
+        userLeaguesIds: this.props.leagues.length !== 0 ?
+            this.props.leagues.map(this.mapToId) : []
       })
     }
   }
 
   render() {
+    const {show, leaguesReady, leagues, userLeaguesIds} = this.state;
     return (
-        this.state.show &&
+        show &&
         <Modal>
           <ModalContent>
             <ModalHeader>
@@ -67,10 +100,11 @@ class LeaguePickModal extends Component {
             </ModalHeader>
             <ModalBody>
               {
-                !this.state.leaguesReady ?
+                !leaguesReady ?
                     <>
-                      <Button onClick={() => this.handleSportButton('soccer')}>Piłka
-                        nożna</Button>
+                      <Button onClick={() => this.handleSportButton('soccer')}>
+                        Piłka nożna
+                      </Button>
                       <Button disabled
                               onClick={this.handleSportButton}>Siatkówka</Button>
                       <Button disabled
@@ -81,14 +115,25 @@ class LeaguePickModal extends Component {
                         Walki</Button>
                     </>
                     :
-                    this.state.leagues.map(league => (
-                        <Button key={league.id}>{league.name}</Button>
+                    leagues.map(league => (
+                        userLeaguesIds.includes(league.id) ?
+                            <ButtonActive key={league.id}
+                                          onClick={() => this.handleLeagueButton(
+                                              league.id)}>
+                              {league.name}
+                            </ButtonActive>
+                            :
+                            <Button key={league.id}
+                                    onClick={() => this.handleLeagueButton(
+                                        league.id)}>
+                              {league.name}
+                            </Button>
                     ))
               }
             </ModalBody>
             <ModalFoot>
               {
-                this.state.leaguesReady &&
+                leaguesReady &&
                 <Button onClick={() => this.setState({leaguesReady: false})}>
                   Wróć
                 </Button>

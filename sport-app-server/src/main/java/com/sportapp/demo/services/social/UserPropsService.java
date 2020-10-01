@@ -5,12 +5,11 @@ import com.sportapp.demo.models.social.UserProps;
 import com.sportapp.demo.models.sportdata.League;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.repo.UserPropsRepo;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserPropsService {
