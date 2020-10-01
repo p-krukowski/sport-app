@@ -6,13 +6,7 @@ import SportDataCard from "./SportDataCard";
 import LeaguePickModal from "./LeaguePickModal";
 import {fetchUserLeagues} from "../../util/apiUtils/UserUtils";
 import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
-import {
-  DDList,
-  DDListOption,
-  DDListOptions,
-  DDListSelected
-} from "../common/DropdownList";
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import LeaguesDDList from "./LeaguesDDList";
 
 class SportPanel extends Component {
   constructor(props) {
@@ -58,15 +52,8 @@ class SportPanel extends Component {
   }
 
   setLeague = (league) => {
-    this.handleList();
     this.setState({
       league: league
-    })
-  }
-
-  handleList = () => {
-    this.setState({
-      showDDList: !this.state.showDDList
     })
   }
 
@@ -93,12 +80,7 @@ class SportPanel extends Component {
                   </CardHeader>
             }
 
-            <CardBody style={{
-              alignItems: 'center',
-              padding: '5px',
-              overflow: 'auto',
-              height: '100%'
-            }}>
+            <CardBodySportPanel>
               {
                 this.state.leagues.length === 0 ?
                     <ButtonAdjusted onClick={this.handleModal}>
@@ -107,30 +89,16 @@ class SportPanel extends Component {
                     </ButtonAdjusted>
                     :
                     <>
-                      <DDListCustom>
-                        <DDListSelected onClick={this.handleList}>
-                          <span>{this.state.league.name}</span>
-                          <ArrowDropDownIcon/>
-                        </DDListSelected>
-                        <DDListOptions>
-                          {
-                            this.state.showDDList &&
-                            this.state.leagues.map(league => (
-                                <DDListOption key={league.id}
-                                              onClick={() => this.setLeague(
-                                                  league)}>
-                                  {league.name}
-                                </DDListOption>
-                            ))
-                          }
-                        </DDListOptions>
-                      </DDListCustom>
+                      <LeaguesDDList league={this.state.league}
+                                     showDDList={this.state.showDDList}
+                                     leagues={this.state.leagues}
+                                     setLeague={this.setLeague}/>
                       <SportDataCard {...this.props}
                                      league={this.state.league}/>
                     </>
               }
 
-            </CardBody>
+            </CardBodySportPanel>
           </Card>
           <LeaguePickModal show={this.state.isModalVisible}
                            handleModal={this.handleModal}
@@ -151,15 +119,14 @@ const SportPanelLayout = styled.div`
   }
 `
 
-const DDListCustom = styled(DDList)`
-  width: 100%;
-  
-  @media only screen and (min-width: 786px) {
-   width: 45%;
-  }
-`
-
 const ButtonAdjusted = styled(Button)`
   width: 100%;
+  height: 100%;
+`
+
+const CardBodySportPanel = styled(CardBody)`
+  align-items: center;
+  padding: 5px;
+  overflow: auto;
   height: 100%;
 `

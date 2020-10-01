@@ -5,7 +5,7 @@ const TableCustom = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 1em;
-  overflow: scroll;
+  overflow: auto;
 `
 
 const THead = styled.div`

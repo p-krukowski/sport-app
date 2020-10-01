@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import Badge from "react-bootstrap/Badge";
 import {theme} from "../../util/theme";
+import {Spinner} from "react-bootstrap";
 
 class EventSoccer extends Component {
   constructor(props) {
@@ -20,13 +21,40 @@ class EventSoccer extends Component {
         event: {
           ...this.props.event,
           homeScore: '-',
-          awayScore: '-'
+          awayScore: '-',
+          date: this.setDate()
         }
       })
     } else {
       this.setState({
-        event: this.props.event
+        event: {
+          ...this.props.event,
+          date: this.setDate()
+        }
       })
+    }
+  }
+
+  setDate() {
+    const now = new Date();
+    let tomorrow = new Date(now);
+    tomorrow.setDate(now.getDate() + 1);
+    let yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+    const eventDate = new Date(this.props.event.dateTime);
+    let eventEndDate = new Date(eventDate);
+    eventEndDate.setMinutes(eventEndDate.getMinutes() + 105);
+
+    if (now > eventDate && now < eventEndDate) {
+      return 'Trwa';
+    } else if (now.getDate() === eventDate.getDate()) {
+      return 'Dzisiaj';
+    } else if (yesterday.getDate() === eventDate.getDate()) {
+      return 'Wczoraj';
+    } else if (tomorrow.getDate() === eventDate.getDate()) {
+      return 'Jutro';
+    } else {
+      return this.props.event.date;
     }
   }
 
@@ -35,7 +63,7 @@ class EventSoccer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps !== this.props) {
+    if (prevProps.event !== this.props.event) {
       this.setEvent();
     }
   }
@@ -45,10 +73,14 @@ class EventSoccer extends Component {
 
     return (
         <EventSoccerLayout>
-          <Badge pill variant="light"
-                 style={{fontSize: '1em'}}>
-            {event.date}, {event.time}
-          </Badge>
+          <BadgeCustom pill variant="light">
+            <span style={{marginRight: '0.5em'}}>{event.date},</span>
+            <span style={{marginRight: '0.5em'}}>{event.time}</span>
+            {
+              event.date === 'Trwa' &&
+              <Spinner variant="success" animation="grow" size="sm" />
+            }
+          </BadgeCustom>
           <ResultRow>
             <TeamNameDiv style={{textAlign: 'right'}}>
               {event.homeTeamName}
@@ -102,4 +134,11 @@ const TeamNameDiv = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   margin: 0;
+`
+
+const BadgeCustom = styled(Badge)`
+  font-size: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `

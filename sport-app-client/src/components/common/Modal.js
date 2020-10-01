@@ -12,7 +12,7 @@ const Modal = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.9);
 `
 
 const ModalContent = styled.div`
