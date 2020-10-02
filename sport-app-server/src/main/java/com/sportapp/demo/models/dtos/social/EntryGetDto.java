@@ -12,13 +12,14 @@ public class EntryGetDto {
   private int commentsAmount;
   private String imageUrl;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
   private LocalDateTime createdAt;
 
   public EntryGetDto() {
   }
 
-  public EntryGetDto(Long id, String value, int score, LocalDateTime createdAt) {
+  public EntryGetDto(AuthorDto author, Long id, String value, int score, LocalDateTime createdAt) {
+    this.author = author;
     this.id = id;
     this.value = value;
     this.score = score;

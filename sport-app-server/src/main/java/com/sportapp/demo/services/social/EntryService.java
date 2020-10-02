@@ -1,6 +1,5 @@
 package com.sportapp.demo.services.social;
 
-import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.dtos.social.EntryPostDto;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.Tag;
@@ -71,9 +70,9 @@ public class EntryService {
         .orElseThrow(() -> new NullPointerException("Entry not found"));
   }
 
-  public List<EntryGetDto> findBest() {
+  public List<Entry> findBest() {
     return entryRepo.findBest(PageRequest.of(
-        0, 3, Sort.by(Sort.Direction.DESC, "createdAt", "score")));
+        0, 5, Sort.by(Sort.Direction.DESC, "createdAt", "score")));
   }
 
   public Entry save(Entry entry) {

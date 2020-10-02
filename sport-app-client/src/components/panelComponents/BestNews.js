@@ -1,19 +1,29 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import {theme} from "../../util/theme";
+import LinkBlank from "../common/LinkBlank";
+import {Badge} from "react-bootstrap";
 
 class BestNews extends Component {
   render() {
+    const news = this.props.news;
     return (
         <BestNewsLayout>
-          <Image src={this.props.news.imageUrl}
-                 alt="Brak zdjęcia"/>
-          <ContentDiv>
-            <Title>
-              {this.props.news.title}
-            </Title>
-            {this.props.news.createdAt}
-          </ContentDiv>
+          <LinkBlank to={"/newsy/" + news.id}>
+            <Image src={news.imageUrl}
+                   alt="Brak zdjęcia"/>
+            <ContentDiv>
+              <Title>
+                {news.title}
+              </Title>
+              <Info>
+                <span>{news.createdAt}</span>
+                <Badge variant="light" style={{fontSize: '0.85em'}}>
+                  @{news.authorName}
+                </Badge>
+              </Info>
+            </ContentDiv>
+          </LinkBlank>
         </BestNewsLayout>
     );
   }
@@ -30,6 +40,12 @@ const BestNewsLayout = styled.div`
   @media only screen and (min-width: 768px) {
     border-radius: 0;
     height: 100%;
+    transition: transform .1s;
+    
+    :hover {
+      transform: scale(1.03);
+      z-index: 2;
+    }
   }
 `
 
@@ -51,16 +67,34 @@ const ContentDiv = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   padding: 0.3em;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  
+  @media only screen and (min-width: 786px) {
+    border-radius: 0;
+  }
 `
 
 const Title = styled.div`
-  display: flex;
+  display: block;
   font-weight: ${theme.font.bold};
-  margin-bottom: 0.3em;  
+  margin-bottom: 0.3em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
     
   @media only screen and (min-width: 768px) {
-    font-size: 1.5em;
+    font-size: 1.4em;
   }
+`
+
+const Info = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 `

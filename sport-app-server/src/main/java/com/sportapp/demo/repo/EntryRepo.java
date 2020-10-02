@@ -1,6 +1,5 @@
 package com.sportapp.demo.repo;
 
-import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.EntryComment;
 import java.util.List;
@@ -20,9 +19,8 @@ public interface EntryRepo extends CrudRepository<Entry, Long> {
 
   List<Entry> findAll();
 
-  @Query("select new com.sportapp.demo.models.dtos.social." +
-      "EntryGetDto(e.id, e.value, e.score, e.createdAt) from Entry e")
-  List<EntryGetDto> findBest(Pageable pageable);
+  @Query("select e from Entry e")
+  List<Entry> findBest(Pageable pageable);
 
   @Query("select e.comments from Entry e"
       + " where e.id = ?1")

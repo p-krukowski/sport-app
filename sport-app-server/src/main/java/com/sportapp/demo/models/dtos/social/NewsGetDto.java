@@ -15,7 +15,7 @@ public class NewsGetDto {
     private String description;
     private String link;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createdAt;
 
     public NewsGetDto() {

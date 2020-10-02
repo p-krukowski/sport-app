@@ -115,7 +115,7 @@ const SportPanelLayout = styled.div`
   position: relative;
   
   @media only screen and (min-width: 768px) {
-    width: 35%;
+    width: 40%;
   }
 `
 

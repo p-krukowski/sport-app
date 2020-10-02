@@ -12,11 +12,6 @@ class BestEntries extends Component {
                         <EntryPanel key={entry.id} isAuthenticated={false} entry={entry}/>
                     ))
                 }
-                {
-                    this.props.entries.map((entry) => (
-                        <EntryPanel key={entry.id} isAuthenticated={false} entry={entry}/>
-                    ))
-                }
             </BestEntriesLayout>
         );
     }
@@ -29,6 +24,7 @@ const BestEntriesLayout = styled.div`
   flex-direction: column;
   width: 100%;
   margin-top: 10px;
+  padding-right: 5px;
   
   @media only screen and (min-width: 768px) {
     overflow: auto;

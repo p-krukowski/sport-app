@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+//TODO: refactor
 @RestController
 @RequestMapping("/entries")
 public class EntryController {
@@ -58,7 +58,8 @@ public class EntryController {
 
   @GetMapping("/best")
   public List<EntryGetDto> fetchBestEntries() {
-    return entryService.findBest();
+    List<Entry> entries = entryService.findBest();
+    return convertToDto(entries);
   }
 
   private List<EntryGetDto> convertToDto(List<Entry> entries) {

@@ -75,7 +75,7 @@ const SocialPanelLayout = styled.div`
   @media only screen and (min-width: 768px) {
     margin-right: 10px;
     margin-top: 0;
-    width: 65%;
+    width: 60%;
   }
 `
 
@@ -85,12 +85,13 @@ const NewsPanel = styled.div`
   
   @media only screen and (min-width: 768px) {
     flex-direction: row;
-    height: 55%;
+    height: 60%;
   }
 `
 const BestNewsColumn = styled.div`
   @media only screen and (min-width: 768px) {
     width: 70%;
+    margin-right: 3px;
   }  
 `
 const NextNewsColumn = styled.div`
