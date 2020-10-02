@@ -26,7 +26,7 @@ public class Post extends DateAudit {
     @ManyToOne
     private User author;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<User> upvoters;
 
     //----------Getters&Setters-----------

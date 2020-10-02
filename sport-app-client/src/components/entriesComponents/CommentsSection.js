@@ -4,6 +4,7 @@ import NewComment from "./NewComment";
 import AllComments from "./AllComments";
 import Button from "../common/Button";
 import {getComments} from "../../util/apiUtils/CommentUtils";
+import ToastCustom from "../common/Toast";
 
 const showCommentsText = "Pokaż komentarze";
 const hideCommentsText = "Ukryj komentarze";
@@ -15,18 +16,11 @@ class CommentsSection extends Component {
     this.state = {
       showComments: false,
       buttonText: showCommentsText,
+      commentsAmount: this.props.commentsAmount,
       showNewComment: false,
-      commentsAmount: this.props.commentsAmount
+      showToast: true
     }
   }
-
-  setShowComments = (b) => {
-    if (b) {
-      this.showComments();
-    } else {
-      this.hideComments();
-    }
-  };
 
   showComments = () => {
     this.updateComments();
@@ -52,27 +46,32 @@ class CommentsSection extends Component {
   };
 
   handleComment = () => {
-    if (this.state.showNewComment) {
-      this.setState({
-        showNewComment: false
-      });
-    } else {
-      this.setState({
-        showNewComment: true
-      });
-      if (!this.state.showComments) {
-        this.showComments(true);
-      }
-    }
+    this.showComments();
+    this.setState({
+      showNewComment: !this.state.showNewComment
+    })
+  }
+
+  showToast = () => {
+    this.setState({
+      showToast: true
+    })
+  }
+
+  hideToast = () => {
+    this.setState({
+      showToast: false
+    })
   }
 
   render() {
+    const {showComments, buttonText, commentsAmount, showNewComment, comments, } = this.state;
     return (
         <CommentsSectionLayout>
           <CommentsSectionOptions>
             <Button
-                onClick={() => this.setShowComments(!this.state.showComments)}>
-              {this.state.buttonText} ({this.state.commentsAmount})
+                onClick={showComments ? this.hideComments : this.showComments}>
+              {buttonText} ({commentsAmount})
             </Button>
             {
               this.props.isAuthenticated &&
@@ -81,17 +80,26 @@ class CommentsSection extends Component {
               </Button>
             }
           </CommentsSectionOptions>
+          <NewComment entryId={this.props.entryId}
+                      updateComments={this.updateComments}
+                      show={showNewComment}
+                      showToast={this.showToast}
+          />
           {
-            this.state.showNewComment &&
-            <NewComment entryId={this.props.entryId}
-                        updateComments={this.updateComments}
-                        hideNewComment={this.handleComment}
-            />
+            showComments &&
+            <AllComments comments={comments}/>
           }
-          {
-            this.state.showComments &&
-            <AllComments comments={this.state.comments}/>
-          }
+
+          <ToastCustom show={this.state.showToast}
+                 onClose={this.hideToast}
+                 delay={10000}
+                 autohide>
+            <ToastCustom.Header>
+              <strong className="mr-auto">SportApp</strong>
+              <small>teraz</small>
+            </ToastCustom.Header>
+            <ToastCustom.Body>Dodano komentarz</ToastCustom.Body>
+          </ToastCustom>
         </CommentsSectionLayout>
     );
   }

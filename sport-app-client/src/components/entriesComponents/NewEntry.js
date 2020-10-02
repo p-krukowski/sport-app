@@ -8,8 +8,8 @@ import FormatQuoteIcon from '@material-ui/icons/FormatQuote';
 import InsertLinkIcon from '@material-ui/icons/InsertLink';
 import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
-import {Toast} from "react-bootstrap";
 import {addEntry} from "../../util/apiUtils/EntriesUtils";
+import ToastCustom from "../common/Toast";
 
 class NewEntry extends Component {
   constructor(props) {
@@ -107,24 +107,16 @@ class NewEntry extends Component {
             </InputButton>
           </Options>
 
-          <Toast show={this.state.showToast}
+          <ToastCustom show={this.state.showToast}
                  onClose={this.hideToast}
                  delay={10000}
-                 autohide
-                 style={{
-                   position: 'fixed',
-                   bottom: '10px',
-                   left: '10px',
-                   width: '12%',
-                   color: 'black',
-                   zIndex: 2
-                 }}>
-            <Toast.Header>
+                 autohide>
+            <ToastCustom.Header style={{color: 'white', background: theme.colors.navbar}}>
               <strong className="mr-auto">SportApp</strong>
               <small>teraz</small>
-            </Toast.Header>
-            <Toast.Body>Dodano wpis</Toast.Body>
-          </Toast>
+            </ToastCustom.Header>
+            <ToastCustom.Body>Dodano wpis</ToastCustom.Body>
+          </ToastCustom>
         </NewEntryLayout>
     );
   }
@@ -202,7 +194,7 @@ const TextEdition = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
 `
 
 const InputButton = styled.button`

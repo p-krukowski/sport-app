@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Card, CardBody, CardHeader} from "../common/CardC";
-import Button from "../common/Button";
-import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import styled from "styled-components";
 
 class Entry extends Component {

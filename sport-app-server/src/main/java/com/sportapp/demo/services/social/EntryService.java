@@ -1,36 +1,43 @@
 package com.sportapp.demo.services.social;
 
+import com.sportapp.demo.models.dtos.social.EntryGetDto;
 import com.sportapp.demo.models.dtos.social.EntryPostDto;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.Tag;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryRepo;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.stream.Collectors;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EntryService {
 
+  private final ModelMapper modelMapper;
   private final EntryRepo entryRepo;
   private final UserService userService;
   private final TagService tagService;
 
-  @Autowired
-  public EntryService(EntryRepo entryRepo, UserService userService, TagService tagService) {
+  public EntryService(EntryRepo entryRepo, UserService userService, TagService tagService,
+      ModelMapper modelMapper) {
     this.entryRepo = entryRepo;
     this.userService = userService;
     this.tagService = tagService;
+    this.modelMapper = modelMapper;
   }
 
-  public List<Entry> fetchAllEntriesSorted(int page) {
+  public List<EntryGetDto> fetchAllEntriesDtoSorted(int page) {
     page = page < 1 ? 0 : page - 1;
-    return new ArrayList<>(entryRepo.findAll(PageRequest.of(page, 20,
-        Sort.by(Sort.Direction.DESC, "createdAt"))));
+    List<Entry> entries = entryRepo.findAll(PageRequest.of(
+        page, 20, Sort.by(Sort.Direction.DESC, "createdAt")));
+    return convertToDto(entries);
   }
 
   public void addEntry(EntryPostDto entryPostDto, Long userId) {
@@ -43,26 +50,10 @@ public class EntryService {
     entryRepo.save(entry);
   }
 
+  @Transactional
   public int upvoteEntry(Long entryId, User user) {
     Optional<Entry> entryOptional = entryRepo.findByIdWithUpvoters(entryId);
-    if (entryOptional.isPresent()) {
-      return updateUpvoters(entryOptional, user);
-    } else {
-      return 0;
-    }
-  }
-
-  private int updateUpvoters(Optional<Entry> entryOptional, User user) {
-    Entry entry = entryOptional.get();
-    List<User> likers = entry.getUpvoters();
-    if (likers.contains(user)) {
-      likers.remove(user);
-    } else {
-      likers.add(user);
-    }
-    entry.setScore(likers);
-    entryRepo.save(entry);
-    return entry.getUpvoters().size();
+    return entryOptional.map(entry -> updateUpvoters(entry, user)).orElse(0);
   }
 
   public Entry findEntryById(Long entryId) {
@@ -70,9 +61,10 @@ public class EntryService {
         .orElseThrow(() -> new NullPointerException("Entry not found"));
   }
 
-  public List<Entry> findBest() {
-    return entryRepo.findBest(PageRequest.of(
+  public List<EntryGetDto> findBestEntriesDto() {
+    List<Entry> entries = entryRepo.findBest(PageRequest.of(
         0, 5, Sort.by(Sort.Direction.DESC, "createdAt", "score")));
+    return convertToDto(entries);
   }
 
   public Entry save(Entry entry) {
@@ -81,5 +73,32 @@ public class EntryService {
 
   public Entry findEntryByIdWithComments(Long entryId) {
     return entryRepo.findEntryByIdWithComments(entryId);
+  }
+
+  private int updateUpvoters(Entry entry, User user) {
+    List<Long> upvoters = entry.getUpvoters().stream()
+        .map(User::getId)
+        .collect(Collectors.toList());
+    if (upvoters.contains(user.getId())) {
+      entry.setUpvoters(entry.getUpvoters().stream()
+          .filter(upvoter -> !upvoter.getId().equals(user.getId()))
+          .collect(Collectors.toList()));
+    } else {
+      entry.getUpvoters().add(user);
+    }
+    entry.setScore(entry.getUpvoters().size());
+    return entryRepo.save(entry).getUpvoters().size();
+  }
+
+  private List<EntryGetDto> convertToDto(List<Entry> entries) {
+    Type typeMap = new TypeToken<List<EntryGetDto>>() {
+    }.getType();
+    List<EntryGetDto> entriesDto = modelMapper.map(entries, typeMap);
+    for (int i = 0; i < entries.size(); i++) {
+      entriesDto.get(i).setCommentsAmount(
+          entries.get(i).getComments().size()
+      );
+    }
+    return entriesDto;
   }
 }

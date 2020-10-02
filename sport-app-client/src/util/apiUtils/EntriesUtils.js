@@ -27,7 +27,7 @@ export function addEntry(entry) {
 
 export function addPointToEntry(entryId) {
     return request({
-        url: componentUrl + "/" + entryId + "/like",
+        url: componentUrl + "/" + entryId + "/upvote",
         method: 'POST',
         data: entryId
     });
