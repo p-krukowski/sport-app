@@ -8,6 +8,7 @@ import FormatItalicIcon from "@material-ui/icons/FormatItalic";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import InsertLinkIcon from "@material-ui/icons/InsertLink";
+import {InputTextArea, InputUrl} from "../common/Input";
 
 class NewComment extends Component {
   constructor(props) {
@@ -132,38 +133,18 @@ const CommentInputSection = styled.div`
   flex-grow: 1;
 `
 
-const CommentInput = styled.textarea`
-  border: none;
+const CommentInput = styled(InputTextArea)`
   min-height: 6rem;
-  display: flex;
-  height: 100%;
-  border-radius: 5px;
-  padding: 10px;
   background: ${theme.colors.background};
-  
-  :focus {
-    outline: none;
-    background: ${theme.colors.background};
-    border: none;
-    color: white;
-  }
-  
+    
   @media only screen and (min-width: 768px) {
     margin-right: 10px;
   }
 `
 
-const ImageUrlInput = styled.input`
-  border: none;
-  border-radius: 5px;
+const ImageUrlInput = styled(InputUrl)`
   margin: 5px 0;
-  padding: 10px;
-  background: ${theme.colors.background};
-  
-  :focus {
-    outline: none;
-    color: white;
-  }
+  resize: none;
   
   @media only screen and (min-width: 768px) {
     margin: 10px 10px 0 0;

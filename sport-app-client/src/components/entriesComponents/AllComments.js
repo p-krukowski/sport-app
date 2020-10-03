@@ -10,7 +10,8 @@ class AllComments extends Component {
           {
             this.props.comments.map(comment => (
                 <EntryComment key={comment.id}
-                              comment={comment}/>
+                              comment={comment}
+                              isAuthenticated={this.props.isAuthenticated}/>
             ))
           }
         </AllCommentsLayout>

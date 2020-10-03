@@ -10,6 +10,7 @@ import FormatBoldIcon from '@material-ui/icons/FormatBold';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import {addEntry} from "../../util/apiUtils/EntriesUtils";
 import ToastCustom from "../common/Toast";
+import {InputTextArea, InputUrl} from "../common/Input";
 
 class NewEntry extends Component {
   constructor(props) {
@@ -145,38 +146,18 @@ const EntryInputSection = styled.div`
   flex-grow: 1;
 `
 
-const EntryInput = styled.textarea`
-  border: none;
+const EntryInput = styled(InputTextArea)`
   min-height: 6rem;
-  display: flex;
-  height: 100%;
-  border-radius: 5px;
-  padding: 10px;
   background: ${theme.colors.background};
-  
-  :focus {
-    outline: none;
-    background: ${theme.colors.background};
-    border: none;
-    color: white;
-  }
-  
+    
   @media only screen and (min-width: 768px) {
     margin-right: 10px;
   }
 `
 
-const ImageUrlInput = styled.input`
-  border: none;
-  border-radius: 5px;
+const ImageUrlInput = styled(InputUrl)`
   margin: 5px 0;
-  padding: 10px;
-  background: ${theme.colors.background};
-  
-  :focus {
-    outline: none;
-    color: white;
-  }
+  resize: none;
   
   @media only screen and (min-width: 768px) {
     margin: 10px 10px 0 0;

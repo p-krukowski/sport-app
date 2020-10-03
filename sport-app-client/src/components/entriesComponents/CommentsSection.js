@@ -65,7 +65,7 @@ class CommentsSection extends Component {
   }
 
   render() {
-    const {showComments, buttonText, commentsAmount, showNewComment, comments, } = this.state;
+    const {showComments, buttonText, commentsAmount, showNewComment, comments} = this.state;
     return (
         <CommentsSectionLayout>
           <CommentsSectionOptions>
@@ -86,7 +86,8 @@ class CommentsSection extends Component {
                       showToast={this.showToast}/>
           {
             showComments &&
-            <AllComments comments={comments}/>
+            <AllComments comments={comments}
+                         isAuthenticated={this.props.isAuthenticated}/>
           }
 
           <ToastCustom show={this.state.showToast}

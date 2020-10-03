@@ -2,20 +2,9 @@ import React, {Component} from 'react';
 import {Card, CardBody, CardHeader} from "../common/CardC";
 import styled from "styled-components";
 import {dateTimeToWords} from "../../util/timeFormat";
+import {formatText} from "../../util/textFormat";
 
 class Entry extends Component {
-
-  formatText(text) {
-    let textArray = text.split(' ');
-    let newTextArray = "";
-    for (let word of textArray) {
-      if (word.match("[#]{1}[\\w]{3,}")) {
-        word = word.bold();
-      }
-      newTextArray = newTextArray.concat(" ", word);
-    }
-    return {__html: newTextArray};
-  }
 
   render() {
     const {entry} = this.props;
@@ -29,7 +18,7 @@ class Entry extends Component {
             <div style={{margin: "0 5px 0 auto"}}>{entry.score}</div>
           </CardHeader>
           <CardBody>
-            <div dangerouslySetInnerHTML={this.formatText(entry.value)}/>
+            <div dangerouslySetInnerHTML={formatText(entry.value)}/>
             {
               entry.imageUrl !== null &&
               <>

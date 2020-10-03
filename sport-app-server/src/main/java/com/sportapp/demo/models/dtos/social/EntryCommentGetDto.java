@@ -9,21 +9,10 @@ public class EntryCommentGetDto {
     private String value;
     private AuthorDto author;
     private int score;
+    private String imageUrl;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createdAt;
-
-    public EntryCommentGetDto() {
-    }
-
-    public EntryCommentGetDto(Long id, String value, AuthorDto author, int score,
-        LocalDateTime createdAt) {
-        this.id = id;
-        this.value = value;
-        this.author = author;
-        this.score = score;
-        this.createdAt = createdAt;
-    }
 
     public Long getId() {
         return id;
@@ -63,5 +52,13 @@ public class EntryCommentGetDto {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

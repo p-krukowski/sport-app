@@ -8,6 +8,7 @@ import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import Button from "../common/Button";
 import {dateTimeToWords} from "../../util/timeFormat";
+import {formatText} from "../../util/textFormat";
 
 class Entry extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Entry extends Component {
     };
   }
 
-  handleAddButton = (entryId) => {
+  handleUpvoteButton = (entryId) => {
     addPointToEntry(entryId)
     .then(response => {
       this.setState({
@@ -33,18 +34,6 @@ class Entry extends Component {
       alert("Błąd serwera");
     });
   };
-
-  formatText(text) {
-    let textArray = text.split(' ');
-    let newTextArray = "";
-    for (let word of textArray) {
-      if (word.match("[#]{1}[\\w]{3,}")) {
-        word = word.bold();
-      }
-      newTextArray = newTextArray.concat(" ", word);
-    }
-    return {__html: newTextArray};
-  }
 
   handleClick = () => {
     this.setState({
@@ -74,18 +63,18 @@ class Entry extends Component {
         <Card>
           <CardHeader style={{fontSize: '1rem'}}>
             <b style={{marginRight: '7px'}}>{entry.author.username}</b>
-            {entryTime}
-            <div style={{margin: "0 5px 0 auto"}}>{entry.score}</div>
+            <span>{entryTime}</span>
+            <div style={{marginLeft: 'auto'}}>{entry.score}</div>
             {
               this.props.isAuthenticated &&
-              <Button onClick={() => this.handleAddButton(
-                  entry.id)}>
+              <Button onClick={() =>
+                  this.handleUpvoteButton(entry.id)}>
                 <ArrowDropUpIcon />
               </Button>
             }
           </CardHeader>
           <CardBody >
-             <div dangerouslySetInnerHTML={this.formatText(entry.value)}/>
+             <div dangerouslySetInnerHTML={formatText(entry.value)}/>
             {
               entry.imageUrl !== null &&
               <>

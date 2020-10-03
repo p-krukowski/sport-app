@@ -5,7 +5,7 @@ const componentUrl = API_BASE_URL + '/';
 
 export function addComment(commentValue, entryId) {
     return request({
-        url: componentUrl + 'entry/' + entryId + "/comments",
+        url: componentUrl + 'entry/' + entryId + "/comments/new",
         method: 'POST',
         data: commentValue
     });
@@ -22,5 +22,12 @@ export function getCommentsByNewsId(newsId) {
     return request({
         url: componentUrl + 'news/' + newsId + "/comments",
         method: 'GET'
+    });
+}
+
+export function addPointToComment(commentId) {
+    return request({
+        url: componentUrl + 'entry/' + commentId + "/upvote",
+        method: 'PATCH'
     });
 }

@@ -15,11 +15,11 @@ import org.modelmapper.TypeToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 //TODO: refactor
 @RestController
@@ -37,7 +37,7 @@ public class EntryCommentController {
     this.entryService = entryService;
   }
 
-  @PostMapping("/{entryId}/comments")
+  @PostMapping("/{entryId}/comments/new")
   @PreAuthorize("isAuthenticated()")
   public HttpStatus addComment(@PathVariable Long entryId,
       @Valid @RequestBody EntryCommentPostDto entryCommentPostDto, @CurrentUser User currentUser) {
@@ -47,10 +47,15 @@ public class EntryCommentController {
   }
 
   @GetMapping("/{entryId}/comments")
-  @ResponseBody
   public List<EntryCommentGetDto> fetchAllComments(@PathVariable Long entryId) {
     List<EntryComment> comments = entryCommentService.findAllByEntryId(entryId);
     return convertToDto(comments);
+  }
+
+  @PatchMapping("/{commentId}/upvote")
+  @PreAuthorize("isAuthenticated()")
+  public int upvoteComment(@PathVariable Long commentId, @CurrentUser User currentUser) {
+    return entryCommentService.upvoteEntry(commentId, currentUser);
   }
 
   private List<EntryCommentGetDto> convertToDto(List<EntryComment> comments) {
