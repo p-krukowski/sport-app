@@ -7,6 +7,7 @@ import {ImageModal, ImageModalContent} from "../common/ImageModal";
 import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import Button from "../common/Button";
+import {dateTimeToWords} from "../../util/timeFormat";
 
 class Entry extends Component {
   constructor(props) {
@@ -67,12 +68,13 @@ class Entry extends Component {
 
   render() {
     const {entry} = this.state;
+    const entryTime = dateTimeToWords(entry.createdAt);
 
     return (
         <Card>
           <CardHeader style={{fontSize: '1rem'}}>
             <b style={{marginRight: '7px'}}>{entry.author.username}</b>
-            {entry.createdAt}
+            {entryTime}
             <div style={{margin: "0 5px 0 auto"}}>{entry.score}</div>
             {
               this.props.isAuthenticated &&

@@ -49,7 +49,7 @@ const AllNewsPageLayout = styled.div`
   flex-direction: column;
   
   @media only screen and (min-width: 768px) {
-    width: 55%;
+    width: 50%;
     max-width: 850px;
     margin: 0 auto;
   }

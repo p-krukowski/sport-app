@@ -3,10 +3,13 @@ import styled from "styled-components";
 import {theme} from "../../util/theme";
 import LinkBlank from "../common/LinkBlank";
 import {Badge} from "react-bootstrap";
+import {dateTimeToWords} from "../../util/timeFormat";
 
 class BestNews extends Component {
   render() {
     const news = this.props.news;
+    const newsTime = dateTimeToWords(news.createdAt);
+
     return (
         <BestNewsLayout>
           <LinkBlank to={"/newsy/" + news.id}>
@@ -17,7 +20,7 @@ class BestNews extends Component {
                 {news.title}
               </Title>
               <Info>
-                <span>{news.createdAt}</span>
+                <span>{newsTime}</span>
                 <Badge variant="light" style={{fontSize: '0.85em'}}>
                   @{news.authorName}
                 </Badge>

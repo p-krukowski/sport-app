@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card, CardBody, CardHeader} from "../common/CardC";
 import styled from "styled-components";
+import {dateTimeToWords} from "../../util/timeFormat";
 
 class Entry extends Component {
 
@@ -18,12 +19,13 @@ class Entry extends Component {
 
   render() {
     const {entry} = this.props;
+    const entryTime = dateTimeToWords(entry.createdAt);
 
     return (
         <Card>
           <CardHeader style={{fontSize: '1rem'}}>
             <b style={{marginRight: '7px'}}>{entry.author.username}</b>
-            {entry.createdAt}
+            {entryTime}
             <div style={{margin: "0 5px 0 auto"}}>{entry.score}</div>
           </CardHeader>
           <CardBody>

@@ -18,7 +18,7 @@ class CommentsSection extends Component {
       buttonText: showCommentsText,
       commentsAmount: this.props.commentsAmount,
       showNewComment: false,
-      showToast: true
+      showToast: false
     }
   }
 
@@ -83,8 +83,7 @@ class CommentsSection extends Component {
           <NewComment entryId={this.props.entryId}
                       updateComments={this.updateComments}
                       show={showNewComment}
-                      showToast={this.showToast}
-          />
+                      showToast={this.showToast}/>
           {
             showComments &&
             <AllComments comments={comments}/>

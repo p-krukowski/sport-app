@@ -1,6 +1,5 @@
 package com.sportapp.demo.models.dtos.social;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 
 public class EntryGetDto {
@@ -12,7 +11,6 @@ public class EntryGetDto {
   private int commentsAmount;
   private String imageUrl;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
   private LocalDateTime createdAt;
 
   public EntryGetDto() {

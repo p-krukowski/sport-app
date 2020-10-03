@@ -10,7 +10,7 @@ public class EntryCommentGetDto {
     private AuthorDto author;
     private int score;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm")
     private LocalDateTime createdAt;
 
     public EntryCommentGetDto() {
