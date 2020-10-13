@@ -7,12 +7,14 @@ import Button from "../common/Button";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import {addPointToComment} from "../../util/apiUtils/CommentUtils";
 import {formatText} from "../../util/textFormat";
+import {ImageModal, ImageModalContent} from "../common/ImageModal";
 
 class EntryComment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      comment: this.props.comment
+      comment: this.props.comment,
+      showImageModal: false
     }
   }
 
@@ -31,8 +33,28 @@ class EntryComment extends Component {
     });
   };
 
+  handleClick = () => {
+    this.setState({
+      showImageModal: false
+    })
+  }
+
+  showImageModal = () => {
+    if (this.state.showImageModal) {
+      document.removeEventListener('mousedown', this.handleClick);
+      this.setState({
+        showImageModal: false
+      })
+    } else {
+      document.addEventListener('mousedown', this.handleClick);
+      this.setState({
+        showImageModal: true
+      })
+    }
+  }
+
   render() {
-    const {comment} = this.state;
+    const {comment, showImageModal} = this.state;
     const commentTime = dateTimeToWords(comment.createdAt);
 
     return (
@@ -64,6 +86,12 @@ class EntryComment extends Component {
               </>
             }
           </CardBody>
+          {
+            showImageModal &&
+            <ImageModal>
+              <ImageModalContent src={comment.imageUrl}/>
+            </ImageModal>
+          }
         </EntryCommentLayout>
     );
   }
