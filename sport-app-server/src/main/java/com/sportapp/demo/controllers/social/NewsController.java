@@ -68,6 +68,7 @@ public class NewsController {
   }
 
   @PostMapping("/{id}/comments/new")
+  @PreAuthorize("isAuthenticated()")
   public ResponseEntity<HttpStatus> addNewsComment(@PathVariable Long id,
       @RequestBody NewsCommentPostDto newsCommentPostDto, @CurrentUser User currentUser) {
     newsService.saveNewsComment(id, newsCommentPostDto, currentUser);
@@ -75,8 +76,8 @@ public class NewsController {
   }
 
   @PostMapping("/{id}/upvote")
-  public ResponseEntity<Integer> upvoteNews(@PathVariable Long id,
-      @CurrentUser User currentUser) {
+  @PreAuthorize("isAuthenticated()")
+  public ResponseEntity<Integer> upvoteNews(@PathVariable Long id, @CurrentUser User currentUser) {
     int score = newsService.upvoteNews(id, currentUser);
     return new ResponseEntity<>(score, HttpStatus.OK);
   }

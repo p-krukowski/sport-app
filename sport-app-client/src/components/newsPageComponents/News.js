@@ -6,6 +6,7 @@ import {theme} from "../../util/theme";
 import ReportIcon from '@material-ui/icons/Report';
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import {addPointToNews} from "../../util/apiUtils/NewsUtils";
+import {getDomainFromLink} from "../../util/linkUtils";
 
 class News extends Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class News extends Component {
               <span>{news.createdAt}</span>
               <SourceUrlDiv href={news.link} target="_blank">
                 <OpenInNewIcon/>
-                TODO: short url
+                {getDomainFromLink(news.link)}
               </SourceUrlDiv>
             </Foot>
           </NewsContent>

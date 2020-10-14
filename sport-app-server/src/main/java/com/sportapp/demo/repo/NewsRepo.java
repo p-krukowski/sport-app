@@ -33,5 +33,5 @@ public interface NewsRepo extends JpaRepository<News, Long> {
   @Query("select n from News n"
       + " left join fetch n.upvoters"
       + " where n.id = ?1")
-  Optional<News> findByIdWithLikers(Long id);
+  Optional<News> findByIdWithUpvoters(Long id);
 }

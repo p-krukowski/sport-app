@@ -4,6 +4,8 @@ import {theme} from "../../util/theme";
 import LinkBlank from "../common/LinkBlank";
 import {Badge} from "react-bootstrap";
 import {dateTimeToWords} from "../../util/timeFormat";
+import {getDomainFromLink} from "../../util/linkUtils";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 
 class BestNews extends Component {
   render() {
@@ -20,10 +22,16 @@ class BestNews extends Component {
                 {news.title}
               </Title>
               <Info>
-                <span>{newsTime}</span>
-                <Badge variant="light" style={{fontSize: '0.85em'}}>
-                  @{news.authorName}
-                </Badge>
+                <span>
+                  <Badge variant="light" style={{fontSize: '0.85em'}}>
+                    @{news.authorName}
+                  </Badge>
+                  <span style={{marginLeft: '5px'}}>{newsTime}</span>
+                </span>
+                <SourceUrlDiv href={news.link} target="_blank">
+                  <OpenInNewIcon/>
+                  {getDomainFromLink(news.link)}
+                </SourceUrlDiv>
               </Info>
             </ContentDiv>
           </LinkBlank>
@@ -100,4 +108,15 @@ const Info = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+`
+const SourceUrlDiv = styled.a`
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  
+  :hover {
+    text-decoration: none;
+  }
 `

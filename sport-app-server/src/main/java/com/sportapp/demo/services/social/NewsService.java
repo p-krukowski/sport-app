@@ -11,6 +11,7 @@ import com.sportapp.demo.repo.NewsRepo;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -82,25 +83,23 @@ public class NewsService {
   }
 
   public int upvoteNews(Long newsId, User user) {
-    Optional<News> newsOptional = newsRepo.findByIdWithLikers(newsId);
-    if (newsOptional.isPresent()) {
-      return updateUpvoters(newsOptional, user);
-    } else {
-      return 0;
-    }
+    Optional<News> newsOptional = newsRepo.findByIdWithUpvoters(newsId);
+    return newsOptional.map(news -> updateUpvoters(news, user)).orElse(0);
   }
 
-  private int updateUpvoters(Optional<News> newsOptional, User user) {
-    News news = newsOptional.get();
-    List<User> likers = news.getUpvoters();
-    if (likers.contains(user)) {
-      likers.remove(user);
+  private int updateUpvoters(News news, User user) {
+    List<Long> upvoters = news.getUpvoters().stream()
+        .map(User::getId)
+        .collect(Collectors.toList());
+    if (upvoters.contains(user.getId())) {
+      news.setUpvoters(news.getUpvoters().stream()
+          .filter(upvoter -> !upvoter.getId().equals(user.getId()))
+          .collect(Collectors.toList()));
     } else {
-      likers.add(user);
+      news.getUpvoters().add(user);
     }
-    news.setScore(likers);
-    newsRepo.save(news);
-    return news.getUpvoters().size();
+    news.setScore(news.getUpvoters().size());
+    return newsRepo.save(news).getUpvoters().size();
   }
 
   private List<NewsCommentGetDto> mapEntityToDto(List<NewsComment> newsComments) {

@@ -53,20 +53,16 @@ function yearsService(years) {
 function monthsService(months) {
   if (months === 1) {
     return "ponad miesiąc temu";
-  } else if (months < 5) {
-    return "ponad " + months + " miesiące temu";
   } else {
-    return "ponad " + months + " miesięcy temu";
+    return "ponad " + months + " mies. temu";
   }
 }
 
 function weeksService(weeks) {
   if (weeks === 1) {
     return "ponad tydzień temu";
-  } else if (weeks < 5) {
-    return "ponad " + weeks + " tygodnie temu";
   } else {
-    return "ponad " + weeks + " tygodni temu";
+    return "ponad " + weeks + " tyg. temu";
   }
 }
 
@@ -81,20 +77,16 @@ function daysService(days) {
 function hoursService(hours) {
   if (hours === 1) {
     return "ponad godzinę temu";
-  } else if (hours < 5) {
-    return "ponad " + hours + " godziny temu";
   } else {
-    return "ponad " + hours + " godzin temu";
+    return "ponad " + hours + " godz. temu";
   }
 }
 
 function minutesService(minutes) {
   if (minutes === 1) {
     return "ponad minutę temu";
-  } else if (minutes < 5) {
-    return "ponad " + minutes + " minuty temu";
   } else {
-    return "ponad " + minutes + " minut temu";
+    return "ponad " + minutes + " min. temu";
   }
 }
 

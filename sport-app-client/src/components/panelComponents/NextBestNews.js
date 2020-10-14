@@ -2,6 +2,9 @@ import React, {Component} from "react";
 
 import styled from "styled-components";
 import LinkBlank from "../common/LinkBlank";
+import {Badge} from "react-bootstrap";
+import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import {getDomainFromLink} from "../../util/linkUtils";
 
 class NextBestNews extends Component {
   render() {
@@ -14,10 +17,20 @@ class NextBestNews extends Component {
                   <LinkBlank to={"/newsy/" + news.id}>
                     <Image src={news.imageUrl}
                            alt="Brak zdjęcia"/>
-                    <Info>{news.title}</Info>
+                    <Info>
+                      <Title>{news.title}</Title>
+                      <span>
+                        <Badge variant="light" style={{fontSize: '0.85em'}}>
+                         @{news.authorName}
+                        </Badge>
+                        <SourceUrlDiv href={news.link} target="_blank">
+                          <OpenInNewIcon/>
+                           {getDomainFromLink(news.link)}
+                          </SourceUrlDiv>
+                      </span>
+                    </Info>
                   </LinkBlank>
                 </News>
-
             ))
           }
         </NextBestNewsLayout>
@@ -64,20 +77,35 @@ const Image = styled.img`
   }
 `
 const Info = styled.div`
-  display: block;
   position: absolute;
   background: rgba(0,0,0,0.8);
   bottom: 0;
   padding: 0 3px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   
   @media only screen and (min-width: 786px) {
     border-radius: 0;
+  }
+`
+
+const Title = styled.div`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+`
+
+const SourceUrlDiv = styled.a`
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  
+  :hover {
+    text-decoration: none;
   }
 `

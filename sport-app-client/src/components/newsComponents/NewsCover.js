@@ -9,6 +9,8 @@ import ForumIcon from '@material-ui/icons/Forum';
 import {theme} from "../../util/theme";
 import LinkBlank from "../common/LinkBlank";
 import {addPointToNews} from "../../util/apiUtils/NewsUtils";
+import {dateTimeToWords} from "../../util/timeFormat";
+import {getDomainFromLink} from "../../util/linkUtils";
 
 class NewsCover extends Component {
   constructor(props) {
@@ -49,7 +51,7 @@ class NewsCover extends Component {
               </ImageInfoBgTop>
             }
             <ImageInfoBgBottom>
-              {news.createdAt}
+              {dateTimeToWords(news.createdAt)}
               <BadgeCustom variant='light'>
                 @{news.authorName}
               </BadgeCustom>
@@ -70,7 +72,7 @@ class NewsCover extends Component {
               <CardFootCustom>
                 <SourceUrlDiv href={news.link} target="_blank">
                   <OpenInNewIcon/>
-                  TODO: short url
+                  {getDomainFromLink(news.link)}
                 </SourceUrlDiv>
                 <LinkBlank style={{marginLeft: 'auto', width: 'auto'}}
                            to={"/newsy/" + news.id}>
@@ -108,7 +110,7 @@ const ImageDiv = styled.div`
   
   @media only screen and (min-width: 768px) {  
   height: 100%;
-  width: 220px;
+  width: 30%;
   }  
 `
 
@@ -137,10 +139,6 @@ const ImageInfoBgBottom = styled.div`
   position: absolute;
   bottom: 0;
   font-size: 0.8em;
-  
-  @media only screen and (min-width: 768px) {
-    border-bottom-left-radius: 5px;
-  }
 `
 
 const ImageInfoBgTop = styled(ImageInfoBgBottom)`
@@ -179,6 +177,7 @@ const CardCustom = styled(Card)`
     height: 100%;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+    border-top-right-radius: 5px;
   } 
 `
 
