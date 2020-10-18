@@ -130,7 +130,7 @@ public class SoccerUpdateService {
     events.forEach(event -> {
       event.setLeague(leagueSoccer);
       event.setDateTime(LocalDateTime.of(event.getDate(), event.getTime()).plusHours(2));
-      event.setTime(event.getTime());
+      event.setTime(event.getDateTime().toLocalTime());
       event.setDate(event.getDateTime().toLocalDate());
     });
   }

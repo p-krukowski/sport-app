@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.sportapp</groupId>
 	<artifactId>demo</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 	<name>SportApp</name>
 	<description>Demo project for SportApp</description>
 
