@@ -1,7 +1,9 @@
 import React, {Component} from "react";
-import {ButtonGroup, ToggleButton} from "react-bootstrap";
+import styled from "styled-components";
 import ExternalNewsForm from "./ExternalNewsForm";
 import CustomNewsForm from "./CustomNewsForm";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "../common/Button";
 
 class NewNewsForm extends Component {
     constructor(props) {
@@ -26,26 +28,18 @@ class NewNewsForm extends Component {
 
     render() {
         return (
-            <>
-                <ButtonGroup toggle className="mb-2">
-                    <ToggleButton
-                        type="checkbox"
-                        variant="primary"
-                        checked={this.state.external}
-                        name="external"
-                        onChange={(e) => this.setChecked(e.currentTarget.name)}
-                    >
+            <NewNewsFormLayout>
+                <ButtonGroup size="large" aria-label="outlined primary button group">
+                    <Button checked={this.state.external}
+                            name="external"
+                            onChange={(e) => this.setChecked(e.currentTarget.name)}>
                         Z linku
-                    </ToggleButton>
-                    <ToggleButton
-                        type="checkbox"
-                        variant="primary"
-                        checked={!this.state.external}
-                        name="custom"
-                        onChange={(e) => this.setChecked(e.currentTarget.name)}
-                    >
+                    </Button>
+                    <Button checked={!this.state.external}
+                            name="custom"
+                            onChange={(e) => this.setChecked(e.currentTarget.name)}>
                         Własny
-                    </ToggleButton>
+                    </Button>
                 </ButtonGroup>
                 {
                     this.state.external &&
@@ -55,9 +49,14 @@ class NewNewsForm extends Component {
                     !this.state.external &&
                     <CustomNewsForm updateFields={this.props.updateFields}/>
                 }
-            </>
+            </NewNewsFormLayout>
         );
     }
 }
 
 export default NewNewsForm;
+
+const NewNewsFormLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+`

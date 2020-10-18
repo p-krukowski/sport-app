@@ -6,7 +6,6 @@ const Button = styled.button`
   border: solid 1px ${theme.colors.primary};
   border-radius: 7px;
   transition: background .2s, color .2s;
-  margin: 3px;
   padding: 5px 5px;
   color: ${theme.colors.primary};
   

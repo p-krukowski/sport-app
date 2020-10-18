@@ -1,6 +1,10 @@
 import React, {Component} from "react";
+import styled from "styled-components";
 import {Col, Form, Image, Row, Spinner} from "react-bootstrap";
 import {fetchArticle} from "../../util/scrape";
+import {InputUrl} from "../common/Input";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 class ExternalNewsForm extends Component {
   constructor(props) {
@@ -86,22 +90,16 @@ class ExternalNewsForm extends Component {
 
   render() {
     return (
-        <Form>
-          <Form.Group as={Row}>
-            <Form.Label column sm="1">
-              Link
-            </Form.Label>
-            <Col sm="9">
-              <Form.Control onChange={e => this.loadFromLink(e.target.value)}
-                            placeholder="http://..."/>
-            </Col>
-            <Col>
-              {
-                this.state.fetching &&
-                <Spinner animation="grow" variant="primary"/>
-              }
-            </Col>
-          </Form.Group>
+        <ExternalNewsFormLayout>
+            <InputUrl required
+                      type="url"
+                      placeholder="Link: https://"
+                      onChange={e => this.loadFromLink(e.target.value)}
+                      style={{width: '100%'}}/>
+            {
+              this.state.fetching &&
+              <LinearProgress />
+            }
           <Form.Group>
             <Row>
               <Col sm="8" lg="8" md="8">
@@ -138,9 +136,15 @@ class ExternalNewsForm extends Component {
               </Col>
             </Row>
           </Form.Group>
-        </Form>
+        </ExternalNewsFormLayout>
     );
   }
 }
 
 export default ExternalNewsForm;
+
+const ExternalNewsFormLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+`

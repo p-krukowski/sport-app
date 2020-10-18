@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import styled from "styled-components";
 
 import AllNews from "../components/newsComponents/AllNews";
-import NewNewsModal from "../components/newsComponents/NewNewsModal";
 import Button from "../components/common/Button";
 import DescriptionIcon from '@material-ui/icons/Description';
+import NewNewsModal from "../components/newsComponents/NewNewsModal";
 
 class AllNewsPage extends Component {
   constructor(props) {
@@ -23,23 +23,22 @@ class AllNewsPage extends Component {
   render() {
     return (
         <AllNewsPageLayout>
-            {
-              this.props.isAuthenticated &&
-              <Button onClick={() => this.setModalShow(true)}
-                      style={{marginBottom: '10px'}}>
-                Utwórz nowy
-                <DescriptionIcon style={{marginLeft: '5px'}}/>
-              </Button>
-            }
-            <AllNews modalShow={this.state.modalShow}
-                     isAuthenticated={this.props.isAuthenticated}/>
+          {
+            this.props.isAuthenticated &&
+            <Button onClick={() => this.setModalShow(true)}
+                    style={{marginBottom: '10px'}}>
+              Utwórz nowy
+              <DescriptionIcon style={{marginLeft: '5px'}}/>
+            </Button>
+          }
+          <AllNews modalShow={this.state.modalShow}
+                   isAuthenticated={this.props.isAuthenticated}/>
 
-          <NewNewsModal
-              show={this.state.modalShow}
-              onHide={() => this.setModalShow(false)}
-          />
+          <NewNewsModal open={this.state.modalShow}
+                        setModalShow={this.setModalShow}/>
         </AllNewsPageLayout>
-    )}
+    )
+  }
 }
 
 export default AllNewsPage;

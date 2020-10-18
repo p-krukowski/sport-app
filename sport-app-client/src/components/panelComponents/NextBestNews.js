@@ -2,7 +2,6 @@ import React, {Component} from "react";
 
 import styled from "styled-components";
 import LinkBlank from "../common/LinkBlank";
-import {Badge} from "react-bootstrap";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import {getDomainFromLink} from "../../util/linkUtils";
 
@@ -19,15 +18,10 @@ class NextBestNews extends Component {
                            alt="Brak zdjęcia"/>
                     <Info>
                       <Title>{news.title}</Title>
-                      <span>
-                        <Badge variant="light" style={{fontSize: '0.85em'}}>
-                         @{news.authorName}
-                        </Badge>
-                        <SourceUrlDiv href={news.link} target="_blank">
-                          <OpenInNewIcon/>
-                           {getDomainFromLink(news.link)}
-                          </SourceUrlDiv>
-                      </span>
+                      <SourceUrlDiv href={news.link} target="_blank">
+                        <OpenInNewIcon/>
+                        {getDomainFromLink(news.link)}
+                      </SourceUrlDiv>
                     </Info>
                   </LinkBlank>
                 </News>
