@@ -10,6 +10,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;
@@ -58,7 +59,7 @@ public class EntryService {
 
   public Entry findEntryById(Long entryId) {
     return entryRepo.findById(entryId)
-        .orElseThrow(() -> new NullPointerException("Entry not found"));
+        .orElseThrow(() -> new EntityNotFoundException("Entry not found"));
   }
 
   public List<EntryGetDto> findBestEntriesDto() {
