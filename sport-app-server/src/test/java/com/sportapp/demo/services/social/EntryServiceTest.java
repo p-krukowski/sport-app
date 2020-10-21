@@ -2,6 +2,7 @@ package com.sportapp.demo.services.social;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -135,20 +137,18 @@ class EntryServiceTest {
     assertEquals(entry, foundEntry);
   }
 
-  // TODO
-//  @Test
-//  void shouldThrowEntityNotFoundExceptionWhenNotFoundById() {
-//    //given
-//    Long entryId = 1L;
-//    Entry entry = null;
-//
-//    //when
-//    when(entryRepo.findById(entryId)).thenReturn(Optional.of());
-//
-//    //then
-//    assertThrows(EntityNotFoundException.class, () ->
-//        entryService.findEntryById(entryId));
-//  }
+  @Test
+  void shouldThrowEntityNotFoundExceptionWhenNotFoundById() {
+    //given
+    Long entryId = 1L;
+
+    //when
+    when(entryRepo.findById(entryId)).thenReturn(Optional.empty());
+
+    //then
+    assertThrows(EntityNotFoundException.class, () ->
+        entryService.findEntryById(entryId));
+  }
 
   @Test
   void shouldFindBestEntriesDto() {
