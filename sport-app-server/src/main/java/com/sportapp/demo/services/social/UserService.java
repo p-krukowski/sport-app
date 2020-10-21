@@ -6,6 +6,7 @@ import com.sportapp.demo.models.social.UserProps;
 import com.sportapp.demo.models.social.VerificationToken;
 import com.sportapp.demo.repo.UserRepo;
 import com.sportapp.demo.repo.VerificationTokenRepo;
+import javax.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserService {
   }
 
   public User findUserById(Long id) {
-    return userRepo.findById(id).orElseThrow(() -> new NullPointerException("User not found"));
+    return userRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
   }
 
   public User findUserWithPropsById(Long id) {

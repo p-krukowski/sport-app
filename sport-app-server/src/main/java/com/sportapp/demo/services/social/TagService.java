@@ -58,4 +58,6 @@ public class TagService {
         .distinct()
         .collect(Collectors.toList());
   }
+
+  //TODO: better filtering tags (tags including comas, bottomLines etc.)
 }
