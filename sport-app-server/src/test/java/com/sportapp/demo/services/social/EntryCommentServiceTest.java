@@ -1,9 +1,13 @@
 package com.sportapp.demo.services.social;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.sportapp.demo.models.dtos.social.EntryCommentPostDto;
+import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.EntryComment;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryCommentRepo;
@@ -11,12 +15,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import org.junit.Assert;
+import javax.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.modelmapper.ModelMapper;
 
 class EntryCommentServiceTest {
 
@@ -24,6 +29,8 @@ class EntryCommentServiceTest {
   EntryCommentRepo entryCommentRepo;
   @Mock
   EntryService entryService;
+  @Mock
+  ModelMapper modelMapper;
   @InjectMocks
   EntryCommentService entryCommentService;
 
@@ -73,13 +80,32 @@ class EntryCommentServiceTest {
   void shouldAddComment() {
     //given
     EntryComment entryComment = new EntryComment();
+    EntryCommentPostDto commentDto = new EntryCommentPostDto();
     Long entryId = 1L;
+    Entry entry = new Entry();
     //when
-    entryService.findEntryById(entryId);
-    entryCommentService.addComment(entryId, entryComment, new User());
+    when(entryService.findEntryById(entryId)).thenReturn(entry);
+    when(modelMapper.map(commentDto, EntryComment.class)).thenReturn(entryComment);
+    entryCommentService.addCommentDto(entryId, commentDto, new User());
 
     //then
     verify(entryCommentRepo, times(1)).save(entryComment);
+  }
+
+  @Test
+  void shouldThrowEntityNotFoundExceptionWhenEntryDoesNotExist() {
+    //given
+    EntryComment entryComment = new EntryComment();
+    EntryCommentPostDto commentDto = new EntryCommentPostDto();
+    Long entryId = 1L;
+    User user = new User();
+    //when
+    when(entryService.findEntryById(entryId)).thenThrow(new EntityNotFoundException());
+    when(modelMapper.map(commentDto, EntryComment.class)).thenReturn(entryComment);
+
+    //then
+    assertThrows(EntityNotFoundException.class, () ->
+        entryCommentService.addCommentDto(entryId, commentDto, user));
   }
 
   @Test
@@ -89,7 +115,7 @@ class EntryCommentServiceTest {
     List<EntryComment> entryComments = entryCommentService.findAllByEntryId(1L);
 
     //then
-    Assert.assertEquals(0, entryComments.size());
+    assertEquals(0, entryComments.size());
   }
 
 }

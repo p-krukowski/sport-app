@@ -1,12 +1,17 @@
 package com.sportapp.demo.services.social;
 
+import com.sportapp.demo.models.dtos.social.EntryCommentGetDto;
+import com.sportapp.demo.models.dtos.social.EntryCommentPostDto;
 import com.sportapp.demo.models.social.Entry;
 import com.sportapp.demo.models.social.EntryComment;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.EntryCommentRepo;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,28 +20,41 @@ public class EntryCommentService {
 
   EntryCommentRepo entryCommentRepo;
   EntryService entryService;
+  ModelMapper modelMapper;
 
   public EntryCommentService(EntryCommentRepo entryCommentRepo,
-      EntryService entryService) {
+      EntryService entryService, ModelMapper modelMapper) {
     this.entryCommentRepo = entryCommentRepo;
     this.entryService = entryService;
+    this.modelMapper = modelMapper;
   }
 
-  public void addComment(Long entryId, EntryComment comment, User user) {
-    Entry entry = entryService.findEntryById(entryId);
-    comment.setEntry(entry);
-    comment.setAuthor(user);
-    entryCommentRepo.save(comment);
+  @Transactional
+  public EntryComment addCommentDto(Long entryId, EntryCommentPostDto commentDto, User user) {
+    try {
+      EntryComment comment = convertToEntity(commentDto);
+      Entry entry = entryService.findEntryById(entryId);
+      comment.setEntry(entry);
+      comment.setAuthor(user);
+      return entryCommentRepo.save(comment);
+    } catch (EntityNotFoundException e) {
+      throw new EntityNotFoundException("Entry not found");
+    }
   }
 
   public List<EntryComment> findAllByEntryId(Long entryId) {
     return entryCommentRepo.findAllByEntryId(entryId);
   }
 
+  public List<EntryCommentGetDto> findAllEntryCommentsDtosByEntryId(Long entryId) {
+    return convertToDto(findAllByEntryId(entryId));
+  }
+
   @Transactional
   public int upvoteEntry(Long commentId, User user) {
-    Optional<EntryComment> commentOpt = entryCommentRepo.findById(commentId);
-    return commentOpt.map(comment -> updateUpvoters(comment, user)).orElse(0);
+    EntryComment comment = entryCommentRepo.findById(commentId)
+        .orElseThrow(() -> new EntityNotFoundException("Comment not found"));
+    return updateUpvoters(comment, user);
   }
 
   private int updateUpvoters(EntryComment comment, User user) {
@@ -52,5 +70,15 @@ public class EntryCommentService {
     }
     comment.setScore(comment.getUpvoters().size());
     return entryCommentRepo.save(comment).getUpvoters().size();
+  }
+
+  private EntryComment convertToEntity(EntryCommentPostDto entryCommentPostDto) {
+    return modelMapper.map(entryCommentPostDto, EntryComment.class);
+  }
+
+  private List<EntryCommentGetDto> convertToDto(List<EntryComment> comments) {
+    Type typeMap = new TypeToken<List<EntryCommentGetDto>>() {
+    }.getType();
+    return modelMapper.map(comments, typeMap);
   }
 }
