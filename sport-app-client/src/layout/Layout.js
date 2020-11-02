@@ -2,12 +2,16 @@ import React from "react"
 import styled, {createGlobalStyle} from "styled-components"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {theme} from "../util/theme";
+import {ThemeProvider} from "@material-ui/styles";
+import {muiTheme} from "../util/muiTheme";
 
 const Layout = ({children}) => (
     <>
         <GlobalStyle/>
         <StyledWrapper>
+          <ThemeProvider theme={muiTheme}>
             {children}
+          </ThemeProvider>
         </StyledWrapper>
     </>
 )
@@ -52,6 +56,9 @@ const GlobalStyle = createGlobalStyle`
   
   *, *::before, *::after {
     box-sizing: border-box;
+  }
+  *:focus {
+    outline: none!important;
   }
 `
 

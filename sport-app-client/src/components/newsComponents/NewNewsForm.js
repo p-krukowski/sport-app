@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ExternalNewsForm from "./ExternalNewsForm";
 import CustomNewsForm from "./CustomNewsForm";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "../common/Button";
+import Button from "@material-ui/core/Button";
 
 class NewNewsForm extends Component {
     constructor(props) {
@@ -29,15 +29,15 @@ class NewNewsForm extends Component {
     render() {
         return (
             <NewNewsFormLayout>
-                <ButtonGroup size="large" aria-label="outlined primary button group">
-                    <Button checked={this.state.external}
+                <ButtonGroup size="large" color="primary">
+                    <Button variant={this.state.external === true ? "contained" : ""}
                             name="external"
-                            onChange={(e) => this.setChecked(e.currentTarget.name)}>
+                            onClick={(e) => this.setChecked(e.currentTarget.name)}>
                         Z linku
                     </Button>
-                    <Button checked={!this.state.external}
+                    <Button variant={this.state.external === false ? "contained" : ""}
                             name="custom"
-                            onChange={(e) => this.setChecked(e.currentTarget.name)}>
+                            onClick={(e) => this.setChecked(e.currentTarget.name)}>
                         Własny
                     </Button>
                 </ButtonGroup>
@@ -59,4 +59,5 @@ export default NewNewsForm;
 const NewNewsFormLayout = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `

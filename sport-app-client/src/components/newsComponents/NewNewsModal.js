@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Button} from "react-bootstrap";
 import NewNewsForm from "./NewNewsForm";
 import {addNews} from "../../util/apiUtils/NewsUtils";
 import styled from "styled-components";
@@ -7,6 +6,7 @@ import {theme} from "../../util/theme";
 import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
+import Button from "@material-ui/core/Button";
 
 class NewNewsModal extends Component {
 
@@ -36,7 +36,9 @@ class NewNewsModal extends Component {
                 <NewNewsForm updateFields={this.updateFields}/>
               </CardBody>
               <CardFoot>
-                <Button onClick={this.handleCreate}>Utwórz</Button>
+                <Button variant="outlined"
+                        color="primary"
+                        onClick={this.handleCreate}>Utwórz</Button>
               </CardFoot>
             </NewNewsModalLayout>
           </Fade>

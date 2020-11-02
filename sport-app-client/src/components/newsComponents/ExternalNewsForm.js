@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import {Col, Form, Image, Row, Spinner} from "react-bootstrap";
+import {Image} from "react-bootstrap";
 import {fetchArticle} from "../../util/scrape";
-import {InputUrl} from "../common/Input";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import TextField from "@material-ui/core/TextField";
 
 class ExternalNewsForm extends Component {
   constructor(props) {
@@ -14,7 +13,7 @@ class ExternalNewsForm extends Component {
       fetching: false,
       isFetched: false,
       content: {
-        imageURL: 'https://cdn.pixabay.com/photo/2015/12/22/04/00/photo-1103595_960_720.png',
+        imageURL: 'https://portalkomunalny.pl/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png',
         title: null,
         description: null,
       }
@@ -27,6 +26,7 @@ class ExternalNewsForm extends Component {
     });
     fetchArticle(url)
     .then(response => {
+      let content;
       if (response.description.length > 350) {
         response.description = response.description.slice(0, 347);
         response.description = response.description.concat('...');
@@ -34,6 +34,12 @@ class ExternalNewsForm extends Component {
       if (response.title.length > 90) {
         response.title = response.title.slice(0, 87);
         response.title = response.title.concat('...');
+      }
+      content = {
+        title: response.title,
+        description: response.description,
+        imageURL: response.imageURL,
+        link: url
       }
       this.setState({
         content: {
@@ -45,45 +51,21 @@ class ExternalNewsForm extends Component {
         fetching: false,
         isFetched: true
       });
-      this.props.updateFields(this.state.content);
+      this.props.updateFields(content);
     })
   }
 
   handleChange = (e) => {
     let content = this.state.content;
-    if (e.target.name === "title") {
-      this.setState({
-        content: {
-          ...this.state.content,
-          title: e.target.value
-        }
-      })
-      content = {
-        ...content,
-        title: e.target.value
+    this.setState({
+      content: {
+        ...this.state.content,
+        [e.target.name]: e.target.value
       }
-    } else if (e.target.name === "description") {
-      this.setState({
-        content: {
-          ...this.state.content,
-          description: e.target.value
-        }
-      })
-      content = {
-        ...content,
-        description: e.target.value
-      }
-    } else if (e.target.name === "tags") {
-      this.setState({
-        content: {
-          ...this.state.content,
-          tags: e.target.value
-        }
-      })
-      content = {
-        ...content,
-        tags: e.target.value
-      }
+    })
+    content = {
+      ...content,
+      [e.target.name]: e.target.value
     }
     this.props.updateFields(content);
   }
@@ -91,51 +73,49 @@ class ExternalNewsForm extends Component {
   render() {
     return (
         <ExternalNewsFormLayout>
-            <InputUrl required
-                      type="url"
-                      placeholder="Link: https://"
-                      onChange={e => this.loadFromLink(e.target.value)}
-                      style={{width: '100%'}}/>
+          <form noValidate autoComplete="off">
+            <TextField required
+                       type="url"
+                       label="Link: https://"
+                       onChange={e => this.loadFromLink(e.target.value)}/>
             {
-              this.state.fetching &&
-              <LinearProgress />
+              this.state.fetching ?
+                  <LinearProgress/>
+                  :
+                  <LinearProgress variant="determinate" value={0}/>
             }
-          <Form.Group>
-            <Row>
-              <Col sm="8" lg="8" md="8">
-                <Form.Control name="title"
-                              placeholder="Tytuł"
-                              style={{marginBottom: "20px"}}
-                              defaultValue={this.state.content.title}
-                              disabled={!this.state.isFetched}
-                              onChange={e => this.handleChange(e)}
-                              maxLength='90'
-                />
-                <Form.Control name="description"
-                              as="textarea"
-                              rows="3"
-                              style={{marginBottom: "20px"}}
-                              placeholder="Opis..."
-                              defaultValue={this.state.content.description}
-                              disabled={!this.state.isFetched}
-                              onChange={e => this.handleChange(e)}
-                              maxLength='350'
-                />
-                <Form.Control name="tags"
-                              placeholder="#tag1 #tag2 ..."
-                              disabled={!this.state.isFetched}
-                              onChange={e => this.handleChange(e)}
-                              maxLength='90'
-                />
-              </Col>
-              <Col>
-                <Image src={this.state.content.imageURL}
-                       rounded
-                       fluid
-                       style={{height: "145px"}}/>
-              </Col>
-            </Row>
-          </Form.Group>
+
+            <BasicDataLayout>
+              <Inputs>
+                <TextField required
+                           name="title"
+                           maxLength='90'
+                           label="Tytuł"
+                           defaultValue={this.state.content.title}
+                           disabled={!this.state.isFetched}
+                           onChange={e => this.handleChange(e)}/>
+                <TextField required
+                           name="description"
+                           multiline
+                           rows={3}
+                           maxLength='350'
+                           label="Opis..."
+                           defaultValue={this.state.content.description}
+                           disabled={!this.state.isFetched}
+                           onChange={e => this.handleChange(e)}/>
+              </Inputs>
+              <Image src={this.state.content.imageURL}
+                     rounded
+                     fluid
+                     style={{height: "145px"}}/>
+            </BasicDataLayout>
+            <TextField name="tags"
+                       rows={3}
+                       maxLength='90'
+                       label="#tag1 #tag2 ..."
+                       disabled={!this.state.isFetched}
+                       onChange={e => this.handleChange(e)}/>
+          </form>
         </ExternalNewsFormLayout>
     );
   }
@@ -146,5 +126,18 @@ export default ExternalNewsForm;
 const ExternalNewsFormLayout = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  width: 100%;
+  padding: 10px;
+  
+  form > * {
+    margin-top: 10px; 
+  }
+`
+const BasicDataLayout = styled.div`
+  display: flex;
+`
+const Inputs = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 `

@@ -17,7 +17,6 @@ const cheerio = require('cheerio');
                      const title = $('meta[property="og:title"]').attr('content');
                      const imageURL = $('meta[property="og:image"]').attr('content');
                      const description = $('meta[property="og:description"]').attr('content');
-
                      resolve({
                          title,
                          imageURL,
