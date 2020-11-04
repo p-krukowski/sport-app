@@ -18,7 +18,7 @@ class Entry extends Component {
             <div style={{margin: "0 5px 0 auto"}}>{entry.score}</div>
           </CardHeader>
           <CardBody>
-            <div dangerouslySetInnerHTML={formatText(entry.value)}/>
+            <div dangerouslySetInnerHTML={formatText(entry.content)}/>
             {
               entry.imageUrl !== null &&
               <>

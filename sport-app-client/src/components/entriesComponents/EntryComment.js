@@ -73,7 +73,7 @@ class EntryComment extends Component {
             }
           </CardHeader>
           <CardBody>
-            <div dangerouslySetInnerHTML={formatText(comment.value)}/>
+            <div dangerouslySetInnerHTML={formatText(comment.content)}/>
             {
               comment.imageUrl !== null &&
               <>

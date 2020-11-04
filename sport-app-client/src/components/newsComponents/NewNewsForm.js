@@ -43,11 +43,11 @@ class NewNewsForm extends Component {
                 </ButtonGroup>
                 {
                     this.state.external &&
-                    <ExternalNewsForm updateFields={this.props.updateFields}/>
+                    <ExternalNewsForm/>
                 }
                 {
                     !this.state.external &&
-                    <CustomNewsForm updateFields={this.props.updateFields}/>
+                    <CustomNewsForm/>
                 }
             </NewNewsFormLayout>
         );

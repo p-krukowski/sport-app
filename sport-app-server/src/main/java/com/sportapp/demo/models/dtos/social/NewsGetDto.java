@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public class NewsGetDto {
 
     private Long id;
-    private String value;
     private int score;
     private String authorName;
     private String title;
@@ -19,10 +18,11 @@ public class NewsGetDto {
     public NewsGetDto() {
     }
 
-    public NewsGetDto(Long id, String value, int score, String title,
-                      String imageUrl, String link, LocalDateTime createdAt, String authorName) {
+    public NewsGetDto(Long id, String description, String content, int score, String title,
+        String imageUrl, String link, LocalDateTime createdAt, String authorName) {
         this.id = id;
-        this.value = value;
+        this.description = description;
+        this.content = content;
         this.score = score;
         this.title = title;
         this.imageUrl = imageUrl;
@@ -41,12 +41,12 @@ public class NewsGetDto {
         this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public String getDescription() {
+        return description;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getScore() {
@@ -95,14 +95,6 @@ public class NewsGetDto {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getLink() {

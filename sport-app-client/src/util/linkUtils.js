@@ -1,6 +1,10 @@
 export function getDomainFromLink(link) {
-  return link.replace('http://','')
-  .replace('https://','')
-  .replace('www.', '')
-  .split(/[/?#]/)[0];
+  if (link != null) {
+    return link.replace('http://','')
+    .replace('https://','')
+    .replace('www.', '')
+    .split(/[/?#]/)[0];
+  } else {
+    return ''
+  }
 }

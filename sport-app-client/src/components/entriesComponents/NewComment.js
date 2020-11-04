@@ -23,10 +23,10 @@ class NewComment extends Component {
 
   addComment = () => {
     const comment = {
-      value: document.getElementById('commentInput').value,
+      content: document.getElementById('commentInput').value,
       imageUrl: this.state.imageUrl
     }
-    if (comment.value.length > 10) {
+    if (comment.content.length > 10) {
       addComment(comment, this.props.entryId)
       .then(response => {
         this.props.showToast();

@@ -61,19 +61,31 @@ class NewsCover extends Component {
             <CardCustom>
               <CardHeader>
                 <LinkBlank to={"/newsy/" + news.id}>
-                  <b>{news.title}</b>
+                  <NewsTitle>{news.title}</NewsTitle>
                 </LinkBlank>
               </CardHeader>
               <CardBody style={{fontSize: '0.9em'}}>
                 <LinkBlank to={"/newsy/" + news.id}>
-                  {news.value}
+                  {news.description}
                 </LinkBlank>
               </CardBody>
               <CardFootCustom>
-                <SourceUrlDiv href={news.link} target="_blank">
-                  <OpenInNewIcon/>
-                  {getDomainFromLink(news.link)}
-                </SourceUrlDiv>
+                {
+                  news.link ?
+                      <SourceUrlDiv href={news.link} target="_blank">
+                        <OpenInNewIcon/>
+                        {getDomainFromLink(news.link)}
+                      </SourceUrlDiv>
+                      :
+                      <SourceUrlDiv
+                          as={LinkBlank}
+                          style={{color: "#007bff"}}
+                          to={"/newsy/" + news.id}
+                          target="_blank">
+                        <OpenInNewIcon/>
+                        Do artykułu
+                      </SourceUrlDiv>
+                }
                 <LinkBlank style={{marginLeft: 'auto', width: 'auto'}}
                            to={"/newsy/" + news.id}>
                   <ForumIcon/> Komentarze
@@ -179,6 +191,14 @@ const CardCustom = styled(Card)`
     border-bottom-left-radius: 0;
     border-top-right-radius: 5px;
   } 
+`
+
+const NewsTitle = styled.b`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `
 
 const CardFootCustom = styled(CardFoot)`

@@ -78,7 +78,7 @@ class EntryServiceTest {
 
     //when
     when(userService.findUserById(userId)).thenReturn(new User());
-    when(tagService.filterTagsFromText(entryPostDto.getValue())).thenReturn(new ArrayList<>());
+    when(tagService.filterTagsFromText(entryPostDto.getContent())).thenReturn(new ArrayList<>());
     entryService.addEntry(entryPostDto, userId);
 
     //then

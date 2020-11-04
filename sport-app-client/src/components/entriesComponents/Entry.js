@@ -74,7 +74,7 @@ class Entry extends Component {
             }
           </CardHeader>
           <CardBody >
-             <div dangerouslySetInnerHTML={formatText(entry.value)}/>
+             <div dangerouslySetInnerHTML={formatText(entry.content)}/>
             {
               entry.imageUrl !== null &&
               <>

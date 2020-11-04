@@ -6,7 +6,7 @@ public class EntryGetDto {
 
   private Long id;
   private AuthorDto author;
-  private String value;
+  private String content;
   private int score;
   private int commentsAmount;
   private String imageUrl;
@@ -16,10 +16,11 @@ public class EntryGetDto {
   public EntryGetDto() {
   }
 
-  public EntryGetDto(AuthorDto author, Long id, String value, int score, LocalDateTime createdAt) {
+  public EntryGetDto(AuthorDto author, Long id, String content, int score,
+      LocalDateTime createdAt) {
     this.author = author;
     this.id = id;
-    this.value = value;
+    this.content = content;
     this.score = score;
     this.createdAt = createdAt;
   }
@@ -42,12 +43,12 @@ public class EntryGetDto {
     this.author = author;
   }
 
-  public String getValue() {
-    return value;
+  public String getContent() {
+    return content;
   }
 
-  public void setValue(String value) {
-    this.value = value;
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public int getScore() {

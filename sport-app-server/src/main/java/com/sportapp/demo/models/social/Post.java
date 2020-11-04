@@ -16,8 +16,8 @@ public class Post extends DateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String value;
-    private int score;
+    private String content;
+  private int score;
     private String imageUrl;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -29,31 +29,31 @@ public class Post extends DateAudit {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<User> upvoters;
 
-    //----------Getters&Setters-----------
+  //----------Getters&Setters-----------
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getValue() {
-        return value;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
+  public void setContent(String value) {
+    this.content = value;
+  }
 
-    public int getScore() {
-        return score;
-    }
+  public int getScore() {
+    return score;
+  }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
+  public void setScore(int score) {
+    this.score = score;
+  }
 
     public void setScore(List<User> likers) {
         setUpvoters(likers);

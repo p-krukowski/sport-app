@@ -43,9 +43,9 @@ public class EntryService {
 
   public void addEntry(EntryPostDto entryPostDto, Long userId) {
     Entry entry = new Entry();
-    entry.setValue(entryPostDto.getValue());
+    entry.setContent(entryPostDto.getContent());
     entry.setAuthor(userService.findUserById(userId));
-    List<Tag> tags = tagService.filterTagsFromText(entryPostDto.getValue());
+    List<Tag> tags = tagService.filterTagsFromText(entryPostDto.getContent());
     entry.setTags(tags);
     entry.setImageUrl(entryPostDto.getImageUrl());
     entryRepo.save(entry);

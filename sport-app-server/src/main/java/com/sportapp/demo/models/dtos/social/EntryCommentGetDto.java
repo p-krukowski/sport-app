@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class EntryCommentGetDto {
 
     private Long id;
-    private String value;
+    private String content;
     private AuthorDto author;
     private int score;
     private String imageUrl;
@@ -22,12 +22,12 @@ public class EntryCommentGetDto {
         this.id = id;
     }
 
-    public String getValue() {
-        return value;
+    public String getContent() {
+        return content;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public AuthorDto getAuthor() {

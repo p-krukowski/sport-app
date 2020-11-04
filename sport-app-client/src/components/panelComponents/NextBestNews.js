@@ -73,6 +73,7 @@ const Image = styled.img`
 const Info = styled.div`
   position: absolute;
   background: rgba(0,0,0,0.8);
+  width: 100%;
   bottom: 0;
   padding: 0 3px;
   border-bottom-left-radius: 5px;
@@ -85,15 +86,17 @@ const Info = styled.div`
 
 const Title = styled.div`
   display: block;
+  font-size: 0.9em;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
 `
 
 const SourceUrlDiv = styled.a`
   height: 100%;
+  font-size: 0.8em;
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -20,7 +20,8 @@
     "react-scripts": "^3.4.3",
     "react-transition-group": "^4.4.1",
     "request": "^2.88.2",
-    "styled-components": "^5.2.0"
+    "styled-components": "^5.2.0",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "start": "react-scripts start",

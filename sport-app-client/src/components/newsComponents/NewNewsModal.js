@@ -1,27 +1,12 @@
 import React, {Component} from "react";
 import NewNewsForm from "./NewNewsForm";
-import {addNews} from "../../util/apiUtils/NewsUtils";
 import styled from "styled-components";
 import {theme} from "../../util/theme";
-import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardHeader} from "../common/CardC";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
-import Button from "@material-ui/core/Button";
 
 class NewNewsModal extends Component {
-
-  updateFields = (content) => {
-    this.setState({
-      content: content
-    })
-  }
-
-  handleCreate = () => {
-    addNews(this.state.content)
-    .then(response => {
-      this.props.setModalShow(false);
-    })
-  }
 
   render() {
     return (
@@ -30,16 +15,11 @@ class NewNewsModal extends Component {
           <Fade in={this.props.open}>
             <NewNewsModalLayout tabIndex={-1}>
               <CardHeader>
-                <span>Nowy news</span>
+                <h3>Nowy news</h3>
               </CardHeader>
               <CardBody>
-                <NewNewsForm updateFields={this.updateFields}/>
+                <NewNewsForm/>
               </CardBody>
-              <CardFoot>
-                <Button variant="outlined"
-                        color="primary"
-                        onClick={this.handleCreate}>Utwórz</Button>
-              </CardFoot>
             </NewNewsModalLayout>
           </Fade>
         </ModalCustom>

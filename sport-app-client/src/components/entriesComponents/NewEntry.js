@@ -25,10 +25,10 @@ class NewEntry extends Component {
 
   addEntry = () => {
     const entry = {
-      value: document.getElementById('entryInput').value,
+      content: document.getElementById('entryInput').value,
       imageUrl: this.state.imageUrl
     }
-    if (entry.value.length > 10) {
+    if (entry.content.length > 10) {
       addEntry(entry)
       .then(response => {
         this.props.getEntries();

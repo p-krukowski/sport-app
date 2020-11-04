@@ -4,9 +4,10 @@ public class NewsPostDto {
 
     private String title;
     private String description;
-    private String imageURL;
-    private String link;
-    private String tags;
+  private String content;
+  private String imageURL;
+  private String url;
+  private String tags;
 
     public String getTitle() {
         return title;
@@ -16,35 +17,43 @@ public class NewsPostDto {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public String getImageURL() {
-        return imageURL;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public String getLink() {
-        return link;
-    }
+  public String getImageURL() {
+    return imageURL;
+  }
 
-    public void setLink(String link) {
-        this.link = link;
-    }
+  public void setImageURL(String imageURL) {
+    this.imageURL = imageURL;
+  }
 
-    public String getTags() {
-        return tags;
-    }
+  public String getUrl() {
+    return url;
+  }
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
+  public void setUrl(String url) {
+    this.url = url;
+  }
+
+  public String getTags() {
+    return tags;
+  }
+
+  public void setTags(String tags) {
+    this.tags = tags;
+  }
 }

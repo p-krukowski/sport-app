@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class NewsService {
@@ -29,7 +29,6 @@ public class NewsService {
   NewsCommentService newsCommentService;
   ModelMapper modelMapper;
 
-  @Autowired
   public NewsService(NewsRepo newsRepo, UserService userService, TagService tagService,
       NewsCommentService newsCommentService, ModelMapper modelMapper) {
     this.newsRepo = newsRepo;
@@ -44,6 +43,7 @@ public class NewsService {
     return newsRepo.findAllNews(PageRequest.of(page, 20, Sort.by(Sort.Order.desc("createdAt"))));
   }
 
+  @Transactional
   public void save(NewsPostDto newsPostDto, Long userId) {
     News news = setNews(newsPostDto, userId);
     newsRepo.save(news);
@@ -67,9 +67,10 @@ public class NewsService {
     return mapEntityToDto(newsRepo.findNewsCommentsById(id));
   }
 
+  @Transactional
   public void saveNewsComment(Long newsId, NewsCommentPostDto newsCommentPostDto, User user) {
     NewsComment newsComment = new NewsComment();
-    newsComment.setValue(newsCommentPostDto.getValue());
+    newsComment.setContent(newsCommentPostDto.getContent());
     newsComment.setAuthor(user);
     newsCommentService.save(newsComment);
     Optional<News> newsOptional = newsRepo.findById(newsId);
@@ -82,6 +83,7 @@ public class NewsService {
     }
   }
 
+  @Transactional
   public int upvoteNews(Long newsId, User user) {
     Optional<News> newsOptional = newsRepo.findByIdWithUpvoters(newsId);
     return newsOptional.map(news -> updateUpvoters(news, user)).orElse(0);
@@ -111,9 +113,10 @@ public class NewsService {
     News news = new News();
     news.setAuthor(userService.findUserById(userId));
     news.setTitle(newsPostDto.getTitle());
+    news.setDescription(newsPostDto.getContent());
     news.setImageUrl(newsPostDto.getImageURL());
-    news.setValue(newsPostDto.getDescription());
-    news.setLink(newsPostDto.getLink());
+    news.setContent(newsPostDto.getDescription());
+    news.setLink(newsPostDto.getUrl());
     news.setTags(tagService.filterTagsFromText(newsPostDto.getTags()));
     return news;
   }

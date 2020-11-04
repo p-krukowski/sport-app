@@ -6,7 +6,7 @@ import java.util.List;
 
 public class NewsCommentGetDto {
 
-  private String value;
+  private String content;
   private int score;
   private AuthorDto author;
   private List<EntryCommentGetDto> comments;
@@ -16,20 +16,20 @@ public class NewsCommentGetDto {
   public NewsCommentGetDto() {
   }
 
-  public NewsCommentGetDto(String value, int score, AuthorDto author,
+  public NewsCommentGetDto(String content, int score, AuthorDto author,
       List<EntryCommentGetDto> comments) {
-    this.value = value;
+    this.content = content;
     this.score = score;
     this.author = author;
     this.comments = comments;
   }
 
-  public String getValue() {
-    return value;
+  public String getContent() {
+    return content;
   }
 
-  public void setValue(String value) {
-    this.value = value;
+  public void setContent(String content) {
+    this.content = content;
   }
 
   public int getScore() {

@@ -9,38 +9,38 @@ import javax.persistence.OneToMany;
 public class News extends Post {
 
     private String title;
-    private String content;
-    private String imageUrl;
+  private String description;
+  private String imageUrl;
     private String link;
 
     @OneToMany(mappedBy = "news", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<NewsComment> newsComments;
 
-    //----------Getters&Setters-----------
+  //----------Getters&Setters-----------
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setDescription(String content) {
+    this.description = content;
+  }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+  public String getImageUrl() {
+    return imageUrl;
+  }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+  public void setImageUrl(String imageUrl) {
+    this.imageUrl = imageUrl;
+  }
 
     public String getLink() {
         return link;

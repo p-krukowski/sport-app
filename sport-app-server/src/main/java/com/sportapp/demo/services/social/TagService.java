@@ -32,9 +32,11 @@ public class TagService {
 
   public List<Tag> filterTagsFromText(String text) {
     List<Tag> tags = new ArrayList<>();
-    String[] strings = text.split(" ");
-    List<String> tagsNames = getTagsNames(strings);
-    createTags(tags, tagsNames);
+    if (text != null && !text.isBlank()) {
+      String[] strings = text.split(" ");
+      List<String> tagsNames = getTagsNames(strings);
+      createTags(tags, tagsNames);
+    }
     return tags;
   }
 

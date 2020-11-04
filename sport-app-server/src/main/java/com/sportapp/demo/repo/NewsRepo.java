@@ -14,15 +14,15 @@ import org.springframework.stereotype.Repository;
 public interface NewsRepo extends JpaRepository<News, Long> {
 
   @Query("select new com.sportapp.demo.models.dtos.social" +
-      ".NewsGetDto(n.id, n.value, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n")
+      ".NewsGetDto(n.id, n.description, n.content, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n")
   List<NewsGetDto> findAllNews(Pageable page);
 
   @Query("select new com.sportapp.demo.models.dtos.social" +
-      ".NewsGetDto(n.id, n.value, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n")
+      ".NewsGetDto(n.id, n.description, n.content, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n")
   List<NewsGetDto> findBest(Pageable pageable);
 
   @Query("select new com.sportapp.demo.models.dtos.social" +
-      ".NewsGetDto(n.id, n.value, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n"
+      ".NewsGetDto(n.id, n.description, n.content, n.score, n.title, n.imageUrl, n.link, n.createdAt, n.author.username) from News n"
       + " where n.id = ?1")
   Optional<NewsGetDto> findNewsGetDtoById(Long id);
 
