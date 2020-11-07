@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, CardBody, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardHeader} from "../common/CardCustom";
 import styled from "styled-components";
 import {dateTimeToWords} from "../../util/timeFormat";
 import {formatText} from "../../util/textFormat";

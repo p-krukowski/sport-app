@@ -8,7 +8,7 @@ import {
   USERNAME_MAX_LENGTH,
   USERNAME_MIN_LENGTH
 } from '../../constants'
-import {Card, CardBody, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardHeader} from "../common/CardCustom";
 import Button from "../common/Button";
 import {theme} from "../../util/theme";
 

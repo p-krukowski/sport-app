@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import styled from "styled-components";
 import GameEvents from "./GameEvents";
 import GameTables from "./GameTables";
+import {SportDataCardLayout} from "../../styles/panel/sportDataCardStyles";
 
 class SportDataCard extends Component {
   render() {
@@ -15,15 +15,3 @@ class SportDataCard extends Component {
 }
 
 export default SportDataCard;
-
-const SportDataCardLayout = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  
-  @media only screen and (min-width: 768px) {
-    flex-wrap: nowrap;
-    justify-content: space-between;
-  }
-`

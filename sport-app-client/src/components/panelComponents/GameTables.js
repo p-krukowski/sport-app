@@ -1,33 +1,26 @@
 import React, {Component} from 'react';
-import styled from "styled-components";
 
 import Tables from "./Tables";
-import {Card, CardBody, CardHeader} from "../common/CardC";
-import {theme} from "../../util/theme";
+import {
+  CardBodyStyled,
+  CardHeaderStyled,
+  CardStyled
+} from "../../styles/panel/gameTablesStyles";
 
 class GameTables extends Component {
 
   render() {
     return (
-        <CardCustom>
-          <CardHeader style={{justifyContent: 'center'}}>
+        <CardStyled>
+          <CardHeaderStyled>
             Tabele
-          </CardHeader>
-          <CardBody style={{padding: "8px"}}>
+          </CardHeaderStyled>
+          <CardBodyStyled>
             <Tables {...this.props}/>
-          </CardBody>
-        </CardCustom>
+          </CardBodyStyled>
+        </CardStyled>
     );
   }
 }
 
 export default GameTables;
-
-const CardCustom = styled(Card)`
-  background: ${theme.colors.background};
-  justify-content: flex-start;
-  
-  @media only screen and (min-width: 768px) {
-    width: 50%;
-  }
-`

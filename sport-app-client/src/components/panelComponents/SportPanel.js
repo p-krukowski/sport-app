@@ -1,12 +1,18 @@
 import React, {Component} from "react";
-import styled from "styled-components";
-import {Card, CardBody, CardHeader} from "../common/CardC";
-import Button from "../common/Button";
+import {Card, CardHeader} from "../common/CardCustom";
 import SportDataCard from "./SportDataCard";
 import LeaguePickModal from "./LeaguePickModal";
 import {fetchUserLeagues} from "../../util/apiUtils/UserUtils";
 import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
-import LeaguesDDList from "./LeaguesDDList";
+import LeagueSelect from "./LeagueSelect";
+import Button from "@material-ui/core/Button";
+import {
+  ButtonAdjusted,
+  CardBodySportPanel,
+  SportPanelLayout
+} from "../../styles/panel/sportPanelStyles";
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import {Divider} from "@material-ui/core";
 
 class SportPanel extends Component {
   constructor(props) {
@@ -70,7 +76,10 @@ class SportPanel extends Component {
               this.props.isAuthenticated && this.state.leagues.length !== 0 ?
                   <CardHeader>
                     <div>Moje ligi</div>
-                    <Button onClick={this.handleModal}>
+                    <Button
+                        variant='outlined'
+                        onClick={this.handleModal}
+                    >
                       Zmień
                     </Button>
                   </CardHeader>
@@ -83,21 +92,22 @@ class SportPanel extends Component {
             <CardBodySportPanel>
               {
                 this.state.leagues.length === 0 ?
-                    <ButtonAdjusted onClick={this.handleModal}>
-                      <span>+</span><br/>
+                    <ButtonAdjusted
+                        variant='outlined'
+                        onClick={this.handleModal}
+                    >
+                      <AddCircleOutlineIcon color='primary' fontSize='large'/>
                       <span>Dodaj ligi</span>
                     </ButtonAdjusted>
                     :
                     <>
-                      <LeaguesDDList league={this.state.league}
-                                     showDDList={this.state.showDDList}
-                                     leagues={this.state.leagues}
-                                     setLeague={this.setLeague}/>
+                      <LeagueSelect league={this.state.league}
+                                    leagues={this.state.leagues}
+                                    setLeague={this.setLeague}/>
                       <SportDataCard {...this.props}
                                      league={this.state.league}/>
                     </>
               }
-
             </CardBodySportPanel>
           </Card>
           <LeaguePickModal show={this.state.isModalVisible}
@@ -109,24 +119,3 @@ class SportPanel extends Component {
 }
 
 export default SportPanel;
-
-const SportPanelLayout = styled.div`
-  display: flex;
-  position: relative;
-  
-  @media only screen and (min-width: 768px) {
-    width: 40%;
-  }
-`
-
-const ButtonAdjusted = styled(Button)`
-  width: 100%;
-  height: 100%;
-`
-
-const CardBodySportPanel = styled(CardBody)`
-  align-items: center;
-  padding: 5px;
-  overflow: auto;
-  height: 100%;
-`

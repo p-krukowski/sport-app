@@ -4,7 +4,7 @@ import styled from "styled-components";
 import {login} from '../../util/apiUtils/AuthUtils';
 
 import {ACCESS_TOKEN} from '../../constants';
-import {Card, CardBody, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardHeader} from "../common/CardCustom";
 import Button from "../common/Button";
 import {theme} from "../../util/theme";
 

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import NewNewsForm from "./NewNewsForm";
 import styled from "styled-components";
 import {theme} from "../../util/theme";
-import {Card, CardBody, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardHeader} from "../common/CardCustom";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
 

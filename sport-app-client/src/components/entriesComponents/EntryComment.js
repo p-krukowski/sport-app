@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import {Card, CardBody, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardHeader} from "../common/CardCustom";
 import {theme} from "../../util/theme";
 import {dateTimeToWords} from "../../util/timeFormat";
 import Button from "../common/Button";

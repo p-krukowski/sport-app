@@ -6,6 +6,29 @@ const WEEK = 7 * DAY;
 const MONTH = 30 * DAY;
 const YEAR = 12 * MONTH;
 
+export function getDateTimeAsText(dateTime, date) {
+  const now = new Date();
+  let tomorrow = new Date(now);
+  tomorrow.setDate(now.getDate() + 1);
+  let yesterday = new Date(now);
+  yesterday.setDate(now.getDate() - 1);
+  const eventDate = new Date(dateTime);
+  let eventEndDate = new Date(eventDate);
+  eventEndDate.setMinutes(eventEndDate.getMinutes() + 105);
+
+  if (now > eventDate && now < eventEndDate) {
+    return 'Trwa';
+  } else if (now.getDate() === eventDate.getDate()) {
+    return 'Dzisiaj';
+  } else if (yesterday.getDate() === eventDate.getDate()) {
+    return 'Wczoraj';
+  } else if (tomorrow.getDate() === eventDate.getDate()) {
+    return 'Jutro';
+  } else {
+    return date;
+  }
+}
+
 export function dateTimeToWords(dateTime) {
   const date = new Date(dateTime);
   let now = new Date();

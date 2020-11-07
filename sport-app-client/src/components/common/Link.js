@@ -1,12 +1,10 @@
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 
-const LinkInButton = styled(Link)`
-  margin: 5px;
-  color: inherit;
+export const LinkAsText = styled(Link)`
+  text-decoration: none;
   
   :hover {
     text-decoration: none;
   }
 `
-export default LinkInButton;

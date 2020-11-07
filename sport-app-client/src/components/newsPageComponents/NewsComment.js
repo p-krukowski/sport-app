@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import styled from "styled-components";
-import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardFoot, CardHeader} from "../common/CardCustom";
 import {theme} from "../../util/theme";
 
 class NewsComment extends Component {

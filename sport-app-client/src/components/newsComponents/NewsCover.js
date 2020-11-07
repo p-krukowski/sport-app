@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import styled from "styled-components";
 import {Badge} from "react-bootstrap";
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
-import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardFoot, CardHeader} from "../common/CardCustom";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import ReportIcon from '@material-ui/icons/Report';
 import ForumIcon from '@material-ui/icons/Forum';

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CommentsSection from "./CommentsSection";
 import {addPointToEntry} from "../../util/apiUtils/EntriesUtils";
 import {ImageModal, ImageModalContent} from "../common/ImageModal";
-import {Card, CardBody, CardFoot, CardHeader} from "../common/CardC";
+import {Card, CardBody, CardFoot, CardHeader} from "../common/CardCustom";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import Button from "../common/Button";
 import {dateTimeToWords} from "../../util/timeFormat";
