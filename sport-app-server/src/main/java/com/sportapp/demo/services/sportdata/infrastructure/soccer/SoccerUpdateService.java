@@ -11,6 +11,8 @@ import com.sportapp.demo.services.sportdata.LeagueSoccerService;
 import com.sportapp.demo.services.sportdata.TeamScoreSoccerService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -129,7 +131,8 @@ public class SoccerUpdateService {
   private void setEventsAfterUpdate(LeagueSoccer leagueSoccer, List<EventSoccer> events) {
     events.forEach(event -> {
       event.setLeague(leagueSoccer);
-      event.setDateTime(LocalDateTime.of(event.getDate(), event.getTime()).plusHours(2));
+      event.setDateTime(
+          convertDateTimeToLocalTimeZone(LocalDateTime.of(event.getDate(), event.getTime())));
       event.setTime(event.getDateTime().toLocalTime());
       event.setDate(event.getDateTime().toLocalDate());
     });
@@ -195,12 +198,19 @@ public class SoccerUpdateService {
     event.setAwayScore(fetchedEvent.getAwayScore());
     event.setHomeScore(fetchedEvent.getHomeScore());
     event.setPostponed(fetchedEvent.getPostponed());
-    event.setDateTime(LocalDateTime.of(fetchedEvent.getDate(), fetchedEvent.getTime()).plusHours(2));
+    event
+        .setDateTime(LocalDateTime.of(fetchedEvent.getDate(), fetchedEvent.getTime()).plusHours(2));
     event.setTime(event.getDateTime().toLocalTime());
     event.setDate(event.getDateTime().toLocalDate());
   }
 
   private EventSoccer convertEventToEntity(EventSoccerApiDto eventSoccer) {
     return modelMapper.map(eventSoccer, EventSoccer.class);
+  }
+
+  private LocalDateTime convertDateTimeToLocalTimeZone(LocalDateTime dateTime) {
+    ZonedDateTime zonedDateTime = dateTime.atZone(ZoneId.of("UTC"));
+    ZonedDateTime localDateTime = zonedDateTime.withZoneSameInstant(ZoneId.of("Europe/Warsaw"));
+    return localDateTime.toLocalDateTime();
   }
 }
