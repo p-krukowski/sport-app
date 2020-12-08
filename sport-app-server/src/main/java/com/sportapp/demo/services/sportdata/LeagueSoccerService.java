@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 public class LeagueSoccerService {
 
   LeagueSoccerRepo leagueSoccerRepo;
+  EventSoccerService eventSoccerService;
 
-  public LeagueSoccerService(LeagueSoccerRepo leagueSoccerRepo) {
+  public LeagueSoccerService(LeagueSoccerRepo leagueSoccerRepo,
+      EventSoccerService eventSoccerService) {
     this.leagueSoccerRepo = leagueSoccerRepo;
+    this.eventSoccerService = eventSoccerService;
   }
 
   public void saveAll(List<LeagueSoccer> leagueSoccerList) {
@@ -61,5 +64,9 @@ public class LeagueSoccerService {
 
   public List<Long> findAllIds() {
     return leagueSoccerRepo.findAllIds();
+  }
+
+  public int findRoundsAmountById(Long leagueId) {
+    return eventSoccerService.findLastRoundNumberByLeagueId(leagueId);
   }
 }

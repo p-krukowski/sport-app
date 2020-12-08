@@ -45,6 +45,11 @@ public class LeagueSoccerController {
     return leagueSoccerService.findGetDtoById(leagueId);
   }
 
+  @GetMapping("/{leagueId}/roundsAmount")
+  public int fetchLeagueRoundsAmount(@PathVariable Long leagueId) {
+    return leagueSoccerService.findRoundsAmountById(leagueId);
+  }
+
   @PostMapping("/panel/")
   @ResponseStatus
   public ResponseEntity<HttpStatus> updateUserPanelLeagues(@RequestBody List<Long> leaguesIds,

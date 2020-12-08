@@ -58,4 +58,9 @@ public class EventSoccerService {
   public List<EventSoccer> findAllUnsetBeforeDate(LocalDate now) {
     return eventSoccerRepo.findAllUnsetBeforeDate(now);
   }
+
+  public int findLastRoundNumberByLeagueId(Long leagueId) {
+    return eventSoccerRepo.findLastRoundNumberByLeagueId(leagueId,
+        PageRequest.of(0, 1, Sort.Direction.DESC, "roundNumber")).get(0);
+  }
 }

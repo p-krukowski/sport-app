@@ -14,12 +14,13 @@ public class EventSoccerGetDto {
   private LocalDate date;
   private LocalTime time;
   private LocalDateTime dateTime;
+  private int roundNumber;
 
   public EventSoccerGetDto() {
   }
 
   public EventSoccerGetDto(String homeTeamName, String awayTeamName, Integer homeScore,
-      Integer awayScore, LocalDate date, LocalTime time, LocalDateTime dateTime) {
+      Integer awayScore, LocalDate date, LocalTime time, LocalDateTime dateTime, int roundNumber) {
     this.homeTeamName = homeTeamName;
     this.awayTeamName = awayTeamName;
     this.homeScore = homeScore;
@@ -27,6 +28,7 @@ public class EventSoccerGetDto {
     this.date = date;
     this.time = time;
     this.dateTime = dateTime;
+    this.roundNumber = roundNumber;
   }
 
   //----------Getters&Setters-----------
@@ -87,5 +89,13 @@ public class EventSoccerGetDto {
 
   public void setDateTime(LocalDateTime dateTime) {
     this.dateTime = dateTime;
+  }
+
+  public int getRoundNumber() {
+    return roundNumber;
+  }
+
+  public void setRoundNumber(int roundNumber) {
+    this.roundNumber = roundNumber;
   }
 }

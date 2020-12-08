@@ -12,7 +12,7 @@ export function getAllLeaguesByDiscipline(discipline) {
 
 export function getLeague(id) {
     return request({
-        url: componentUrl + "/soccer/leagues/" + id,
+        url: `${componentUrl}/soccer/leagues/${id}`,
         method: 'GET'
     });
 }
@@ -23,4 +23,11 @@ export function setPanelLeagues(leaguesIds) {
         method: 'POST',
         data: leaguesIds
     })
+}
+
+export function fetchRoundsAmountByLeagueId(leagueId) {
+    return request({
+        url: `${componentUrl}/soccer/leagues/${leagueId}/roundsAmount`,
+        method: 'GET'
+    });
 }

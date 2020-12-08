@@ -7,7 +7,7 @@ import AccountPage from './pages/AccountPage';
 import PanelPage from "./pages/PanelPage";
 import AllNewsPage from "./pages/AllNewsPage";
 import ResultsPage from "./pages/ResultsPage";
-import Layout from "./layout/Layout";
+import Layout from "./styles/Layout";
 import {getCurrentUser} from "./util/apiUtils/AuthUtils";
 import NavigationBar from "./components/common/NavigationBar";
 import NewsPage from "./pages/NewsPage";

@@ -12,7 +12,7 @@ import {
   SportPanelLayout
 } from "../../styles/panel/sportPanelStyles";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import {Divider} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 class SportPanel extends Component {
   constructor(props) {
@@ -101,9 +101,11 @@ class SportPanel extends Component {
                     </ButtonAdjusted>
                     :
                     <>
-                      <LeagueSelect league={this.state.league}
-                                    leagues={this.state.leagues}
-                                    setLeague={this.setLeague}/>
+                      <Box m={1}>
+                        <LeagueSelect league={this.state.league}
+                                      leagues={this.state.leagues}
+                                      setLeague={this.setLeague}/>
+                      </Box>
                       <SportDataCard {...this.props}
                                      league={this.state.league}/>
                     </>
