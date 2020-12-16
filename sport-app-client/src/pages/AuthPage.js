@@ -1,31 +1,26 @@
-import React, {Component} from "react";
-import styled from "styled-components";
+import React from "react";
 import {Redirect} from "react-router-dom";
 import SignUpForm from "../components/auth/SignUpForm";
 import SignInForm from "../components/auth/SignInForm";
+import {Grid} from "@material-ui/core";
 
-class AuthPage extends Component {
-  render() {
-    if (this.props.isAuthenticated) {
-      return <Redirect to={"/"}/>
-    } else {
-      return (
-          <AuthPageLayout>
-            <SignInForm/>
-            <SignUpForm/>
-          </AuthPageLayout>
-      );
-    }
+const AuthPage = (props) => {
+  if (props.isAuthenticated) {
+    return <Redirect to={"/"}/>
+  } else {
+    return (
+        <Grid container alignItems={"center"}>
+          <Grid item container justify={"center"} spacing={2}>
+            <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
+              <SignInForm/>
+            </Grid>
+            <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
+              <SignUpForm/>
+            </Grid>
+          </Grid>
+        </Grid>
+    );
   }
 }
 
 export default AuthPage;
-
-const AuthPageLayout = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-`

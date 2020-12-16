@@ -1,4 +1,4 @@
-export const chosenLeagueReducer = (state = {
+export const resultsReducer = (state = {
   chosenLeague: null
 }, action) => {
   switch (action.type) {

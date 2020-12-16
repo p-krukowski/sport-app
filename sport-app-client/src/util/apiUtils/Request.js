@@ -25,7 +25,7 @@ export const request = (options) => {
             else return response.data;
         })
         .catch(error => {
-            return Promise.reject(error);
+            return Promise.reject(error.response);
         });
 };
 

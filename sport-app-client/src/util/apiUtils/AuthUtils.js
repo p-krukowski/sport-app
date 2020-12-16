@@ -1,7 +1,7 @@
 import {ACCESS_TOKEN, API_BASE_URL} from '../../constants';
 import {request} from "./Request";
 
-export function login(loginRequest) {
+export function signIn(loginRequest) {
     return request({
         url: API_BASE_URL + "/api/auth/signin",
         method: 'POST',

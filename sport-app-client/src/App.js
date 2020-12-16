@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import styled from "styled-components";
+import React, {useEffect, useState} from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import EntriesPage from './pages/EntriesPage';
@@ -12,95 +11,85 @@ import {getCurrentUser} from "./util/apiUtils/AuthUtils";
 import NavigationBar from "./components/common/NavigationBar";
 import NewsPage from "./pages/NewsPage";
 import AuthPage from "./pages/AuthPage";
+import {connect} from "react-redux";
+import {setCurrentUser, setIsAuthenticated} from "./actions/authActions";
+import {MainContainer} from "./styles/mainContainerStyles";
 
-export default class App extends Component {
+const App = (props) => {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isAuthenticated: false,
-      isComponentReady: false,
-      containerHeight: 0
-    };
+  const [isComponentReady, setIsComponentReady] = useState(false);
+  const [containerHeight, setContainerHeight] = useState(0);
+
+  const updateNavbarHeight = (navbarHeight) => {
+    setContainerHeight(window.innerHeight - navbarHeight);
   }
 
-  updateNavbarHeight = (navbarHeight) => {
-    let ch = window.innerHeight - navbarHeight;
-    this.setState({
-      containerHeight: ch
-    })
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     getCurrentUser()
     .then(response => {
-      this.setState({
-        currentUser: response,
-        isAuthenticated: true,
-        isComponentReady: true
-      });
+      props.setUser(response);
+      props.setAuthenticated(true);
+      setIsComponentReady(true);
     }).catch(error => {
-      this.setState({
-        isAuthenticated: false,
-        isComponentReady: true
-      });
+      props.setAuthenticated(false);
+      setIsComponentReady(true);
     });
-  }
+  }, [])
 
-  render() {
-    const isAuthenticated = this.state.isAuthenticated;
-    return (
-        this.state.isComponentReady &&
-        <Router>
-          <Layout>
-            <NavigationBar isAuthenticated={isAuthenticated}
-                           currentUser={this.state.currentUser}
-                           updateNavbarHeight={this.updateNavbarHeight}/>
-            <MainContainer style={{height: this.state.containerHeight}}>
-              <Route path="/" exact render={
-                props => <PanelPage {...props}
-                                    isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/panel" exact render={
-                props => <PanelPage {...props}
-                                    isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/newsy" exact render={
-                props => <AllNewsPage {...props}
-                                      isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/wpisy" exact render={
-                props =>
-                    <EntriesPage {...props}
-                                 isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/wyniki" exact render={
-                props =>
-                    <ResultsPage {...props}
-                                 isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/moje-konto" exact render={
-                props => <AccountPage {...props}
-                                      isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/newsy/:id" render={
-                props => <NewsPage {...props}
-                                   isAuthenticated={isAuthenticated}/>}/>
-              <Route path="/logowanie" exact render={
-                props => <AuthPage {...props}
-                                    isAuthenticated={isAuthenticated}/>}/>
-            </MainContainer>
-          </Layout>
-        </Router>
-    );
-  }
+
+  return (
+      isComponentReady &&
+      <Router>
+        <Layout>
+          <NavigationBar isAuthenticated={props.isAuthenticated}
+                         currentUser={props.currentUser}
+                         updateNavbarHeight={updateNavbarHeight}/>
+          <MainContainer style={{height: containerHeight}}>
+            <Route path={["/", "/panel"]} exact render={
+              () => <PanelPage {...props}
+                                  isAuthenticated={props.isAuthenticated}/>}/>
+            <Route path="/newsy" exact render={
+              () => <AllNewsPage {...props}
+                                    isAuthenticated={props.isAuthenticated}/>}/>
+            <Route path="/wpisy" exact render={
+              () =>
+                  <EntriesPage {...props}
+                               isAuthenticated={props.isAuthenticated}/>}/>
+            <Route path="/wyniki" exact render={
+              () =>
+                  <ResultsPage {...props}
+                               isAuthenticated={props.isAuthenticated}/>}/>
+            <Route path="/moje-konto" exact render={
+              () => <AccountPage {...props}
+                                    isAuthenticated={props.isAuthenticated}/>}/>
+            <Route path="/newsy/:id" render={
+              () => <NewsPage {...props}
+                                 isAuthenticated={props.isAuthenticated}/>}/>
+            <Route path="/logowanie" exact render={
+              () => <AuthPage {...props}
+                                 isAuthenticated={props.isAuthenticated}/>}/>
+          </MainContainer>
+        </Layout>
+      </Router>
+  );
 }
 
-const MainContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px;
-  overflow: auto;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-  }
-`
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.auth.currentUser,
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: currentUser => {
+      dispatch(setCurrentUser(currentUser));
+    },
+    setAuthenticated: isAuthenticated => {
+      dispatch(setIsAuthenticated(isAuthenticated));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

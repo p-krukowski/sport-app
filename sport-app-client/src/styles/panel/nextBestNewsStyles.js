@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Link} from "@material-ui/core";
 
 export const NextBestNewsLayout = styled.div`
   display: flex;
@@ -61,7 +62,7 @@ export const Title = styled.div`
   -webkit-box-orient: vertical;
 `
 
-export const SourceUrlDiv = styled.a`
+export const SourceUrlDiv = styled(Link)`
   height: 100%;
   font-size: 0.8em;
   display: flex;

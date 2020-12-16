@@ -6,6 +6,7 @@ import {Badge} from "react-bootstrap";
 import {dateTimeToWords} from "../../util/timeFormat";
 import {getDomainFromLink} from "../../util/linkUtils";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
+import {Link} from "@material-ui/core";
 
 class BestNews extends Component {
   render() {
@@ -109,7 +110,7 @@ const Info = styled.div`
   align-items: center;
   width: 100%;
 `
-const SourceUrlDiv = styled.a`
+const SourceUrlDiv = styled(Link)`
   height: 100%;
   display: flex;
   flex-direction: row;
