@@ -14,6 +14,9 @@ export const muiTheme = createMuiTheme({
   props: {
     MuiTextField: {
       variant: "outlined"
+    },
+    MuiIconButton: {
+      color: "inherit"
     }
   },
   overrides: {
@@ -118,6 +121,14 @@ export const muiTheme = createMuiTheme({
     MuiBackdrop: {
       root: {
         zIndex:'auto'
+      }
+    },
+    MuiMenuItem: {
+      root: {
+        '&:hover': {
+          backgroundColor: theme.colors.gray,
+          color: 'inherit'
+        }
       }
     }
   },

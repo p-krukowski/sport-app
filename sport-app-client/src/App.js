@@ -8,7 +8,7 @@ import AllNewsPage from "./pages/AllNewsPage";
 import ResultsPage from "./pages/ResultsPage";
 import Layout from "./styles/Layout";
 import {getCurrentUser} from "./util/apiUtils/AuthUtils";
-import NavigationBar from "./components/common/NavigationBar";
+import NavigationBar from "./components/navbar/NavigationBar";
 import NewsPage from "./pages/NewsPage";
 import AuthPage from "./pages/AuthPage";
 import {connect} from "react-redux";

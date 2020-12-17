@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
 import {getBasicTableSoccer} from "../../util/apiUtils/TablesUtils";
-import {Table, TableContainer, TableHead, TableRow} from "@material-ui/core";
+import {
+  Table,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography
+} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import TableBody from "@material-ui/core/TableBody";
 import {TableNarrowCell, TableNumberCell} from "../../styles/tableStyles";
+import Box from "@material-ui/core/Box";
 
 class TableSoccer extends Component {
   constructor(props) {
@@ -17,10 +24,21 @@ class TableSoccer extends Component {
   getTable = (id) => {
     getBasicTableSoccer(id)
     .then(response => {
+      response.sort(this.compare);
       this.setState({
         teams: response
-      })
+      });
     });
+  }
+
+  compare(a, b) {
+    if (a.total < b.total) {
+      return 1;
+    }
+    if (a.total > b.total) {
+      return -1;
+    }
+    return 0;
   }
 
   componentDidMount() {
@@ -52,7 +70,11 @@ class TableSoccer extends Component {
                     <TableNumberCell>
                       {index + 1}.
                     </TableNumberCell>
-                    <TableNarrowCell>{team.name}</TableNarrowCell>
+                    <TableNarrowCell>
+                      <Box style={{width: "15ch"}}>
+                        <Typography noWrap>{team.name}</Typography>
+                      </Box>
+                    </TableNarrowCell>
                     <TableNarrowCell>{team.played}</TableNarrowCell>
                     <TableNarrowCell>{team.total}</TableNarrowCell>
                   </TableRow>
