@@ -8,18 +8,12 @@ import {signUpValidationSchema} from "../../util/validation/authValidationSchema
 import {TextInput} from "../common/TextInput";
 import {CheckboxWithLabel} from "../common/CheckboxWithLabel";
 import Button from "@material-ui/core/Button";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogActions from "@material-ui/core/DialogActions";
-import Dialog from "@material-ui/core/Dialog";
-import Alert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import SignUpSuccessDialog from "./SingUpSuccessDialog";
+import SignUpAlert from "./SignUpAlert";
 
 const SignUpForm = () => {
-
   const [dialog, setDialog] = useState(false);
   const [alertBox, setAlertBox] = useState(false);
   const [alertInfo, setAlertInfo] = useState('');
@@ -33,7 +27,7 @@ const SignUpForm = () => {
     signUp(signupRequest)
     .then(response => {
       setBackdrop(false);
-      handleDialog();
+      setDialog(true);
       resetForm();
     })
     .catch(error => {
@@ -45,10 +39,6 @@ const SignUpForm = () => {
         alert("Bład serwera");
       }
     })
-  }
-
-  const handleDialog = () => {
-    setDialog(!dialog);
   }
 
   return (
@@ -135,30 +125,8 @@ const SignUpForm = () => {
             </Grid>
           </Grid>
         </Box>
-        <Dialog
-            open={dialog}
-            onClose={handleDialog}
-        >
-          <DialogTitle>Zarejestrowano!</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Potwierdź swój e-mail, klikając link, który
-              wysłaliśmy na Twój e-mail.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleDialog} color="primary">
-              Ok
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Snackbar
-            open={alertBox}
-            autoHideDuration={6000}
-            onClose={() => setAlertBox(false)}
-        >
-          <Alert severity="warning">{alertInfo}</Alert>
-        </Snackbar>
+        <SignUpSuccessDialog dialog={dialog} setDialog={setDialog}/>
+        <SignUpAlert alertInfo={alertInfo} alertBox={alertBox} setAlertBox={setAlertBox}/>
         <Backdrop open={backdrop} onClick={() => setBackdrop(false)}>
           <CircularProgress color="primary" />
         </Backdrop>
