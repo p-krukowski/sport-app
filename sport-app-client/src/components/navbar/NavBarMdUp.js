@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import AppBar from "@material-ui/core/AppBar";
-import {Button, Toolbar, Typography} from "@material-ui/core";
+import {Toolbar, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LinkBlank from "../common/LinkBlank";
 import AccountButton from "./AccountButton";
+import {connect} from "react-redux";
+import {setNavBarHeight} from "../../actions/layoutActions";
+import {pageList} from "../../util/pageList";
 
-const NavigationBar = (props) => {
+const NavBarMdUp = (props) => {
   const [tab, setTab] = useState(false);
 
   useEffect(() => {
-    props.updateNavbarHeight(document.getElementById('navbar').clientHeight);
+    props.setNavBarHeight(document.getElementById('navbar').clientHeight);
   }, [])
 
   const handleTabChange = (event, newTab) => {
@@ -19,7 +22,7 @@ const NavigationBar = (props) => {
   }
 
   return (
-      <AppBar id='navbar' position="static" color={"transparent"}>
+      <AppBar id="navbar" position="static" color={"transparent"}>
         <Toolbar variant={"dense"}>
           <Grid container justify={"space-between"}>
             <Grid item xs container alignItems={"center"}>
@@ -38,26 +41,19 @@ const NavigationBar = (props) => {
                   onChange={handleTabChange}
                   indicatorColor={"primary"}
               >
-                <Tab component={LinkBlank} to={"/panel"} label="Panel"/>
-                <Tab component={LinkBlank} to={"/newsy"} label="Newsy"/>
-                <Tab component={LinkBlank} to={"/wpisy"} label="Wpisy"/>
-                <Tab component={LinkBlank} to={"/wyniki"} label="Wyniki"/>
+                {
+                  pageList().map((page, index) => (
+                      <Tab
+                          key={index}
+                          label={page.name}
+                          component={LinkBlank}
+                          to={page.address}/>
+                  ))
+                }
               </Tabs>
             </Grid>
             <Grid item xs container alignItems={"center"} justify={"flex-end"}>
-              {
-                !props.isAuthenticated ?
-                    <Button
-                        component={LinkBlank}
-                        to={"/logowanie"}
-                        onClick={() => setTab(false)}
-                        variant={"outlined"}
-                        size={"small"}
-                        color={"primary"}
-                    >Logowanie</Button>
-                    :
-                    <AccountButton setTab={setTab}/>
-              }
+              <AccountButton setTab={setTab}/>
             </Grid>
           </Grid>
         </Toolbar>
@@ -65,4 +61,18 @@ const NavigationBar = (props) => {
   );
 }
 
-export default NavigationBar;
+const mapStateToProps = state => {
+  return {
+    navBarHeight: state.layout.navBarHeight
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setNavBarHeight: navBarHeight => {
+      dispatch(setNavBarHeight(navBarHeight))
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBarMdUp);

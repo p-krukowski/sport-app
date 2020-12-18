@@ -1,5 +1,6 @@
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {theme} from "./theme";
+import {plPL} from "@material-ui/core/locale";
 
 export const muiTheme = createMuiTheme({
   palette: {
@@ -90,9 +91,10 @@ export const muiTheme = createMuiTheme({
     },
     MuiFab: {
       root: {
-        position: "absolute",
+        position: "fixed",
         bottom: '16px',
-        left: '16px'
+        right: '16px',
+        zIndex: 50
       }
     },
     MuiOutlinedInput: {
@@ -130,6 +132,34 @@ export const muiTheme = createMuiTheme({
           color: 'inherit'
         }
       }
+    },
+    MuiAppBar: {
+      colorPrimary: {
+        color: "inherit",
+        backgroundColor: theme.colors.background
+      }
+    },
+    MuiList: {
+      root: {
+        backgroundColor: theme.colors.background,
+        '&:hover': {
+          backgroundColor: theme.colors.background,
+          color: 'inherit'
+        }
+      }
+    },
+    MuiListItem: {
+      root: {
+        "&$selected": {
+          borderRight: `5px solid ${theme.colors.primary}`,
+          borderLeft: `5px solid ${theme.colors.primary}`,
+          color: 'white',
+          backgroundColor: "rgba(0,0,0,0.3)",
+          "&:hover": {
+            backgroundColor: "rgba(0,0,0,0.3)",
+          },
+        },
+      },
     }
   },
   typography: {
