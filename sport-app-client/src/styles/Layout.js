@@ -37,7 +37,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: 0;
-    font-family: 'Montserrat'; 
+    font-family: 'Montserrat', sans-serif; 
     font-size: 1em;
     color: white;
     background: ${theme.colors.background} !important;
