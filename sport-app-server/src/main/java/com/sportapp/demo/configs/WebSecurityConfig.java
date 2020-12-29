@@ -106,6 +106,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/sport/**").permitAll()
         .antMatchers("/news/**").permitAll()
         .antMatchers("/registrationConfirm/**").permitAll()
+        .antMatchers("/media/file/**").permitAll()
         .antMatchers("/",
             "/*.ico",
             "/**/*.png",
