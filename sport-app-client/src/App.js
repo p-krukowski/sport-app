@@ -16,10 +16,19 @@ import {MainContainer} from "./styles/mainContainerStyles";
 import Hidden from "@material-ui/core/Hidden";
 import NavBar from "./components/navbar/NavBar";
 import Box from "@material-ui/core/Box";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from "@material-ui/core";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import Button from "./components/common/Button";
 
 const App = (props) => {
 
   const [isComponentReady, setIsComponentReady] = useState(false);
+  const [demoDialog, setDemoDialog] = useState(true);
 
   useEffect(() => {
     getCurrentUser()
@@ -32,6 +41,10 @@ const App = (props) => {
       setIsComponentReady(true);
     });
   }, [])
+
+  const handleClose = () => {
+    setDemoDialog(false);
+  }
 
   return (
       isComponentReady &&
@@ -66,6 +79,24 @@ const App = (props) => {
               () => <AuthPage {...props}
                               isAuthenticated={props.isAuthenticated}/>}/>
           </MainContainer>
+          <Dialog
+              open={demoDialog}
+              onClose={handleClose}
+          >
+            <DialogTitle>Aplikacja w trakcie rozwoju</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Witaj na demonstracyjnej stronie SportApp. Aplikacja jest w
+                trakcie
+                rozwoju, więc jej funkcjonalność jest ograniczona.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>
+                Rozumiem
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Layout>
       </Router>
   );
