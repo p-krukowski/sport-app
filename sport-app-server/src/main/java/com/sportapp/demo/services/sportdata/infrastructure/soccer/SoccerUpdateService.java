@@ -6,6 +6,7 @@ import com.sportapp.demo.models.dtos.sportdata.soccer.TeamScoreSoccerListApiDto;
 import com.sportapp.demo.models.sportdata.EventSoccer;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
+import com.sportapp.demo.services.mappers.EventSoccerMapper;
 import com.sportapp.demo.services.sportdata.EventSoccerService;
 import com.sportapp.demo.services.sportdata.LeagueSoccerService;
 import com.sportapp.demo.services.sportdata.TeamScoreSoccerService;
@@ -116,12 +117,8 @@ public class SoccerUpdateService {
       RoundSoccerApiDto roundDto = soccerApiCommunication
           .fetchRound(roundNumber, leagueSoccer.getExternalId());
       if (roundDto.getEvents() != null) {
-        roundDto.getEvents().forEach(eventDto -> {
-          if (eventDto.getIsPostponed().equals("yes")) {
-            eventDto.setPostponed(true);
-          }
-          events.add(convertEventToEntity(eventDto));
-        });
+        roundDto.getEvents().forEach(eventDto ->
+            events.add(EventSoccerMapper.mapDtoToEntity(eventDto)));
       } else {
         break;
       }
@@ -187,7 +184,7 @@ public class SoccerUpdateService {
         .fetchEvent(event.getExternalId()).getEvents().stream().findAny();
     if (fetchedEventDtoOpt.isPresent()) {
       EventSoccerApiDto fetchedEventDto = fetchedEventDtoOpt.get();
-      EventSoccer fetchedEvent = convertEventToEntity(fetchedEventDto);
+      EventSoccer fetchedEvent = EventSoccerMapper.mapDtoToEntity(fetchedEventDto);
       setEventAfterUpdate(event, fetchedEvent);
       eventSoccerService.save(event);
     }
@@ -198,14 +195,10 @@ public class SoccerUpdateService {
     event.setAwayScore(fetchedEvent.getAwayScore());
     event.setHomeScore(fetchedEvent.getHomeScore());
     event.setPostponed(fetchedEvent.getPostponed());
-    event
-        .setDateTime(LocalDateTime.of(fetchedEvent.getDate(), fetchedEvent.getTime()).plusHours(2));
+    event.setDateTime(convertDateTimeToLocalTimeZone(
+        LocalDateTime.of(fetchedEvent.getDate(), fetchedEvent.getTime())));
     event.setTime(event.getDateTime().toLocalTime());
     event.setDate(event.getDateTime().toLocalDate());
-  }
-
-  private EventSoccer convertEventToEntity(EventSoccerApiDto eventSoccer) {
-    return modelMapper.map(eventSoccer, EventSoccer.class);
   }
 
   private LocalDateTime convertDateTimeToLocalTimeZone(LocalDateTime dateTime) {
