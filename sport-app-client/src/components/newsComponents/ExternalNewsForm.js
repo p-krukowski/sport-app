@@ -162,7 +162,6 @@ const ExternalNewsFormLayout = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 10px;
 
   form > * {
     margin-top: 10px;

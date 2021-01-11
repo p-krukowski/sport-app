@@ -1,6 +1,5 @@
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import {theme} from "./theme";
-import {plPL} from "@material-ui/core/locale";
 
 export const muiTheme = createMuiTheme({
   palette: {
@@ -18,6 +17,13 @@ export const muiTheme = createMuiTheme({
     },
     MuiIconButton: {
       color: "inherit"
+    },
+    MuiButton: {
+      variant: "outlined",
+      color: "inherit"
+    },
+    MuiLink: {
+      underline: "none"
     }
   },
   overrides: {
@@ -160,6 +166,14 @@ export const muiTheme = createMuiTheme({
           },
         },
       },
+    },
+    MuiLink: {
+      root: {
+        color: 'white',
+        '&:hover': {
+          color: theme.colors.lightgray
+        }
+      }
     }
   },
   typography: {

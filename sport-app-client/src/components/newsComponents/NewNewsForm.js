@@ -1,63 +1,42 @@
-import React, {Component} from "react";
-import styled from "styled-components";
+import React, {useState} from "react";
 import ExternalNewsForm from "./ExternalNewsForm";
 import CustomNewsForm from "./CustomNewsForm";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+import {Grid} from "@material-ui/core";
 
-class NewNewsForm extends Component {
-    constructor(props) {
-        super(props);
+const NewNewsForm = () => {
 
-        this.state = {
-            external: true
+  const [external, setExternal] = useState(false);
+
+  return (
+      <Grid container justify={"center"}>
+        <Grid item>
+          <ButtonGroup size="large" color="primary">
+            <Button variant={external === true ? "contained" : ""}
+                    onClick={() => setExternal(true)}>
+              Z linku
+            </Button>
+            <Button variant={external === false ? "contained" : ""}
+                    onClick={() => setExternal(false)}>
+              Własny
+            </Button>
+          </ButtonGroup>
+        </Grid>
+        {
+          external &&
+          <Grid item xs={12}>
+            <ExternalNewsForm/>
+          </Grid>
         }
-    }
-
-    setChecked(name) {
-        if (name === "external") {
-            this.setState({
-                external: true
-            })
-        } else {
-            this.setState({
-                external: false
-            })
+        {
+          !external &&
+          <Grid item xs={12}>
+            <CustomNewsForm/>
+          </Grid>
         }
-    }
-
-    render() {
-        return (
-            <NewNewsFormLayout>
-                <ButtonGroup size="large" color="primary">
-                    <Button variant={this.state.external === true ? "contained" : ""}
-                            name="external"
-                            onClick={(e) => this.setChecked(e.currentTarget.name)}>
-                        Z linku
-                    </Button>
-                    <Button variant={this.state.external === false ? "contained" : ""}
-                            name="custom"
-                            onClick={(e) => this.setChecked(e.currentTarget.name)}>
-                        Własny
-                    </Button>
-                </ButtonGroup>
-                {
-                    this.state.external &&
-                    <ExternalNewsForm/>
-                }
-                {
-                    !this.state.external &&
-                    <CustomNewsForm/>
-                }
-            </NewNewsFormLayout>
-        );
-    }
-}
+      </Grid>
+  );
+};
 
 export default NewNewsForm;
-
-const NewNewsFormLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`

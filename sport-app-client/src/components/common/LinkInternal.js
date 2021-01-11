@@ -1,14 +1,14 @@
 import styled from "styled-components";
-import {Link} from "react-router-dom";
+import {Link as RouterLink} from "react-router-dom";
 import {theme} from "../../util/theme";
 
-const LinkBlank = styled(Link)`
+const LinkInternal = styled(RouterLink)`
   color: white;
   transition: color .3s;
   
   :hover {
-    color: ${theme.colors.primary};
+    color: ${theme.colors.lightgray};
     text-decoration: none;
   }
 `
-export default LinkBlank;
+export default LinkInternal;

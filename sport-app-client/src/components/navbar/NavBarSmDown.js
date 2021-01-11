@@ -9,7 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import HideOnScroll from "../common/HideOnScroll";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import LinkBlank from "../common/LinkBlank";
+import LinkInternal from "../common/LinkInternal";
 import {pageList} from "../../util/pageList";
 import Box from "@material-ui/core/Box";
 import FadeOutOnScroll from "../common/FadeOutOnScroll";
@@ -31,7 +31,7 @@ const NavBarSmDown = () => {
               <Grid container justify={"space-between"}>
                 <Grid item>
                   <Tab
-                      component={LinkBlank}
+                      component={LinkInternal}
                       to={"/panel"}
                       label={"SportApp"}
                       onClick={() => setPageIndex(0)}/>
@@ -61,7 +61,7 @@ const NavBarSmDown = () => {
                   <ListItem
                       key={index}
                       button
-                      component={LinkBlank}
+                      component={LinkInternal}
                       to={page.address}
                       selected={index === pageIndex}
                       onClick={() => setPageIndex(index)}

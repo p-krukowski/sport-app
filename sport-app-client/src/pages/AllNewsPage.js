@@ -1,85 +1,64 @@
-import React, {Component} from "react";
-import styled from "styled-components";
+import React, {useState} from "react";
 
 import AllNews from "../components/newsComponents/AllNews";
-import Button from "../components/common/Button";
 import DescriptionIcon from '@material-ui/icons/Description';
 import NewNewsModal from "../components/newsComponents/NewNewsModal";
-import {uploadNewsCover} from "../util/apiUtils/MediaUploadUtils";
-import {IconButton} from "@material-ui/core";
-import {PhotoCamera} from "@material-ui/icons";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import {connect} from "react-redux";
+import {setShowNewNewsModal} from "../actions/modalsActions";
 
-class AllNewsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modalShow: false
-    };
-  }
+const AllNewsPage = (props) => {
 
-  setModalShow = (b) => {
-    this.setState({
-      modalShow: b
-    })
-  }
+  return (
+      <>
+        <Grid container justify={"center"}>
+          <Grid item xs={0} lg={3}/>
+          <Grid
+              item xs={12} md={8} lg={6}
+              container spacing={1}
+          >
 
-  state = {file: null}
+            {
+              props.isAuthenticated &&
+              <Grid item xs={12}>
+                <Button onClick={() => props.setShowModal(true)}
+                        style={{width: "100%"}}>
+                  Utwórz nowy
+                  <Box ml={1}>
+                    <DescriptionIcon/>
+                  </Box>
+                </Button>
+              </Grid>
+            }
+            <Grid item xs={12}>
+              <AllNews isAuthenticated={props.isAuthenticated}/>
+            </Grid>
+          </Grid>
+          <Grid item xs={0} md={4} lg={3}/>
+        </Grid>
 
-  handleFile = (event) => {
-    this.setState({file: event.target.files[0]})
-  }
-
-  handleUpload = () => {
-    const formData = new FormData();
-    formData.append("file", this.state.file);
-    uploadNewsCover(formData)
-    .then(res => {
-      alert(res);
-    });
-  }
-
-  render() {
-    return (
-        <AllNewsPageLayout>
-          {/*<input*/}
-          {/*    accept="image/*"*/}
-          {/*    type="file"*/}
-          {/*    style={{display: "none"}}*/}
-          {/*    onChange={this.handleFile}*/}
-          {/*    ref={fileInput => this.fileInput = fileInput}*/}
-          {/*/>*/}
-          {/*<IconButton color="primary" component="span"*/}
-          {/*            onClick={() => this.fileInput.click()}>*/}
-          {/*  <PhotoCamera/>*/}
-          {/*</IconButton>*/}
-          {/*<Button onClick={this.handleUpload}>Upload</Button>*/}
-          {
-            this.props.isAuthenticated &&
-            <Button onClick={() => this.setModalShow(true)}
-                    style={{marginBottom: '10px'}}>
-              Utwórz nowy
-              <DescriptionIcon style={{marginLeft: '5px'}}/>
-            </Button>
-          }
-          <AllNews modalShow={this.state.modalShow}
-                   isAuthenticated={this.props.isAuthenticated}/>
-
-          <NewNewsModal open={this.state.modalShow}
-                        setModalShow={this.setModalShow}/>
-        </AllNewsPageLayout>
-    )
-  }
+        <NewNewsModal
+            open={props.showModal}
+            //open={true}
+            setModalShow={props.setShowModal}/>
+      </>
+  )
 }
 
-export default AllNewsPage;
+const mapStateToProps = (state) => {
+  return {
+    showModal: state.modals.showNewNewsModal
+  };
+};
 
-const AllNewsPageLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  
-  @media only screen and (min-width: 768px) {
-    width: 50%;
-    max-width: 850px;
-    margin: 0 auto;
-  }
-`
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setShowModal: showModal => {
+      dispatch(setShowNewNewsModal(showModal));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllNewsPage);

@@ -1,12 +1,7 @@
 package com.sportapp.demo.services.media;
 
 import com.amazonaws.AmazonClientException;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -28,10 +23,12 @@ public class FileUploadService {
   private String mediaBucketName;
   @Value("${S3MediaUrl}")
   private String mediaUrl;
-  @Value("${S3AccessKey}")
-  private String s3AccessKey;
-  @Value("${S3SecretKey}")
-  private String s3SecretKey;
+
+  AwsUtils awsUtils;
+
+  public FileUploadService(AwsUtils awsUtils) {
+    this.awsUtils = awsUtils;
+  }
 
   public ResponseEntity<?> uploadNewsCover(MultipartFile file) {
     try {
@@ -58,7 +55,7 @@ public class FileUploadService {
 
   private void uploadFile(MultipartFile file, String fileName)
       throws IOException, InterruptedException {
-    AmazonS3 amazonS3Client = setAmazonS3Client();
+    AmazonS3 amazonS3Client = awsUtils.setAmazonS3Client();;
     uploadFileToS3(file, fileName, amazonS3Client);
   }
 
@@ -71,11 +68,11 @@ public class FileUploadService {
         .withMultipartUploadThreshold((long) (5 * 1024 * 1025))
         .build();
 
-    PutObjectRequest request = createRequest(multipartFile, fileName);
+    PutObjectRequest request = createPutObjectRequest(multipartFile, fileName);
     transferManager.upload(request).waitForCompletion();
   }
 
-  private PutObjectRequest createRequest(MultipartFile multipartFile, String fileName)
+  private PutObjectRequest createPutObjectRequest(MultipartFile multipartFile, String fileName)
       throws IOException {
     ObjectMetadata objectMetadata = new ObjectMetadata();
     objectMetadata.setContentLength(multipartFile.getSize());
@@ -83,14 +80,5 @@ public class FileUploadService {
     return new PutObjectRequest(mediaBucketName, fileName, multipartFile.getInputStream(),
         objectMetadata)
         .withCannedAcl(CannedAccessControlList.PublicRead);
-  }
-
-  private AmazonS3 setAmazonS3Client() {
-    AWSCredentials awsCredentials = new BasicAWSCredentials(s3AccessKey, s3SecretKey);
-    return AmazonS3ClientBuilder
-        .standard()
-        .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-        .withRegion(Regions.EU_CENTRAL_1)
-        .build();
   }
 }

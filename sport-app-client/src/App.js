@@ -80,7 +80,8 @@ const App = (props) => {
                               isAuthenticated={props.isAuthenticated}/>}/>
           </MainContainer>
           <Dialog
-              open={demoDialog}
+              open={false}
+              //open={demoDialog}
               onClose={handleClose}
           >
             <DialogTitle>Aplikacja w trakcie rozwoju</DialogTitle>

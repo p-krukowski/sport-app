@@ -26,11 +26,6 @@ const CardHeader = styled.div`
   border-color: inherit;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  
-  
-  @media only screen and (min-width: 768px) {
-    font-size: 1.1em;
-  }
 `
 
 const CardBody = styled.div`

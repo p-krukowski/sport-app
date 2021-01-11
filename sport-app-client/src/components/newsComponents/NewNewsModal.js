@@ -5,33 +5,32 @@ import {theme} from "../../util/theme";
 import {Card, CardBody, CardHeader} from "../common/CardCustom";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
+import {Typography} from "@material-ui/core";
 
-class NewNewsModal extends Component {
+const NewNewsModal = (props) => {
 
-  render() {
-    return (
-        <ModalCustom open={this.props.open}
-                     onClose={() => this.props.setModalShow(false)}>
-          <Fade in={this.props.open}>
-            <NewNewsModalLayout tabIndex={-1}>
-              <CardHeader>
-                <h3>Nowy news</h3>
-              </CardHeader>
-              <CardBody>
-                <NewNewsForm/>
-              </CardBody>
-            </NewNewsModalLayout>
-          </Fade>
-        </ModalCustom>
-    )
-  }
-}
+  return (
+      <ModalCustom open={props.open}
+                   onClose={() => props.setModalShow(false)}>
+        <Fade in={props.open}>
+          <NewNewsModalLayout tabIndex={-1}>
+            <CardHeader>
+              <Typography variant={"h5"}>Nowy news</Typography>
+            </CardHeader>
+            <CardBody>
+              <NewNewsForm/>
+            </CardBody>
+          </NewNewsModalLayout>
+        </Fade>
+      </ModalCustom>
+  );
+};
 
 export default NewNewsModal;
 
 const NewNewsModalLayout = styled(Card)`
   background-color: ${theme.colors.navbar};
-  
+
   @media only screen and (min-width: 768px) {
     width: 600px;
   }

@@ -1,129 +1,215 @@
-import React, {Component} from "react";
-import {Image} from "react-bootstrap";
+import React, {useEffect, useRef, useState} from "react";
 import {addNews} from "../../util/apiUtils/NewsUtils";
 import {Form, Formik} from "formik";
 import * as Yup from "yup";
 import {TextInput} from "../common/customInputs";
 import Button from "@material-ui/core/Button";
 import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
+import PanoramaSharpIcon from '@material-ui/icons/PanoramaSharp';
+import {CircularProgress, IconButton} from "@material-ui/core";
+import {uploadNewsCover} from "../../util/apiUtils/MediaUploadUtils";
+import Hidden from "@material-ui/core/Hidden";
+import {deleteNewsCoverFromUrl} from "../../util/apiUtils/MediaDeleteUtils";
+import {connect} from "react-redux";
+import {setShowNewNewsModal} from "../../actions/modalsActions";
 
-class CustomNewsForm extends Component {
-    constructor(props) {
-        super(props);
+const DEFAULT_NEWS_COVER = "https://sport-app-media.s3.eu-central-1.amazonaws.com/"
+    + "images/common/default_image.jpg";
 
-        this.state = {
-            news: {
-                imageURL: 'https://portalkomunalny.pl/wp-content/plugins/accelerated-mobile-pages/images/SD-default-image.png',
-                title: '',
-                description: '',
-                content: ''
-            }
-        }
+const CustomNewsForm = (props) => {
+
+  const [imageUrl, setImageUrl] = useState(DEFAULT_NEWS_COVER);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingComplete, setUploadingComplete] = useState(false);
+
+  const inputRef = useRef();
+
+  const handleFile = (event) => {
+    if (uploadingComplete) {
+      handleDelete();
     }
+    setUploadingImage(true);
+    uploadImage(event.target.files[0]);
+  };
 
-    handleCreate = (values) => {
-        const news = {
-            title: values.title,
-            description: values.description,
-            imageURL: this.state.news.imageURL,
-            content: values.content
-        }
-        addNews(news)
-        .then(response => {
-            window.location.reload();
-        });
+  const uploadImage = (file) => {
+    const formData = new FormData();
+
+    formData.append("file", file);
+    uploadNewsCover(formData)
+    .then(fetchedImageUrl => {
+      setImageUrl(fetchedImageUrl);
+      setUploadingImage(false);
+      setUploadingComplete(true);
+    })
+    .catch(error => {
+      console.log(new Error(error));
+      setUploadingImage(false);
+    });
+  }
+
+  const handleCreate = (values) => {
+    const news = {
+      title: values.title,
+      description: values.description,
+      imageURL: imageUrl,
+      content: values.content,
+      tags: values.tags
     }
+    addNews(news)
+    .then(response => {
+      window.location.reload();
+    });
+  }
 
-    render() {
-        return (
-            <CustomNewsFormLayout>
-                <Formik
-                    initialValues={{
-                        title: '',
-                        description: '',
-                        content: '',
-                        tags: ''
-                    }}
-                    validationSchema={Yup.object({
-                        title: Yup.string()
-                        .max(90, "Wpisz nie więcej niż 90 znaków")
-                        .min(10, "Wpisz co najmniej 10 znaków")
-                        .required("To pole jest wymagane"),
-                        description: Yup.string()
-                        .max(350, "Wpisz nie więcej niż 350 znaków")
-                        .min(10, "Wpisz co najmniej 10 znaków")
-                        .required("To pole jest wymagane"),
-                        content: Yup.string()
-                        .min(400, "Wpisz co najmniej 400 znaków")
-                        .required("To pole jest wymagane")
-                    })}
-                    onSubmit={(values, {setSubmitting}) => {
-                        this.handleCreate(values);
-                    }}>
-                    <Form autoComplete="off">
-                        <BasicDataLayout>
-                            <Inputs>
-                                <TextInput
-                                    name="title"
-                                    inputProps={{maxLength: 90}}
-                                    label="Tytuł"
-                                />
-                                <TextInput
-                                    name="description"
-                                    multiline
-                                    rows={3}
-                                    inputProps={{maxLength: 350}}
-                                    label="Opis..."
-                                />
-                            </Inputs>
-                            <Image src={this.state.news.imageURL}
-                                   rounded
-                                   fluid
-                                   style={{height: "145px"}}/>
-                        </BasicDataLayout>
-                        <TextInput
-                            name="content"
-                            inputProps={{minLength: 400}}
-                            label="Treść artykułu"
-                            multiline
-                            rows={4}
-                        />
-                        <TextInput
-                            name="tags"
-                            inputProps={{maxLength: 100}}
-                            label="#tag1 #tag2 ..."
-                        />
-                        <Button
-                            type="submit"
-                            variant="outlined"
-                            color="primary"
-                        >
-                            Utwórz
-                        </Button>
-                    </Form>
-                </Formik>
-            </CustomNewsFormLayout>
-        );
+  const handleDelete = () => {
+    deleteNewsCoverFromUrl(imageUrl)
+    .then(response => {
+    })
+    .catch(error => {
+      alert(error);
+    })
+  }
+
+  useEffect(() => {
+    if (!props.showModal && uploadingComplete) {
+      handleDelete();
     }
-}
+  }, [props.showModal])
 
-export default CustomNewsForm;
+  return (
+      <CustomNewsFormLayout>
+        <Formik
+            initialValues={{
+              title: '',
+              description: '',
+              content: '',
+              tags: ''
+            }}
+            validationSchema={Yup.object({
+              title: Yup.string()
+              .max(90, "Wpisz nie więcej niż 90 znaków")
+              .min(10, "Wpisz co najmniej 10 znaków")
+              .required("To pole jest wymagane"),
+              description: Yup.string()
+              .max(350, "Wpisz nie więcej niż 350 znaków")
+              .min(10, "Wpisz co najmniej 10 znaków")
+              .required("To pole jest wymagane"),
+              content: Yup.string()
+              .min(400, "Wpisz co najmniej 400 znaków")
+              .required("To pole jest wymagane"),
+              tags: Yup.string()
+              .max(100, "Wpisz nie więcej niż 100 znaków")
+            })}
+            onSubmit={(values, {setSubmitting}) => {
+              handleCreate(values);
+            }}>
+          <Form autoComplete="off">
+            <Grid container spacing={1}>
+              <Grid item container spacing={1}>
+                <Grid item xs={8} container spacing={1}>
+                  <Grid item xs={12}>
+                    <TextInput
+                        name="title"
+                        inputProps={{maxLength: 90}}
+                        label="Tytuł"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextInput
+                        name="description"
+                        multiline
+                        rows={3}
+                        inputProps={{maxLength: 350}}
+                        label="Opis..."
+                    />
+                  </Grid>
+                </Grid>
+                <Grid item xs>
+                  <input
+                      accept="image/*"
+                      type="file"
+                      style={{display: "none"}}
+                      onChange={handleFile}
+                      ref={inputRef}
+                  />
+                  <IconButton
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        borderRadius: "5px"
+                      }}
+                      onClick={() => inputRef.current.click()}
+                  >
+                    <Hidden xsUp={uploadingImage || uploadingComplete}>
+                      <PanoramaSharpIcon style={{fontSize: '120px'}}/>
+                    </Hidden>
+                    <Hidden xsUp={!uploadingImage}>
+                      <CircularProgress/>
+                    </Hidden>
+                    <Hidden xsUp={!uploadingComplete}>
+                      <img src={imageUrl} alt="Brak obrazka"
+                           style={{maxHeight: "120px", maxWidth: "100%"}}/>
+                    </Hidden>
+                  </IconButton>
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <TextInput
+                    name="content"
+                    inputProps={{minLength: 400}}
+                    label="Treść artykułu"
+                    multiline
+                    rows={4}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextInput
+                    name="tags"
+                    inputProps={{maxLength: 100}}
+                    label="#tag1 #tag2 ..."
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                    type="submit"
+                    variant="outlined"
+                    color="primary"
+                    disabled={uploadingImage}
+                >
+                  Utwórz
+                </Button>
+              </Grid>
+            </Grid>
+          </Form>
+        </Formik>
+      </CustomNewsFormLayout>
+  );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    showModal: state.modals.showNewNewsModal
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setShowModal: showModal => {
+      dispatch(setShowNewNewsModal(showModal));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomNewsForm);
 
 const CustomNewsFormLayout = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 10px;
 
   form > * {
     margin-top: 10px;
   }
-`
-const BasicDataLayout = styled.div`
-  display: flex;
-`
-const Inputs = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 `

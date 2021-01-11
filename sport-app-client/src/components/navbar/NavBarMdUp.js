@@ -4,7 +4,7 @@ import {Toolbar, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import LinkBlank from "../common/LinkBlank";
+import LinkInternal from "../common/LinkInternal";
 import AccountButton from "./AccountButton";
 import {connect} from "react-redux";
 import {setNavBarHeight} from "../../actions/layoutActions";
@@ -27,7 +27,7 @@ const NavBarMdUp = (props) => {
           <Grid container justify={"space-between"}>
             <Grid item xs container alignItems={"center"}>
               <Typography
-                  component={LinkBlank}
+                  component={LinkInternal}
                   variant={"h6"}
                   to={"/"}
                   onClick={() => setTab(0)}
@@ -46,7 +46,7 @@ const NavBarMdUp = (props) => {
                       <Tab
                           key={index}
                           label={page.name}
-                          component={LinkBlank}
+                          component={LinkInternal}
                           to={page.address}/>
                   ))
                 }

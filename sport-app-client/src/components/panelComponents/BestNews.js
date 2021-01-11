@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import {theme} from "../../util/theme";
-import LinkBlank from "../common/LinkBlank";
+import LinkInternal from "../common/LinkInternal";
 import {Badge} from "react-bootstrap";
 import {dateTimeToWords} from "../../util/timeFormat";
 import {getDomainFromLink} from "../../util/linkUtils";
@@ -15,7 +15,7 @@ class BestNews extends Component {
 
     return (
         <BestNewsLayout>
-          <LinkBlank to={"/newsy/" + news.id}>
+          <LinkInternal to={"/newsy/" + news.id}>
             <Image src={news.imageUrl}
                    alt="Brak zdjęcia"/>
             <ContentDiv>
@@ -35,7 +35,7 @@ class BestNews extends Component {
                 </SourceUrlDiv>
               </Info>
             </ContentDiv>
-          </LinkBlank>
+          </LinkInternal>
         </BestNewsLayout>
     );
   }

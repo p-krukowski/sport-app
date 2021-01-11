@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-import LinkBlank from "../common/LinkBlank";
+import LinkInternal from "../common/LinkInternal";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import {getDomainFromLink} from "../../util/linkUtils";
 import {
@@ -19,7 +19,7 @@ class NextBestNews extends Component {
             this.props.news.map((news, index) => (
                 index > 0 &&
                 <News key={index}>
-                  <LinkBlank to={"/newsy/" + news.id}>
+                  <LinkInternal to={"/newsy/" + news.id}>
                     <Image src={news.imageUrl}
                            alt="Brak zdjęcia"/>
                     <Info>
@@ -36,7 +36,7 @@ class NextBestNews extends Component {
                             </Badge>
                       }
                     </Info>
-                  </LinkBlank>
+                  </LinkInternal>
                 </News>
             ))
           }

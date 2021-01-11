@@ -1,51 +1,38 @@
-import React, {Component} from "react";
+import React, {useEffect, useState} from "react";
 import NewsCover from "./NewsCover";
 import {getAllNews} from "../../util/apiUtils/NewsUtils";
+import Grid from "@material-ui/core/Grid";
 
-class AllNews extends Component {
-    constructor(props) {
-        super(props);
+const AllNews = (props) => {
 
-        this.state = {
-            allNews: []
-        };
-    }
+  const [allNews, setAllNews] = useState([]);
 
-    fetchAllNews() {
-        getAllNews()
-            .then(response => {
-                this.setState({
-                    allNews: response
-                })
-            })
-            .catch(error => {
+  const fetchAllNews = () => {
+    getAllNews()
+    .then(response => {
+      setAllNews(response);
+    })
+    .catch(error => {
 
-            })
-    }
+    })
+  };
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.modalShow !== this.props.modalShow && this.props.modalShow === false) {
-            this.fetchAllNews();
+  useEffect(() => {
+    fetchAllNews();
+  }, []);
+
+  return (
+      <Grid container spacing={1}>
+        {
+          allNews && allNews.map(news => (
+              <Grid item key={news.id}>
+                <NewsCover news={news}
+                           isAuthenticated={props.isAuthenticated}/>
+              </Grid>
+          ))
         }
-    }
-
-    componentDidMount() {
-        this.fetchAllNews();
-    }
-
-    render() {
-        return (
-            <>
-                {
-                    this.state.allNews && this.state.allNews.map(news => (
-                        <NewsCover key={news.id}
-                                   news={news}
-                                   isAuthenticated={this.props.isAuthenticated} />
-                    ))
-                }
-            </>
-        );
-    }
+      </Grid>
+  );
 }
 
 export default AllNews;
