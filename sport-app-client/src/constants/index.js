@@ -7,3 +7,5 @@ export const USERNAME_MAX_LENGTH = 30;
 
 export const PASSWORD_MIN_LENGTH = 8;
 export const PASSWORD_MAX_LENGTH = 20;
+
+export const DEFAULT_NEWS_COVER = "https://sport-app-media.s3.eu-central-1.amazonaws.com/images/common/default_image.jpg"

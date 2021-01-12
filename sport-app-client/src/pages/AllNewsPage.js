@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 import AllNews from "../components/newsComponents/AllNews";
 import DescriptionIcon from '@material-ui/icons/Description';
@@ -19,7 +19,6 @@ const AllNewsPage = (props) => {
               item xs={12} md={8} lg={6}
               container spacing={1}
           >
-
             {
               props.isAuthenticated &&
               <Grid item xs={12}>
@@ -41,7 +40,6 @@ const AllNewsPage = (props) => {
 
         <NewNewsModal
             open={props.showModal}
-            //open={true}
             setModalShow={props.setShowModal}/>
       </>
   )

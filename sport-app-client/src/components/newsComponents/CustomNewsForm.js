@@ -13,9 +13,7 @@ import Hidden from "@material-ui/core/Hidden";
 import {deleteNewsCoverFromUrl} from "../../util/apiUtils/MediaDeleteUtils";
 import {connect} from "react-redux";
 import {setShowNewNewsModal} from "../../actions/modalsActions";
-
-const DEFAULT_NEWS_COVER = "https://sport-app-media.s3.eu-central-1.amazonaws.com/"
-    + "images/common/default_image.jpg";
+import {DEFAULT_NEWS_COVER} from "../../constants";
 
 const CustomNewsForm = (props) => {
 

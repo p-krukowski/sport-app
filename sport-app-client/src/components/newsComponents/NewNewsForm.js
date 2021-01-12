@@ -7,7 +7,7 @@ import {Grid} from "@material-ui/core";
 
 const NewNewsForm = () => {
 
-  const [external, setExternal] = useState(false);
+  const [external, setExternal] = useState(true);
 
   return (
       <Grid container justify={"center"}>

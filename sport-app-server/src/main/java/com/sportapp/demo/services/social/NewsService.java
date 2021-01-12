@@ -105,7 +105,8 @@ public class NewsService {
   }
 
   private List<NewsCommentGetDto> mapEntityToDto(List<NewsComment> newsComments) {
-    Type typeMap = new TypeToken<List<NewsCommentGetDto>>() {}.getType();
+    Type typeMap = new TypeToken<List<NewsCommentGetDto>>() {
+    }.getType();
     return modelMapper.map(newsComments, typeMap);
   }
 
@@ -113,9 +114,9 @@ public class NewsService {
     News news = new News();
     news.setAuthor(userService.findUserById(userId));
     news.setTitle(newsPostDto.getTitle());
-    news.setDescription(newsPostDto.getContent());
+    news.setDescription(newsPostDto.getDescription());
     news.setImageUrl(newsPostDto.getImageURL());
-    news.setContent(newsPostDto.getDescription());
+    news.setContent(newsPostDto.getContent());
     news.setLink(newsPostDto.getUrl());
     news.setTags(tagService.filterTagsFromText(newsPostDto.getTags()));
     return news;

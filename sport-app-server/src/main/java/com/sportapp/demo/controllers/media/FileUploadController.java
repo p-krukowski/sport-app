@@ -25,4 +25,10 @@ public class FileUploadController {
     return fileUploadService.uploadNewsCover(file);
   }
 
+  @Transactional
+  @PostMapping("/news-cover/external-source")
+  public ResponseEntity<?> uploadNewsCoverFromExternalSource(@RequestParam String imageUrl) {
+    return fileUploadService.uploadNewsCoverFromUrl(imageUrl);
+  }
+
 }

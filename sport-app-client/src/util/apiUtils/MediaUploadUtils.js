@@ -10,3 +10,11 @@ export function uploadNewsCover(image) {
     data: image
   })
 }
+
+export function uploadNewsCoverFromUrl(imageUrl) {
+  return request({
+    url: componentUrl + "/news-cover/external-source",
+    method: 'POST',
+    data: imageUrl
+  })
+}

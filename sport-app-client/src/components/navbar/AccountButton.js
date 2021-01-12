@@ -2,7 +2,7 @@ import {Button, IconButton} from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import LinkBlank from "../common/LinkBlank";
+import LinkInternal from "../common/LinkInternal";
 import {MeetingRoom, Person} from "@material-ui/icons";
 import Box from "@material-ui/core/Box";
 import React, {useState} from "react";
@@ -42,7 +42,7 @@ const AccountButton = (props) => {
                 onClose={() => setAccountMenu(false)}
             >
               <MenuItem
-                  component={LinkBlank}
+                  component={LinkInternal}
                   to={"/moje-konto"}
                   onClick={handleMenu}
               >
@@ -61,7 +61,7 @@ const AccountButton = (props) => {
           </>
           :
           <Button
-              component={LinkBlank}
+              component={LinkInternal}
               to={"/logowanie"}
               onClick={() => props.setTab(false)}
               variant={"outlined"}

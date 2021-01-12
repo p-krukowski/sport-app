@@ -2,17 +2,23 @@ package com.sportapp.demo.services.media;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.util.IOUtils;
 import com.sportapp.demo.exceptions.InvalidFileException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.http.multipart.UploadedMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,23 +30,55 @@ public class FileUploadService {
   @Value("${S3MediaUrl}")
   private String mediaUrl;
 
+  private final AmazonS3 amazonS3;
+
   AwsUtils awsUtils;
 
   public FileUploadService(AwsUtils awsUtils) {
     this.awsUtils = awsUtils;
+    this.amazonS3 = awsUtils.setAmazonS3Client();
   }
 
   public ResponseEntity<?> uploadNewsCover(MultipartFile file) {
     try {
       verifyImage(file);
-      String fileName = "images/news-covers/news_cover_" +
-          System.currentTimeMillis() + "_" + UUID.randomUUID().toString();
-      uploadFile(file, fileName);
+      String fileName = generateFileName();
+      uploadFileToS3(file, fileName);
+      String resourceUrl = getResourceUrl(fileName);
 
-      return new ResponseEntity<>(mediaUrl + fileName, HttpStatus.OK);
+      return new ResponseEntity<>(resourceUrl, HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  public ResponseEntity<?> uploadNewsCoverFromUrl(String imageUrl) {
+    try {
+      URL url = new URL(imageUrl);
+      byte[] binary = IOUtils.toByteArray(url.openStream());
+      UploadedMultipartFile multipartFile = new UploadedMultipartFile(binary, getContentType(url),
+          "file", generateFileName());
+
+      return uploadNewsCover(multipartFile);
+    } catch (MalformedURLException e) {
+      return new ResponseEntity<>("Malformed image url", HttpStatus.INTERNAL_SERVER_ERROR);
+    } catch (IOException e) {
+      return new ResponseEntity<>("Wrong file", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  private String getContentType(URL url) throws IOException {
+    HttpURLConnection connection = (HttpURLConnection)  url.openConnection();
+    connection.setRequestMethod("HEAD");
+    connection.connect();
+    String contentType = connection.getContentType();
+    connection.disconnect();
+    return contentType;
+  }
+
+  private String generateFileName() {
+    return "images/news-covers/news_cover_" +
+        System.currentTimeMillis() + "_" + UUID.randomUUID().toString();
   }
 
   private void verifyImage(MultipartFile file) throws InvalidFileException {
@@ -53,18 +91,11 @@ public class FileUploadService {
     }
   }
 
-  private void uploadFile(MultipartFile file, String fileName)
-      throws IOException, InterruptedException {
-    AmazonS3 amazonS3Client = awsUtils.setAmazonS3Client();;
-    uploadFileToS3(file, fileName, amazonS3Client);
-  }
-
-  private void uploadFileToS3(MultipartFile multipartFile, String fileName,
-      AmazonS3 amazonS3Client)
+  private void uploadFileToS3(MultipartFile multipartFile, String fileName)
       throws IOException, AmazonClientException, InterruptedException {
 
     TransferManager transferManager = TransferManagerBuilder.standard()
-        .withS3Client(amazonS3Client)
+        .withS3Client(amazonS3)
         .withMultipartUploadThreshold((long) (5 * 1024 * 1025))
         .build();
 
@@ -80,5 +111,10 @@ public class FileUploadService {
     return new PutObjectRequest(mediaBucketName, fileName, multipartFile.getInputStream(),
         objectMetadata)
         .withCannedAcl(CannedAccessControlList.PublicRead);
+  }
+
+  private String getResourceUrl(String fileName) {
+    AmazonS3Client amazonS3Client = (AmazonS3Client) amazonS3;
+    return amazonS3Client.getResourceUrl(mediaBucketName, fileName);
   }
 }
