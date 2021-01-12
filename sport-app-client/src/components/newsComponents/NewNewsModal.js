@@ -1,43 +1,31 @@
-import React, {Component} from "react";
+import React from "react";
 import NewNewsForm from "./NewNewsForm";
-import styled from "styled-components";
-import {theme} from "../../util/theme";
-import {Card, CardBody, CardHeader} from "../common/CardCustom";
-import Modal from "@material-ui/core/Modal";
-import Fade from "@material-ui/core/Fade";
-import {Typography} from "@material-ui/core";
+import {Dialog, Divider, Paper, Typography} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 
 const NewNewsModal = (props) => {
 
   return (
-      <ModalCustom open={props.open}
-                   onClose={() => props.setModalShow(false)}>
-        <Fade in={props.open}>
-          <NewNewsModalLayout tabIndex={-1}>
-            <CardHeader>
-              <Typography variant={"h5"}>Nowy news</Typography>
-            </CardHeader>
-            <CardBody>
-              <NewNewsForm/>
-            </CardBody>
-          </NewNewsModalLayout>
-        </Fade>
-      </ModalCustom>
+      <Dialog open={props.open}
+              onClose={() => props.setModalShow(false)}>
+        <Paper>
+          <Box m={"10px"}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography variant={"h5"}>Nowy news</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Divider/>
+              </Grid>
+              <Grid item xs={12}>
+                <NewNewsForm/>
+              </Grid>
+            </Grid>
+          </Box>
+        </Paper>
+      </Dialog>
   );
 };
 
 export default NewNewsModal;
-
-const NewNewsModalLayout = styled(Card)`
-  background-color: ${theme.colors.navbar};
-
-  @media only screen and (min-width: 768px) {
-    width: 600px;
-  }
-`
-
-const ModalCustom = styled(Modal)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`

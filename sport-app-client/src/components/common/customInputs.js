@@ -5,17 +5,17 @@ import Checkbox from "@material-ui/core/Checkbox";
 import {ErrorMsg} from "../../styles/formStyles";
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import styled from 'styled-components';
+import {Box} from "@material-ui/core";
 
 export const TextInput = ({...props}) => {
   const [field, meta] = useField(props);
   return (
-      <StyledTextInput>
+      <Box display={"flex"} flexDirection={"column"} width={"100%"}>
         <TextField {...field} {...props} />
         {meta.touched && meta.error ? (
             <ErrorMsg className="error">{meta.error}</ErrorMsg>
         ) : null}
-      </StyledTextInput>
+      </Box>
   );
 };
 
@@ -42,9 +42,3 @@ export const CustomCheckboxWithLabel = ({children, ...props}) => {
       </>
   );
 };
-
-const StyledTextInput = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`

@@ -14,6 +14,7 @@ import {deleteNewsCoverFromUrl} from "../../util/apiUtils/MediaDeleteUtils";
 import {connect} from "react-redux";
 import {setShowNewNewsModal} from "../../actions/modalsActions";
 import {DEFAULT_NEWS_COVER} from "../../constants";
+import Box from "@material-ui/core/Box";
 
 const CustomNewsForm = (props) => {
 
@@ -77,7 +78,7 @@ const CustomNewsForm = (props) => {
   }, [props.showModal])
 
   return (
-      <CustomNewsFormLayout>
+      <Box display={"flex"} flexDirection={"column"} mt={"10px"}>
         <Formik
             initialValues={{
               title: '',
@@ -182,7 +183,7 @@ const CustomNewsForm = (props) => {
             </Grid>
           </Form>
         </Formik>
-      </CustomNewsFormLayout>
+      </Box>
   );
 };
 
@@ -201,13 +202,3 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CustomNewsForm);
-
-const CustomNewsFormLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  form > * {
-    margin-top: 10px;
-  }
-`
