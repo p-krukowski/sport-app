@@ -3,7 +3,7 @@ import {request} from "./Request";
 
 const componentUrl = API_BASE_URL + '/news/';
 
-export function getAllNews() {
+export function fetchAllNews() {
     return request({
         url: componentUrl + "all/1",
         method: 'GET'

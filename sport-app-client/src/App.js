@@ -13,7 +13,6 @@ import AuthPage from "./pages/AuthPage";
 import {connect} from "react-redux";
 import {setCurrentUser, setIsAuthenticated} from "./actions/authActions";
 import {MainContainer} from "./styles/mainContainerStyles";
-import Hidden from "@material-ui/core/Hidden";
 import NavBar from "./components/navbar/NavBar";
 import Box from "@material-ui/core/Box";
 import {
@@ -51,10 +50,9 @@ const App = (props) => {
       <Router>
         <Layout>
           <NavBar/>
-          <MainContainer style={{height: window.innerHeight - props.navBarHeight}}>
-            <Hidden mdUp>
-              <Box pt="50px"/>
-            </Hidden>
+          <MainContainer
+              style={{height: window.innerHeight - props.navBarHeight}}>
+            <Box pt="50px"/>
             <Route path={["/", "/panel"]} exact render={
               () => <PanelPage {...props}
                                isAuthenticated={props.isAuthenticated}/>}/>
@@ -74,14 +72,13 @@ const App = (props) => {
                                  isAuthenticated={props.isAuthenticated}/>}/>
             <Route path="/newsy/:id" render={
               (props) => <NewsPage {...props}
-                              isAuthenticated={props.isAuthenticated}/>}/>
+                                   isAuthenticated={props.isAuthenticated}/>}/>
             <Route path="/logowanie" exact render={
               () => <AuthPage {...props}
                               isAuthenticated={props.isAuthenticated}/>}/>
           </MainContainer>
           <Dialog
-              open={false}
-              //open={demoDialog}
+              open={demoDialog}
               onClose={handleClose}
           >
             <DialogTitle>Aplikacja w trakcie rozwoju</DialogTitle>

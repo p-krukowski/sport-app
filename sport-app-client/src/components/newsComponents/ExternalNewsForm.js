@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import styled from "styled-components";
 import {fetchArticle} from "../../util/scrape";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {Form, Formik} from "formik";

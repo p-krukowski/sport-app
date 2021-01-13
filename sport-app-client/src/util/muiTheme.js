@@ -78,7 +78,8 @@ export const muiTheme = createMuiTheme({
     },
     MuiPaper: {
       root: {
-        color: "white"
+        color: "white",
+        backgroundColor: theme.colors.darkgray
       }
     },
     MuiButton: {
@@ -128,7 +129,7 @@ export const muiTheme = createMuiTheme({
     },
     MuiBackdrop: {
       root: {
-        zIndex:'auto'
+        zIndex: 'auto'
       }
     },
     MuiMenuItem: {
@@ -169,12 +170,14 @@ export const muiTheme = createMuiTheme({
     },
     MuiLink: {
       root: {
-        color: 'white',
+        color: 'inherit',
         '&:hover': {
-          color: theme.colors.lightgray
+          color: theme.colors.lightgray,
+          textDecoration: "none",
+          transition: "color .2s"
         }
       }
-    }
+    },
   },
   typography: {
     fontFamily: "inherit"
