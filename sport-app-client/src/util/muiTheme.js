@@ -7,7 +7,7 @@ export const muiTheme = createMuiTheme({
       main: theme.colors.primary
     },
     background: {
-      paper: '#424242'
+      paper: theme.colors.darkgray
     },
     divider: 'rgba(255,255,255,0.12)'
   },
@@ -78,8 +78,7 @@ export const muiTheme = createMuiTheme({
     },
     MuiPaper: {
       root: {
-        color: "white",
-        backgroundColor: theme.colors.darkgray
+        color: "white"
       }
     },
     MuiButton: {

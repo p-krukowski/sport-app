@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import AppBar from "@material-ui/core/AppBar";
 import {Toolbar, Typography} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -6,23 +6,17 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LinkInternal from "../common/LinkInternal";
 import AccountButton from "./AccountButton";
-import {connect} from "react-redux";
-import {setNavBarHeight} from "../../actions/layoutActions";
 import {pageList} from "../../util/pageList";
 
-const NavBarMdUp = (props) => {
+const NavBarMdUp = () => {
   const [tab, setTab] = useState(false);
-
-  useEffect(() => {
-    props.setNavBarHeight(document.getElementById('navbar').clientHeight);
-  }, [])
 
   const handleTabChange = (event, newTab) => {
     setTab(newTab);
   }
 
   return (
-      <AppBar id="navbar" position="static" color={"transparent"}>
+      <AppBar position="static" color={"transparent"}>
         <Toolbar variant={"dense"}>
           <Grid container justify={"space-between"}>
             <Grid item xs container alignItems={"center"}>
@@ -59,20 +53,6 @@ const NavBarMdUp = (props) => {
         </Toolbar>
       </AppBar>
   );
-}
-
-const mapStateToProps = state => {
-  return {
-    navBarHeight: state.layout.navBarHeight
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setNavBarHeight: navBarHeight => {
-      dispatch(setNavBarHeight(navBarHeight))
-    }
-  }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBarMdUp);
+export default NavBarMdUp;

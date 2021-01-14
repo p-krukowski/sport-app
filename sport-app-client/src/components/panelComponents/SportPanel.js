@@ -1,123 +1,130 @@
-import React, {Component} from "react";
-import {Card, CardHeader} from "../common/CardCustom";
+import React, {useEffect, useState} from "react";
 import SportDataCard from "./SportDataCard";
 import LeaguePickModal from "./LeaguePickModal";
 import {fetchUserLeagues} from "../../util/apiUtils/UserUtils";
 import {getAllLeaguesByDiscipline} from "../../util/apiUtils/LeaguesUtils";
-import LeagueSelect from "./LeagueSelect";
 import Button from "@material-ui/core/Button";
-import {
-  ButtonAdjusted,
-  CardBodySportPanel,
-  SportPanelLayout
-} from "../../styles/panel/sportPanelStyles";
+import {ButtonAdjusted} from "../../styles/panel/sportPanelStyles";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Box from "@material-ui/core/Box";
+import {Divider, Paper} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
-class SportPanel extends Component {
-  constructor(props) {
-    super(props);
+const SportPanel = props => {
 
-    this.state = {
-      isModalVisible: false,
-      isComponentReady: false
-    }
-  }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isComponentReady, setIsComponentReady] = useState(false);
+  const [leagues, setLeagues] = useState();
+  const [league, setLeague] = useState();
 
-  handleModal = () => {
-    this.setState({
-      isModalVisible: !this.state.isModalVisible
-    })
-  }
+  const handleModal = () => {
+    setIsModalVisible(!isModalVisible)
+  };
 
-  getUserLeagues = () => {
+  const getUserLeagues = () => {
     fetchUserLeagues()
     .then(response => {
-      this.setState({
-        leagues: response,
-        league: response[0],
-        isComponentReady: true,
-        showDDList: false
-      })
+      setLeagues(response);
+      setLeague(response[0]);
+      setIsComponentReady(true);
     })
-  }
+    .catch(error => {
+      console.log(new Error("Nie udało się pobrać lig"), error)
+    })
+  };
 
-  fetchData = () => {
-    if (this.props.isAuthenticated) {
-      this.getUserLeagues();
+  const fetchData = () => {
+    if (props.isAuthenticated) {
+      getUserLeagues();
     } else {
       getAllLeaguesByDiscipline("soccer")
       .then(response => {
-        this.setState({
-          leagues: response,
-          league: response[0],
-          isComponentReady: true
-        })
+        setLeagues(response);
+        setLeague(response[0]);
+        setIsComponentReady(true);
+      })
+      .catch(error => {
+        console.log(new Error("Nie udało się pobrać lig"), error)
       })
     }
-  }
+  };
 
-  setLeague = (league) => {
-    this.setState({
-      league: league
-    })
-  }
+  useEffect(() => fetchData(), []);
 
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  render() {
-    return (
-        this.state.isComponentReady &&
-        <SportPanelLayout>
-          <Card style={{justifyContent: 'flex-start', marginBottom: 0}}>
-            {
-              this.props.isAuthenticated && this.state.leagues.length !== 0 ?
-                  <CardHeader>
-                    <div>Moje ligi</div>
-                    <Button
-                        variant='outlined'
-                        onClick={this.handleModal}
-                    >
-                      Zmień
-                    </Button>
-                  </CardHeader>
-                  :
-                  <CardHeader>
-                    <div>Wyniki</div>
-                  </CardHeader>
-            }
-
-            <CardBodySportPanel>
+  return (
+      isComponentReady &&
+      <Paper>
+        <Grid container
+              component={Box} height={1} overflow={"auto"}>
+          <Grid item xs={12}>
+            <Box p={1} display={"flex"} alignItems={"center"}>
               {
-                this.state.leagues.length === 0 ?
-                    <ButtonAdjusted
-                        variant='outlined'
-                        onClick={this.handleModal}
-                    >
-                      <AddCircleOutlineIcon color='primary' fontSize='large'/>
-                      <span>Dodaj ligi</span>
-                    </ButtonAdjusted>
+                props.isAuthenticated && leagues.length !== 0 ?
+                    <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} width={1}>
+                      <Box>Moje ligi</Box>
+                      <Button
+                          variant='outlined'
+                          onClick={handleModal}
+                      >
+                        Zmień
+                      </Button>
+                    </Box>
                     :
-                    <>
-                      <Box m={1}>
-                        <LeagueSelect league={this.state.league}
-                                      leagues={this.state.leagues}
-                                      setLeague={this.setLeague}/>
-                      </Box>
-                      <SportDataCard {...this.props}
-                                     league={this.state.league}/>
-                    </>
+                    <Box>
+                      <div>Wyniki</div>
+                    </Box>
               }
-            </CardBodySportPanel>
-          </Card>
-          <LeaguePickModal show={this.state.isModalVisible}
-                           handleModal={this.handleModal}
-                           leagues={this.state.leagues}/>
-        </SportPanelLayout>
-    );
-  }
-}
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Divider/>
+          </Grid>
+          <Grid item xs={12}
+                component={Box} p={1} display={"flex"} flexDirection={"column"}
+                alignItems={"center"}>
+            {
+              leagues.length === 0 ?
+                  <ButtonAdjusted
+                      variant='outlined'
+                      onClick={handleModal}
+                  >
+                    <AddCircleOutlineIcon color='primary' fontSize='large'/>
+                    <span>Dodaj ligi</span>
+                  </ButtonAdjusted>
+                  :
+                  <>
+                    <Box m={1}>
+                      <FormControl variant='outlined'>
+                        <InputLabel>Liga</InputLabel>
+                        <Select value={league}
+                                onChange={(e) => setLeague(e.target.value)}>
+                          {
+                            leagues &&
+                            leagues.map(leagueSelect => (
+                                <MenuItem key={leagueSelect.id} value={leagueSelect}>
+                                  {leagueSelect.name}
+                                </MenuItem>
+                            ))
+                          }
+                        </Select>
+                      </FormControl>
+                    </Box>
+                    <SportDataCard {...props}
+                                   league={league}/>
+                  </>
+            }
+          </Grid>
+        </Grid>
+
+        <LeaguePickModal show={isModalVisible}
+                         handleModal={handleModal}
+                         leagues={leagues}/>
+      </Paper>
+  );
+};
 
 export default SportPanel;

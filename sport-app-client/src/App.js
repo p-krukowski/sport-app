@@ -12,7 +12,6 @@ import NewsPage from "./pages/NewsPage";
 import AuthPage from "./pages/AuthPage";
 import {connect} from "react-redux";
 import {setCurrentUser, setIsAuthenticated} from "./actions/authActions";
-import {MainContainer} from "./styles/mainContainerStyles";
 import NavBar from "./components/navbar/NavBar";
 import Box from "@material-ui/core/Box";
 import {
@@ -49,10 +48,10 @@ const App = (props) => {
       isComponentReady &&
       <Router>
         <Layout>
-          <NavBar/>
-          <MainContainer
-              style={{height: window.innerHeight - props.navBarHeight}}>
-            <Box pt="50px"/>
+          <Box display={"flex"}>
+            <NavBar/>
+          </Box>
+          <Box p={1} mt={{xs: "48px", md: 0}} display={"flex"} flexGrow={1} overflow={"auto"}>
             <Route path={["/", "/panel"]} exact render={
               () => <PanelPage {...props}
                                isAuthenticated={props.isAuthenticated}/>}/>
@@ -76,7 +75,8 @@ const App = (props) => {
             <Route path="/logowanie" exact render={
               () => <AuthPage {...props}
                               isAuthenticated={props.isAuthenticated}/>}/>
-          </MainContainer>
+          </Box>
+
           <Dialog
               open={demoDialog}
               onClose={handleClose}
@@ -103,8 +103,7 @@ const App = (props) => {
 const mapStateToProps = (state) => {
   return {
     currentUser: state.auth.currentUser,
-    isAuthenticated: state.auth.isAuthenticated,
-    navBarHeight: state.layout.navBarHeight
+    isAuthenticated: state.auth.isAuthenticated
   };
 };
 

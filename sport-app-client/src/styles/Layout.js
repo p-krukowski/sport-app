@@ -1,18 +1,21 @@
 import React from "react"
-import styled, {createGlobalStyle} from "styled-components"
+import {createGlobalStyle} from "styled-components"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {theme} from "../util/theme";
 import {ThemeProvider} from "@material-ui/styles";
 import {muiTheme} from "../util/muiTheme";
+import Box from "@material-ui/core/Box";
 
 const Layout = ({children}) => (
     <>
       <GlobalStyle/>
-      <StyledWrapper>
+      <Box display={"flex"} flexDirection={"column"}
+           alignItems={"stretch"}
+           width={1} height={"100vh"}>
         <ThemeProvider theme={muiTheme}>
           {children}
         </ThemeProvider>
-      </StyledWrapper>
+      </Box>
     </>
 )
 
@@ -74,16 +77,5 @@ const GlobalStyle = createGlobalStyle`
   }
   *:focus {
     outline: none!important;
-  }
-`
-
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-    
-  @media (max-width: 768px) {
-    flex-direction: column;
   }
 `
