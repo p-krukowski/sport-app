@@ -54,8 +54,8 @@ const SocialPanel = () => {
             </Grid>
           </Grid>
         </Box>
-        <Box height={{md: 2 / 5}} overflow={{md: "auto"}}>
-          <Grid item xs={12}>
+        <Box pt={[1, 0]} height={{md: 2 / 5}} overflow={{md: "auto"}}>
+          <Grid item xs={12} component={Box} height={1} overflow={{md: "auto"}} pr={1}>
             <BestEntries entries={entries}/>
           </Grid>
         </Box>

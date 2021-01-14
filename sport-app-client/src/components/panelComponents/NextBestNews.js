@@ -1,15 +1,7 @@
 import React from "react";
 
-import LinkInternal from "../common/LinkInternal";
 import OpenInNewIcon from "@material-ui/icons/OpenInNew";
 import {getDomainFromLink} from "../../util/linkUtils";
-import {
-  Image,
-  Info, News, NextBestNewsLayout,
-  SourceUrlDiv,
-  Title
-} from "../../styles/panel/nextBestNewsStyles";
-import Badge from "react-bootstrap/Badge";
 import Box from "@material-ui/core/Box";
 import {ZoomOnHover} from "../common/ZoomOnHover";
 import {Link as LinkDom} from "react-router-dom";
@@ -31,7 +23,7 @@ const NextBestNews = props => (
       {
         props.news.map((news, index) => (
             index > 0 &&
-            <Box pb={setMargin(index, props.news.length - 1)}
+            <Box key={index} pb={setMargin(index, props.news.length - 1)}
                  height={{xs: "50vw", md: 1 / 3}}>
               <Box position={"relative"} height={1} overflow={"hidden"}>
                 <ZoomOnHover time={".4s"} scale={"1.03"} height={1}>

@@ -1,32 +1,17 @@
-import React, {Component} from "react";
+import React from "react";
 import EntryPanel from "./EntryPanel";
-import styled from "styled-components";
+import Grid from "@material-ui/core/Grid";
 
-class BestEntries extends Component {
+const BestEntries = props =>
+    <Grid container spacing={1}>
+        {
+            props.entries.length !== 0 && props.entries.map((entry) => (
+                <Grid key={entry.id} item xs={12}>
+                    <EntryPanel key={entry.id} isAuthenticated={false} entry={entry}/>
+                </Grid>
+            ))
+        }
+    </Grid>
 
-    render() {
-        return (
-            <BestEntriesLayout>
-                {
-                    this.props.entries.map((entry) => (
-                        <EntryPanel key={entry.id} isAuthenticated={false} entry={entry}/>
-                    ))
-                }
-            </BestEntriesLayout>
-        );
-    }
-}
 
 export default BestEntries;
-
-const BestEntriesLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 10px;
-  padding-right: 5px;
-  
-  @media only screen and (min-width: 768px) {
-    overflow: auto;
-  }
-`

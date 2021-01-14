@@ -21,7 +21,7 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import Button from "./components/common/Button";
+import Button from "@material-ui/core/Button";
 
 const App = (props) => {
 

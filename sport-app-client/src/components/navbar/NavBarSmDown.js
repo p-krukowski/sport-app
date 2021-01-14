@@ -8,7 +8,6 @@ import AccountButton from "./AccountButton";
 import Fab from "@material-ui/core/Fab";
 import HideOnScroll from "../common/HideOnScroll";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import LinkInternal from "../common/LinkInternal";
 import {pageList} from "../../util/pageList";
 import Box from "@material-ui/core/Box";
