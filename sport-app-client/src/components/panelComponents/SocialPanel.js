@@ -45,7 +45,7 @@ const SocialPanel = () => {
       entriesReady && newsReady &&
       <Box display={"flex"} flexDirection={"column"} height={1}>
         <Box height={{md: 3 / 5}}>
-          <Grid container component={Box} height={1} spacing={1}>
+          <Grid container component={Box} height={1} spacing={1} borderRadius={"20px"} overflow={"hidden"}>
             <Grid item xs={12} md={8} component={Box} height={{xs: "50vw", md: 1}}>
               <BestNews news={news[0]}/>
             </Grid>

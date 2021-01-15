@@ -51,7 +51,8 @@ const App = (props) => {
           <Box display={"flex"}>
             <NavBar/>
           </Box>
-          <Box p={1} mt={{xs: "48px", md: 0}} display={"flex"} flexGrow={1} overflow={"auto"}>
+          <Box p={1} mt={{xs: "48px", md: 0}} display={"flex"} flexGrow={1}
+               overflow={"auto"}>
             <Route path={["/", "/panel"]} exact render={
               () => <PanelPage {...props}
                                isAuthenticated={props.isAuthenticated}/>}/>
@@ -85,8 +86,8 @@ const App = (props) => {
             <DialogContent>
               <DialogContentText>
                 Witaj na demonstracyjnej stronie SportApp. Aplikacja jest w
-                trakcie
-                rozwoju, więc jej funkcjonalność jest ograniczona.
+                trakcie rozwoju, więc jej funkcjonalność jest ograniczona.<br/>
+                Zapraszam do rejestracji!
               </DialogContentText>
             </DialogContent>
             <DialogActions>

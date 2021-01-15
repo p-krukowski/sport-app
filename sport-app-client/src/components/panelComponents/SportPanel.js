@@ -57,14 +57,14 @@ const SportPanel = props => {
 
   return (
       isComponentReady &&
-      <Paper>
-        <Grid container
-              component={Box} height={1} overflow={"auto"}>
-          <Grid item xs={12}>
+      <Paper component={Box} height={1}>
+        <Box display={"flex"} flexDirection={"column"} height={1}>
+          <Box width={1}>
             <Box p={1} display={"flex"} alignItems={"center"}>
               {
                 props.isAuthenticated && leagues.length !== 0 ?
-                    <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} width={1}>
+                    <Box display={"flex"} justifyContent={"space-between"}
+                         alignItems={"center"} width={1}>
                       <Box>Moje ligi</Box>
                       <Button
                           variant='outlined'
@@ -79,46 +79,46 @@ const SportPanel = props => {
                     </Box>
               }
             </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <Divider/>
-          </Grid>
-          <Grid item xs={12}
-                component={Box} p={1} display={"flex"} flexDirection={"column"}
-                alignItems={"center"}>
-            {
-              leagues.length === 0 ?
-                  <ButtonAdjusted
-                      variant='outlined'
-                      onClick={handleModal}
-                  >
-                    <AddCircleOutlineIcon color='primary' fontSize='large'/>
-                    <span>Dodaj ligi</span>
-                  </ButtonAdjusted>
-                  :
-                  <>
-                    <Box m={1}>
-                      <FormControl variant='outlined'>
-                        <InputLabel>Liga</InputLabel>
-                        <Select value={league}
-                                onChange={(e) => setLeague(e.target.value)}>
-                          {
-                            leagues &&
-                            leagues.map(leagueSelect => (
-                                <MenuItem key={leagueSelect.id} value={leagueSelect}>
-                                  {leagueSelect.name}
-                                </MenuItem>
-                            ))
-                          }
-                        </Select>
-                      </FormControl>
-                    </Box>
-                    <SportDataCard {...props}
-                                   league={league}/>
-                  </>
-            }
-          </Grid>
-        </Grid>
+          </Box>
+          <Divider/>
+          <Box width={1} p={1} overflow={{md: "auto"}}>
+            <Box display={"flex"} flexDirection={"column"}
+                 alignItems={"center"}>
+              {
+                leagues.length === 0 ?
+                    <ButtonAdjusted
+                        variant='outlined'
+                        onClick={handleModal}
+                    >
+                      <AddCircleOutlineIcon color='primary' fontSize='large'/>
+                      <span>Dodaj ligi</span>
+                    </ButtonAdjusted>
+                    :
+                    <>
+                      <Box m={1}>
+                        <FormControl variant='outlined'>
+                          <InputLabel>Liga</InputLabel>
+                          <Select value={league}
+                                  onChange={(e) => setLeague(e.target.value)}>
+                            {
+                              leagues &&
+                              leagues.map(leagueSelect => (
+                                  <MenuItem key={leagueSelect.id}
+                                            value={leagueSelect}>
+                                    {leagueSelect.name}
+                                  </MenuItem>
+                              ))
+                            }
+                          </Select>
+                        </FormControl>
+                      </Box>
+                      <SportDataCard {...props}
+                                     league={league}/>
+                    </>
+              }
+            </Box>
+          </Box>
+        </Box>
 
         <LeaguePickModal show={isModalVisible}
                          handleModal={handleModal}
