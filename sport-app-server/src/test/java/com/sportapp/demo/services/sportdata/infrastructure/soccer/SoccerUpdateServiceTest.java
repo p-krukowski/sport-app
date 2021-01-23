@@ -3,6 +3,7 @@ package com.sportapp.demo.services.sportdata.infrastructure.soccer;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,6 +16,7 @@ import com.sportapp.demo.models.dtos.sportdata.soccer.TeamScoreSoccerListApiDto;
 import com.sportapp.demo.models.sportdata.EventSoccer;
 import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.models.sportdata.TeamScoreSoccer;
+import com.sportapp.demo.services.mappers.EventSoccerMapper;
 import com.sportapp.demo.services.sportdata.EventSoccerService;
 import com.sportapp.demo.services.sportdata.LeagueSoccerService;
 import com.sportapp.demo.services.sportdata.TeamScoreSoccerService;
@@ -23,10 +25,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 
@@ -48,6 +52,11 @@ class SoccerUpdateServiceTest {
   @BeforeEach
   void init() {
     MockitoAnnotations.initMocks(this);
+  }
+
+  @BeforeAll
+  static void onStart() {
+    Mockito.mockStatic(EventSoccerMapper.class);
   }
 
   @Test
@@ -100,7 +109,7 @@ class SoccerUpdateServiceTest {
         .thenReturn(new RoundSoccerApiDto());
     when(soccerApiCommunication.fetchLeagueTeams(leagueSoccer))
         .thenReturn(teamScoreSoccerListApiDto);
-    when(modelMapper.map(eventDto, EventSoccer.class)).thenReturn(eventSoccer);
+    when(EventSoccerMapper.mapDtoToEntity(eventDto)).thenReturn(eventSoccer);
     when(modelMapper.map(teamScoreSoccerApiDto, TeamScoreSoccer.class))
         .thenReturn(new TeamScoreSoccer());
     soccerUpdateService.updateLeagues();
@@ -143,7 +152,7 @@ class SoccerUpdateServiceTest {
         .thenReturn(new RoundSoccerApiDto());
     when(soccerApiCommunication.fetchLeagueTeams(leagueSoccer))
         .thenReturn(teamScoreSoccerListApiDto);
-    when(modelMapper.map(eventDto, EventSoccer.class)).thenReturn(eventSoccer);
+    when(EventSoccerMapper.mapDtoToEntity(eventDto)).thenReturn(eventSoccer);
     when(modelMapper.map(teamScoreSoccerApiDto, TeamScoreSoccer.class))
         .thenReturn(new TeamScoreSoccer());
     soccerUpdateService.updateLeagues();
@@ -208,7 +217,7 @@ class SoccerUpdateServiceTest {
     eventSoccer.setTime(LocalTime.now());
     eventSoccer.setDate(LocalDate.now());
     List<EventSoccer> eventSoccerList = Collections.singletonList(eventSoccer);
-    EventSoccerApiDto eventSoccerApiDto = new EventSoccerApiDto();
+    EventSoccerApiDto eventSoccerApiDto = mock(EventSoccerApiDto.class);
     EventSoccerListDto eventSoccerListDto = new EventSoccerListDto();
     eventSoccerListDto.setEvents(Collections.singletonList(eventSoccerApiDto));
 
@@ -216,7 +225,8 @@ class SoccerUpdateServiceTest {
     when(eventSoccerService.findAllByDate(LocalDate.now())).thenReturn(eventSoccerList);
     when(soccerApiCommunication.fetchEvent(eventSoccer.getExternalId()))
         .thenReturn(eventSoccerListDto);
-    when(modelMapper.map(eventSoccerApiDto, EventSoccer.class)).thenReturn(eventSoccer);
+    when(EventSoccerMapper.mapDtoToEntity(eventSoccerApiDto))
+        .thenReturn(eventSoccer);
     soccerUpdateService.updateTodayEvents();
 
     //then
@@ -239,7 +249,7 @@ class SoccerUpdateServiceTest {
     when(eventSoccerService.findAllByDate(LocalDate.now().minusDays(1))).thenReturn(eventSoccerList);
     when(soccerApiCommunication.fetchEvent(eventSoccer.getExternalId()))
         .thenReturn(eventSoccerListDto);
-    when(modelMapper.map(eventSoccerApiDto, EventSoccer.class)).thenReturn(eventSoccer);
+    when(EventSoccerMapper.mapDtoToEntity(eventSoccerApiDto)).thenReturn(eventSoccer);
     soccerUpdateService.updateYesterdayEvents();
 
     //then
@@ -263,7 +273,7 @@ class SoccerUpdateServiceTest {
         .thenReturn(eventSoccerList);
     when(soccerApiCommunication.fetchEvent(eventSoccer.getExternalId()))
         .thenReturn(eventSoccerListDto);
-    when(modelMapper.map(eventSoccerApiDto, EventSoccer.class)).thenReturn(eventSoccer);
+    when(EventSoccerMapper.mapDtoToEntity(eventSoccerApiDto)).thenReturn(eventSoccer);
     soccerUpdateService.updateAllPastEvents();
 
     //then
