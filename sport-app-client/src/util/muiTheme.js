@@ -124,6 +124,14 @@ export const muiTheme = createMuiTheme({
       standardWarning: {
         color: "rgb(255, 213, 153)",
         backgroundColor: "rgb(25, 15, 0)"
+      },
+      standardError: {
+        color: "rgb(250, 179, 174)",
+        backgroundColor: "rgb(24, 6, 5)"
+      },
+      standardSuccess: {
+        color: "rgb(183, 223, 185)",
+        backgroundColor: "rgb(7, 17, 7)"
       }
     },
     MuiBackdrop: {

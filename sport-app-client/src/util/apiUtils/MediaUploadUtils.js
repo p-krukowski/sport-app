@@ -18,3 +18,19 @@ export function uploadNewsCoverFromUrl(imageUrl) {
     data: imageUrl
   })
 }
+
+export function uploadEntryImage(image) {
+  return request({
+    url: componentUrl + "/entry-image",
+    method: 'POST',
+    data: image
+  })
+}
+
+export function uploadEntryImageFromUrl(imageUrl) {
+  return request({
+    url: componentUrl + "/entry-image/external-source",
+    method: 'POST',
+    data: imageUrl
+  })
+}

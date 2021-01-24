@@ -37,6 +37,8 @@ const App = (props) => {
     }).catch(error => {
       props.setAuthenticated(false);
       setIsComponentReady(true);
+      console.log(
+          new Error("Zaloguj się, aby uzyskać dostęp do wszystkich opcji"));
     });
   }, [])
 
@@ -79,7 +81,8 @@ const App = (props) => {
           </Box>
 
           <Dialog
-              open={demoDialog}
+              open={false}
+              //open={demoDialog}
               onClose={handleClose}
           >
             <DialogTitle>Aplikacja w trakcie rozwoju</DialogTitle>

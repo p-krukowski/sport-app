@@ -27,8 +27,6 @@ public class FileUploadService {
 
   @Value("${S3MediaBucketName}")
   private String mediaBucketName;
-  @Value("${S3MediaUrl}")
-  private String mediaUrl;
 
   private final AmazonS3 amazonS3;
 
@@ -39,27 +37,26 @@ public class FileUploadService {
     this.amazonS3 = awsUtils.setAmazonS3Client();
   }
 
-  public ResponseEntity<?> uploadNewsCover(MultipartFile file) {
+  public ResponseEntity<?> uploadImage(MultipartFile file, String directory, String prefix) {
     try {
       verifyImage(file);
-      String fileName = generateFileName();
+      String fileName = generateFileName(directory, prefix);
       uploadFileToS3(file, fileName);
-      String resourceUrl = getResourceUrl(fileName);
 
-      return new ResponseEntity<>(resourceUrl, HttpStatus.OK);
+      return new ResponseEntity<>(getResourceUrl(fileName), HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
-  public ResponseEntity<?> uploadNewsCoverFromUrl(String imageUrl) {
+  public ResponseEntity<?> uploadFromUrl(String imageUrl, String directory, String prefix) {
     try {
       URL url = new URL(imageUrl);
       byte[] binary = IOUtils.toByteArray(url.openStream());
       UploadedMultipartFile multipartFile = new UploadedMultipartFile(binary, getContentType(url),
-          "file", generateFileName());
+          "file", generateFileName(directory, prefix));
 
-      return uploadNewsCover(multipartFile);
+      return uploadImage(multipartFile, directory, prefix);
     } catch (MalformedURLException e) {
       return new ResponseEntity<>("Malformed image url", HttpStatus.INTERNAL_SERVER_ERROR);
     } catch (IOException e) {
@@ -76,8 +73,8 @@ public class FileUploadService {
     return contentType;
   }
 
-  private String generateFileName() {
-    return "images/news-covers/news_cover_" +
+  private String generateFileName(String directory, String prefix) {
+    return "images/" + directory + "/" + prefix + "_" +
         System.currentTimeMillis() + "_" + UUID.randomUUID().toString();
   }
 
@@ -117,4 +114,5 @@ public class FileUploadService {
     AmazonS3Client amazonS3Client = (AmazonS3Client) amazonS3;
     return amazonS3Client.getResourceUrl(mediaBucketName, fileName);
   }
+
 }
