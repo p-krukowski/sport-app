@@ -1,5 +1,5 @@
-//export const API_BASE_URL = 'http://localhost:5000';
-export const API_BASE_URL = 'https://api.sport-app.pl';
+export const API_BASE_URL = 'http://localhost:5000';
+//export const API_BASE_URL = 'https://api.sport-app.pl';
 export const ACCESS_TOKEN = 'accessToken';
 
 export const USERNAME_MIN_LENGTH = 3;

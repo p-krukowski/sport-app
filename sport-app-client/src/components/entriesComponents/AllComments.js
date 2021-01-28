@@ -1,26 +1,18 @@
-import React, {Component} from 'react';
-import styled from "styled-components";
+import React from 'react';
 import EntryComment from "./EntryComment";
+import Grid from "@material-ui/core/Grid";
 
-//TODO: fetching comments inside this component
-class AllComments extends Component {
-  render() {
-    return (
-        <AllCommentsLayout>
-          {
-            this.props.comments.map(comment => (
-                <EntryComment key={comment.id}
-                              comment={comment}
-                              isAuthenticated={this.props.isAuthenticated}/>
-            ))
-          }
-        </AllCommentsLayout>
-    );
-  }
-}
+const AllComments = props => (
+    <Grid container spacing={1}>
+      {
+        props.comments.map(comment => (
+            <Grid key={comment.id} item xs={12}>
+              <EntryComment comment={comment}
+                            isAuthenticated={props.isAuthenticated}/>
+            </Grid>
+        ))
+      }
+    </Grid>
+);
 
 export default AllComments;
-
-const AllCommentsLayout = styled.div`
-  margin-top: 5px;
-`

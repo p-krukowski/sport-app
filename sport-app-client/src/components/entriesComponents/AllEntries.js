@@ -1,20 +1,18 @@
-import React, {Component} from 'react';
-
+import React from 'react';
 import Entry from "./Entry";
+import Grid from "@material-ui/core/Grid";
 
-export default class AllEntries extends Component {
+const AllEntries = props => (
+    <Grid container spacing={1}>
+      {
+        props.entries.map((entry) => (
+            <Grid item xs={12} key={entry.id}>
+              <Entry isAuthenticated={props.isAuthenticated}
+                     entry={entry}/>
+            </Grid>
+        ))
+      }
+    </Grid>
+);
 
-  render() {
-    const entries = this.props.entries;
-    return (
-        <>
-          {
-            entries.map((entry) => (
-                <Entry key={entry.id}
-                       isAuthenticated={this.props.isAuthenticated}
-                       entry={entry}/>
-            ))
-          }
-        </>);
-  }
-}
+export default AllEntries;

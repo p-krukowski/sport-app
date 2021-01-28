@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import {theme} from "../../util/theme";
-import {getCommentsByNewsId} from "../../util/apiUtils/CommentUtils";
+import {fetchCommentsByNewsId} from "../../util/apiUtils/CommentUtils";
 import NewNewsComment from "./NewNewsComment";
 import NewsComment from "./NewsComment";
 
@@ -16,7 +16,7 @@ class NewsCommentSection extends Component {
   }
 
   fetchCommentsByNewsId = (newsId) => {
-    getCommentsByNewsId(newsId)
+    fetchCommentsByNewsId(newsId)
     .then(response => {
       this.setState({
         comments: response,

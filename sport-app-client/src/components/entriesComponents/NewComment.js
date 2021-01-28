@@ -1,268 +1,190 @@
-import React, {Component} from 'react';
-import {addComment} from "../../util/apiUtils/CommentUtils";
-import PostAddIcon from "@material-ui/icons/PostAdd";
-import styled from "styled-components";
-import {theme} from "../../util/theme";
+import React, {useRef, useState} from 'react';
+import {postComment} from "../../util/apiUtils/CommentUtils";
+import {Alert} from "@material-ui/lab";
+import {Chip, IconButton, Paper, Snackbar} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import {Form, Formik} from "formik";
+import * as Yup from "yup";
+import Grid from "@material-ui/core/Grid";
+import {TextInput} from "../common/customInputs";
 import FormatBoldIcon from "@material-ui/icons/FormatBold";
 import FormatItalicIcon from "@material-ui/icons/FormatItalic";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import InsertLinkIcon from "@material-ui/icons/InsertLink";
-import {InputTextArea, InputUrl} from "../common/Input";
+import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Button from "@material-ui/core/Button";
+import ComputerIcon from "@material-ui/icons/Computer";
+import LinkIcon from "@material-ui/icons/Link";
+import PostAddIcon from "@material-ui/icons/PostAdd";
+import {uploadEntryImage} from "../../util/apiUtils/MediaUploadUtils";
 
-class NewComment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showMinLengthInfo: false,
-      imageUrl: null,
-      showImageUrlField: false,
-      show: this.props.show
-    }
-  }
+const NewComment = props => {
 
-  addComment = () => {
-    const comment = {
-      content: document.getElementById('commentInput').value,
-      imageUrl: this.state.imageUrl
-    }
-    if (comment.content.length > 10) {
-      addComment(comment, this.props.entryId)
-      .then(response => {
-        this.props.showToast();
-        this.props.updateComments();
-        this.setState({
-          show: false
-        })
-      });
+  const [alert, setAlert] = useState(false);
+  const [alertStyle, setAlertStyle] = useState({
+    content: "Wystąpił nieoczekiwany błąd",
+    severity: "warning"
+  });
+  const [image, setImage] = useState(null);
+  const [imageMenu, setImageMenu] = useState(false);
+  const inputRef = useRef();
+
+  const handleAddComment = (value, resetForm) => {
+    if (image) {
+      addCommentWithImage(value, resetForm);
     } else {
-      this.setState({
-        showMinLengthInfo: true
-      })
+      addComment(value, null, resetForm)
     }
-  }
+  };
 
-  showImageUrlField = () => {
-    if (!this.state.showImageUrlField) {
-      this.setState({
-        showImageUrlField: true
-      })
-    } else {
-      this.setState({
-        showImageUrlField: false,
-        imageUrl: null
-      })
-    }
-  }
+  const addCommentWithImage = (value, resetForm) => {
+    const formData = new FormData();
 
-  addImageUrl = () => {
-    this.setState({
-      imageUrl: document.getElementById('imageUrlInput').value
+    formData.append("file", image);
+    uploadEntryImage(formData)
+    .then(fetchedImageUrl => {
+      addComment(value, fetchedImageUrl, resetForm);
     })
+    .catch(error => {
+      setAlertStyle({
+        content: "Nie udało się wysłać zdjęcia",
+        severity: "error"
+      });
+      setAlert(true);
+    });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.show !== prevProps.show) {
-      this.setState({
-        show: this.props.show
-      })
+  const addComment = (value, imageUrl, resetForm) => {
+    const comment = {
+      content: value,
+      imageUrl: imageUrl
     }
+    postComment(comment, props.entryId)
+    .then(response => {
+      props.updateComments();
+      setAlertStyle({
+        content: "Dodano komentarz",
+        severity: "success"
+      });
+      setAlert(true);
+      setImage(null);
+      resetForm();
+    }).catch(error => {
+      setAlertStyle({
+        content: "Nie udało się skomentować wpisu",
+        severity: "error"
+      });
+      setAlert(true);
+    });
   }
 
-  render() {
-    return (
-        this.state.show &&
-        <NewCommentLayout>
-          <CommentInputSection>
-            <CommentInput id='commentInput'
-                          type='textarea'
-                          maxLength='2000'/>
-            {
-              this.state.showMinLengthInfo &&
-              <text style={{color: 'red', marginTop: '5px'}}>
-                Komentarz musi mieć co najmniej 10 znaków
-              </text>
-            }
-            {
-              this.state.showImageUrlField &&
-              <ImageUrlInput id='imageUrlInput'
-                             placeholder="link do zdjęcia"
-                             onChange={this.addImageUrl}/>
-            }
-          </CommentInputSection>
-          <Options>
-            <TextEdition>
-              <FormatBoldIconCustom/>
-              <FormatItalicIconCustom/>
-              <EditorButton>( ͡° ͜ʖ ͡°)</EditorButton>
-              <EditorButton>spoil</EditorButton>
-              <FormatQuoteIconCustom/>
-              <AddAPhotoIconCustom onClick={() => this.showImageUrlField()}/>
-              <InsertLinkIconCustom/>
-            </TextEdition>
-            <InputButton onClick={this.addComment}>
-              Skomentuj
-              <PostAddIcon style={{marginLeft: '0.8rem'}}/>
-            </InputButton>
-          </Options>
-        </NewCommentLayout>
-    );
-  }
-}
+  const handleFile = (event) => {
+    setImage(event.target.files[0]);
+  };
+
+  return (
+      props.show &&
+      <>
+        <Paper component={Box} width={1} py={1}>
+          <Formik
+              initialValues={{
+                comment: ''
+              }}
+              validationSchema={Yup.object({
+                comment: Yup.string()
+                .max(2000, "Wpisz nie więcej niż 2000 znaków")
+                .min(3, "Wpisz co najmniej 3 znaki")
+                .required("Treść wpisu nie może być pusta")
+              })}
+              onSubmit={(values, {resetForm}) => {
+                handleAddComment(values.comment, resetForm);
+              }}>
+            <Form autoComplete="off">
+              <Grid container spacing={1}>
+                <Grid item xs={12} md={6} lg={8} component={Box} height={1}>
+                  <TextInput name={"comment"} multiline rows={3}
+                             inputProps={{maxLength: 2000}}/>
+                  {
+                    image &&
+                    <Chip
+                        label={image.name}
+                        onDelete={() => setImage(null)}
+                        component={Box} my={1}
+                    />
+                  }
+                </Grid>
+                <Grid item xs={12} md={6} lg={4} container
+                      alignContent={"flex-start"}>
+                  <Grid item xs={12} sm={7} md={12}>
+                    <IconButton disabled>
+                      <FormatBoldIcon/>
+                    </IconButton>
+                    <IconButton disabled>
+                      <FormatItalicIcon/>
+                    </IconButton>
+                    <IconButton disabled>
+                      <FormatQuoteIcon/>
+                    </IconButton>
+                    <IconButton disabled>
+                      <InsertLinkIcon/>
+                    </IconButton>
+                    <input
+                        accept="image/*"
+                        type="file"
+                        style={{display: "none"}}
+                        onChange={handleFile}
+                        ref={inputRef}
+                    />
+                    <IconButton id={"comment-photo-button"}
+                                onClick={() => setImageMenu(true)}>
+                      <AddAPhotoIcon/>
+                    </IconButton>
+                    <Menu
+                        anchorEl={document.getElementById(
+                            "comment-photo-button")}
+                        open={imageMenu}
+                        onClose={() => setImageMenu(false)}
+                    >
+                      <MenuItem>
+                        <Button variant={"text"} startIcon={<ComputerIcon/>}
+                                onClick={() => {
+                                  inputRef.current.click();
+                                  setImageMenu(false);
+                                }}>
+                          Z komputera
+                        </Button>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button variant={"text"} startIcon={<LinkIcon/>}
+                                disabled>
+                          Z linku
+                        </Button>
+                      </MenuItem>
+                    </Menu>
+                    <Button disabled variant={"text"}>( ͡° ͜ʖ ͡°)</Button>
+                  </Grid>
+                  <Grid item xs={12} sm={5} md={12}>
+                    <Button fullWidth startIcon={<PostAddIcon/>}
+                            type={"submit"}>
+                      Skomentuj
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Form>
+          </Formik>
+        </Paper>
+
+        <Snackbar open={alert} autoHideDuration={6000}
+                  onClose={() => setAlert(false)}>
+          <Alert onClose={() => setAlert(false)} severity={alertStyle.severity}>
+            {alertStyle.content}
+          </Alert>
+        </Snackbar>
+      </>
+  );
+};
 
 export default NewComment;
-
-const NewCommentLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 10px;
-  border-radius: 5px;
-  background: ${theme.colors.navbar};
-  margin-bottom: 10px;
-  
-  @media only screen and (min-width: 768px) {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-`
-
-const CommentInputSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-`
-
-const CommentInput = styled(InputTextArea)`
-  min-height: 6rem;
-  background: ${theme.colors.background};
-    
-  @media only screen and (min-width: 768px) {
-    margin-right: 10px;
-  }
-`
-
-const ImageUrlInput = styled(InputUrl)`
-  margin: 5px 0;
-  resize: none;
-  
-  @media only screen and (min-width: 768px) {
-    margin: 10px 10px 0 0;
-  }
-`
-
-const Options = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`
-
-const TextEdition = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-`
-
-const InputButton = styled.button`
-  border: 1px solid white;
-  color: white;
-  font-size: 1rem !important;
-  background: none;
-  border-radius: 5px;
-  padding: 5px 5px;
-  transition: color .1s, background .1s;
-  
-  :hover {
-    color: ${theme.colors.navbar};
-    background: white;
-  }
-  :focus {
-    outline: none;
-  }
-  
-  @media only screen and (min-width: 768px) {
-    padding: 10px 5px;
-  }
-`
-
-//Icons Customization
-
-const EditorButton = styled.b`
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  padding: 5px;
-  margin: 2px;
-  font-size: 1rem;
-  transition: background .2s;
-  
-  :hover {
-    background: gray;
-    cursor: pointer;
-  }
-`
-const FormatBoldIconCustom = styled(FormatBoldIcon)`
-  font-size: 2rem !important;
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  padding: 5px;
-  margin: 2px;
-  transition: background .2s;
-  
-  :hover {
-    background: gray;
-    cursor: pointer;
-  }
-`
-const FormatItalicIconCustom = styled(FormatItalicIcon)`
-  font-size: 2rem !important;
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  padding: 5px;
-  margin: 2px;
-  transition: background .2s;
-  
-  :hover {
-    background: gray;
-    cursor: pointer;
-  }
-`
-const FormatQuoteIconCustom = styled(FormatQuoteIcon)`
-  font-size: 2rem !important;
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  padding: 5px;
-  margin: 2px;
-  transition: background .2s;
-  
-  :hover {
-    background: gray;
-    cursor: pointer;
-  }
-`
-const AddAPhotoIconCustom = styled(AddAPhotoIcon)`
-  font-size: 2rem !important;
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  padding: 5px;
-  margin: 2px;
-  transition: background .2s;
-  
-  :hover {
-    background: gray;
-    cursor: pointer;
-  }
-`
-const InsertLinkIconCustom = styled(InsertLinkIcon)`
-  font-size: 2rem !important;
-  background: ${theme.colors.background};
-  border-radius: 3px;
-  padding: 5px;
-  margin: 2px;
-  transition: background .2s;
-  
-  :hover {
-    background: gray;
-    cursor: pointer;
-  }
-`

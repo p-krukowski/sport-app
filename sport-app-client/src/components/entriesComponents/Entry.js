@@ -1,33 +1,34 @@
-import React, {Component} from 'react';
-import styled from "styled-components";
+import React, {useState} from 'react';
 
 import CommentsSection from "./CommentsSection";
 import {addPointToEntry} from "../../util/apiUtils/EntriesUtils";
-import {ImageModal, ImageModalContent} from "../common/ImageModal";
-import {Card, CardBody, CardFoot, CardHeader} from "../common/CardCustom";
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import Button from "../common/Button";
 import {dateTimeToWords} from "../../util/timeFormat";
 import {formatText} from "../../util/textFormat";
+import {
+  Dialog,
+  Divider,
+  Grow,
+  IconButton,
+  Link,
+  Paper
+} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import {theme} from "../../util/theme";
 
-class Entry extends Component {
-  constructor(props) {
-    super(props);
+const Entry = props => {
 
-    this.state = {
-      entry: this.props.entry,
-      showImageModal: false
-    };
-  }
+  const [entry, setEntry] = useState(props.entry);
+  const [imageModal, setImageModal] = useState(false);
+  const [scoreColor, setScoreColor] = useState("inherit");
 
-  handleUpvoteButton = (entryId) => {
-    addPointToEntry(entryId)
+  const handleUpvoteButton = () => {
+    addPointToEntry(entry.id)
     .then(response => {
-      this.setState({
-        entry: {
-          ...this.state.entry,
-          score: response
-        }
+      changeScoreColor(response);
+      setEntry({
+        ...entry,
+        score: response
       });
     })
     .catch(error => {
@@ -35,100 +36,78 @@ class Entry extends Component {
     });
   };
 
-  handleClick = () => {
-    this.setState({
-      showImageModal: false
-    })
-  }
-
-  showImageModal = () => {
-    if (this.state.showImageModal) {
-      document.removeEventListener('mousedown', this.handleClick);
-      this.setState({
-        showImageModal: false
-      })
+  const changeScoreColor = (fetchedScore) => {
+    if (fetchedScore >= entry.score) {
+      setScoreColor(theme.colors.primary);
     } else {
-      document.addEventListener('mousedown', this.handleClick);
-      this.setState({
-        showImageModal: true
-      })
+      setScoreColor("inherit")
     }
   }
 
-  render() {
-    const {entry} = this.state;
-    const entryTime = dateTimeToWords(entry.createdAt);
+  const entryTime = dateTimeToWords(entry.createdAt);
 
-    return (
-        <Card>
-          <CardHeader style={{fontSize: '1rem'}}>
-            <b style={{marginRight: '7px'}}>{entry.author.username}</b>
-            <span>{entryTime}</span>
-            <div style={{marginLeft: 'auto'}}>{entry.score}</div>
-            {
-              this.props.isAuthenticated &&
-              <Button onClick={() =>
-                  this.handleUpvoteButton(entry.id)}>
-                <ArrowDropUpIcon />
-              </Button>
-            }
-          </CardHeader>
-          <CardBody >
-             <div dangerouslySetInnerHTML={formatText(entry.content)}/>
+  return (
+      <>
+        <Paper component={Box} display={"flex"} flexDirection={"column"}
+               fontSize={"0.9em"}>
+          <Box display={"flex"} justifyContent={"space-between"}
+               alignItems={"center"}>
+            <Box m={1} display={"flex"}>
+              <Box fontWeight={"bold"}>
+                {entry.author.username}
+              </Box>
+              <Box ml={1} color={theme.colors.lightgray}>
+                {entryTime}
+              </Box>
+            </Box>
+            <Box display={"flex"} alignItems={"center"}>
+              <Box color={scoreColor} fontWeight={"bold"}>
+                {entry.score}
+              </Box>
+              {
+                props.isAuthenticated &&
+                <IconButton size={"small"} onClick={() => handleUpvoteButton()}>
+                  <ArrowDropUpIcon/>
+                </IconButton>
+              }
+            </Box>
+          </Box>
+          <Divider/>
+          <Box p={1}>
+            <Box mb={1} dangerouslySetInnerHTML={formatText(entry.content)}/>
             {
               entry.imageUrl !== null &&
-              <>
-                <ImageDiv>
-                  <ImageCustom src={entry.imageUrl}
-                               onClick={this.showImageModal}/>
-                </ImageDiv>
-                <ImageLink href={entry.imageUrl}
-                           target="_blank">Źródło</ImageLink>
-              </>
+              <Box fontSize={"0.8rem"}>
+                <Box mb={1} overflow={"hidden"} width={{xs: "100%", lg: "50%"}}
+                     maxHeight={"300px"}
+                     onClick={() => setImageModal(true)}>
+                  <img src={entry.imageUrl}
+                       style={{maxWidth: "100%", cursor: "zoom-in"}}/>
+                </Box>
+                <Link href={entry.imageUrl} target="_blank">
+                  Źródło
+                </Link>
+              </Box>
             }
-          </CardBody>
-          <CardFoot style={{fontSize: '1rem'}}>
+          </Box>
+          <Divider/>
+          <Box px={1}>
             <CommentsSection entryId={entry.id}
                              commentsAmount={entry.commentsAmount}
-                             isAuthenticated={this.props.isAuthenticated}/>
-          </CardFoot>
+                             isAuthenticated={props.isAuthenticated}/>
+          </Box>
+        </Paper>
 
-          {
-            this.state.showImageModal &&
-            <ImageModal>
-              <ImageModalContent src={entry.imageUrl}/>
-            </ImageModal>
-          }
-        </Card>
-    );
-  }
+        {
+          imageModal &&
+          <Dialog open={imageModal} onClose={() => setImageModal(false)}
+                  TransitionComponent={Grow}
+                  PaperComponent={Box}>
+            <img src={entry.imageUrl}/>
+          </Dialog>
+        }
+      </>
+  );
 }
 
 export default Entry;
-
-const ImageDiv = styled.div`
-  margin-top: 10px;
-  overflow: scroll;   
-  width: 100%;
-  max-height: 500px;
-  
-  @media only screen and (min-width: 768px) {
-    max-height: 500px;
-    width: 50%;
-  }
-`
-
-const ImageCustom = styled.img`
-  max-width: 100%;
-  cursor: zoom-in;
-`
-
-const ImageLink = styled.a`
-  color: white;
-  transition: color .2s;
-  
-  :hover {
-    color: lightgray;
-    text-decoration: none;
-  }
-`

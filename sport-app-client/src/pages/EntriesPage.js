@@ -27,7 +27,7 @@ const EntriesPage = (props) => {
   return (
       isComponentReady &&
       <Grid container justify={"center"}>
-        <Grid item xs={false} xl/>
+        <Grid item xs={false} xl={3}/>
         <Grid item xs={12} md={9} lg={9} xl={6}
               component={Box} height={{xs: "auto", md: "1"}}>
           <Box display={"flex"} flexDirection={"column"}

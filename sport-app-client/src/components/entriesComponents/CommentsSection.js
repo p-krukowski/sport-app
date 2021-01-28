@@ -1,120 +1,79 @@
-import React, {Component} from 'react';
-import styled from "styled-components";
+import React, {useState} from 'react';
 import NewComment from "./NewComment";
 import AllComments from "./AllComments";
-import Button from "../common/Button";
-import {getComments} from "../../util/apiUtils/CommentUtils";
-import ToastCustom from "../common/Toast";
-
+import {fetchComments} from "../../util/apiUtils/CommentUtils";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import {Alert} from "@material-ui/lab";
+import {Snackbar} from "@material-ui/core";
 const showCommentsText = "Pokaż komentarze";
 const hideCommentsText = "Ukryj komentarze";
 
-class CommentsSection extends Component {
-  constructor(props) {
-    super(props);
+const CommentsSection = props => {
 
-    this.state = {
-      showComments: false,
-      buttonText: showCommentsText,
-      commentsAmount: this.props.commentsAmount,
-      showNewComment: false,
-      showToast: false
-    }
-  }
+  const [comments, setComments] = useState();
+  const [showComments, setShowComments] = useState(false);
+  const [buttonText, setButtonText] = useState(showCommentsText);
+  const [commentsAmount, setCommentsAmount] = useState(props.commentsAmount);
+  const [newComment, setNewComment] = useState(false);
+  const [alert, setAlert] = useState(false);
 
-  showComments = () => {
-    this.updateComments();
+  const hideComments = () => {
+    setShowComments(false);
+    setButtonText(showCommentsText);
   };
 
-  hideComments = () => {
-    this.setState({
-      showComments: false,
-      buttonText: showCommentsText
-    });
-  };
-
-  updateComments = () => {
-    getComments(this.props.entryId)
+  const getComments = () => {
+    fetchComments(props.entryId)
     .then(response => {
-      this.setState({
-        comments: response,
-        commentsAmount: response.length,
-        showComments: true,
-        buttonText: hideCommentsText
-      });
-    });
+      setComments(response);
+      setCommentsAmount(response.length);
+      setShowComments(true);
+      setButtonText(hideCommentsText);
+    })
+    .catch(error => {
+      setAlert(true);
+    })
   };
 
-  handleComment = () => {
-    this.showComments();
-    this.setState({
-      showNewComment: !this.state.showNewComment
-    })
+  const handleComment = () => {
+    getComments();
+    setNewComment(!newComment);
   }
 
-  showToast = () => {
-    this.setState({
-      showToast: true
-    })
-  }
-
-  hideToast = () => {
-    this.setState({
-      showToast: false
-    })
-  }
-
-  render() {
-    const {showComments, buttonText, commentsAmount, showNewComment, comments} = this.state;
-    return (
-        <CommentsSectionLayout>
-          <CommentsSectionOptions>
-            <Button
-                onClick={showComments ? this.hideComments : this.showComments}>
+  return (
+      <>
+        <Box width={1} display={"flex"} flexDirection={"column"}>
+          <Box display={"flex"} fontSize={"0.9rem"}>
+            <Button variant={"text"}
+                    onClick={showComments ? hideComments : getComments}>
               {buttonText} ({commentsAmount})
             </Button>
             {
-              this.props.isAuthenticated &&
-              <Button onClick={this.handleComment}>
+              props.isAuthenticated &&
+              <Button variant={"text"} onClick={handleComment}>
                 Skomentuj
               </Button>
             }
-          </CommentsSectionOptions>
-          <NewComment entryId={this.props.entryId}
-                      updateComments={this.updateComments}
-                      show={showNewComment}
-                      showToast={this.showToast}/>
+          </Box>
+          <NewComment entryId={props.entryId}
+                      updateComments={getComments}
+                      show={newComment}/>
           {
             showComments &&
             <AllComments comments={comments}
-                         isAuthenticated={this.props.isAuthenticated}/>
+                         isAuthenticated={props.isAuthenticated}/>
           }
+        </Box>
 
-          <ToastCustom show={this.state.showToast}
-                 onClose={this.hideToast}
-                 delay={10000}
-                 autohide>
-            <ToastCustom.Header>
-              <strong className="mr-auto">SportApp</strong>
-              <small>teraz</small>
-            </ToastCustom.Header>
-            <ToastCustom.Body>Dodano komentarz</ToastCustom.Body>
-          </ToastCustom>
-        </CommentsSectionLayout>
-    );
-  }
+        <Snackbar open={alert} autoHideDuration={6000}
+                  onClose={() => setAlert(false)}>
+          <Alert onClose={() => setAlert(false)} severity={"error"}>
+            Nie udało się załadować komentarzy
+          </Alert>
+        </Snackbar>
+      </>
+  );
 }
 
 export default CommentsSection;
-
-const CommentsSectionLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`
-
-const CommentsSectionOptions = styled.div`
-  display: flex;
-  flex-direction: row;
-  font-size: 0.9rem;
-`
