@@ -95,7 +95,7 @@ const EntryComment = props => {
           <Dialog open={imageModal} onClose={() => setImageModal(false)}
                   TransitionComponent={Grow}
                   PaperComponent={Box}>
-            <img src={comment.imageUrl}/>
+            <img src={comment.imageUrl} style={{maxWidth: "100%", maxHeight: "100%"}}/>
           </Dialog>
         }
       </>
