@@ -3,17 +3,17 @@ import {request} from "./Request";
 
 const componentUrl = API_BASE_URL + '/';
 
-export function postComment(commentValue, entryId) {
+export function postEntryComment(commentValue, entryId) {
     return request({
-        url: componentUrl + 'entry/' + entryId + "/comments/new",
+        url: componentUrl + 'entries/' + entryId + "/comments/new",
         method: 'POST',
         data: commentValue
     });
 }
 
-export function fetchComments(entryId) {
+export function fetchEntryComments(entryId) {
     return request({
-        url: componentUrl + 'entry/' + entryId + "/comments",
+        url: componentUrl + 'entries/' + entryId + "/comments",
         method: 'GET'
     });
 }
@@ -27,7 +27,7 @@ export function fetchCommentsByNewsId(newsId) {
 
 export function addPointToComment(commentId) {
     return request({
-        url: componentUrl + 'entry/' + commentId + "/upvote",
+        url: componentUrl + 'comments/' + commentId + "/upvote",
         method: 'PATCH'
     });
 }

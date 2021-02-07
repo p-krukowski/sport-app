@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {postComment} from "../../util/apiUtils/CommentUtils";
+import {postEntryComment} from "../../util/apiUtils/CommentUtils";
 import {Alert} from "@material-ui/lab";
 import {Chip, IconButton, Paper, Snackbar} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -61,7 +61,7 @@ const NewComment = props => {
       content: value,
       imageUrl: imageUrl
     }
-    postComment(comment, props.entryId)
+    postEntryComment(comment, props.entryId)
     .then(response => {
       props.updateComments();
       setAlertStyle({

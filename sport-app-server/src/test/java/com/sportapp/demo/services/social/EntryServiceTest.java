@@ -48,7 +48,6 @@ class EntryServiceTest {
     //given
     Entry entry = new Entry();
     entry.setId(1L);
-    entry.setComments(new ArrayList<>());
     EntryGetDto entryGetDto = new EntryGetDto();
     entryGetDto.setId(1L);
 
@@ -154,7 +153,6 @@ class EntryServiceTest {
   void shouldFindBestEntriesDto() {
     //given
     Entry entry = new Entry();
-    entry.setComments(new ArrayList<>());
     List<Entry> entries = Collections.singletonList(entry);
     Type typeMap = new TypeToken<List<EntryGetDto>>() {
     }.getType();
@@ -183,16 +181,4 @@ class EntryServiceTest {
     assertEquals(entry, entryService.save(entry));
   }
 
-  @Test
-  void shouldFindEntryByIdWithComments() {
-    //given
-    Long entryId = 1L;
-    Entry entry = new Entry();
-
-    //when
-    when(entryRepo.findEntryByIdWithComments(entryId)).thenReturn(entry);
-
-    //then
-    assertEquals(entry, entryService.findEntryByIdWithComments(entryId));
-  }
 }

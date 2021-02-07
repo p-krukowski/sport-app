@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import NewComment from "./NewComment";
 import AllComments from "./AllComments";
-import {fetchComments} from "../../util/apiUtils/CommentUtils";
+import {fetchEntryComments} from "../../util/apiUtils/CommentUtils";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import {Alert} from "@material-ui/lab";
@@ -24,7 +24,7 @@ const CommentsSection = props => {
   };
 
   const getComments = () => {
-    fetchComments(props.entryId)
+    fetchEntryComments(props.entryId)
     .then(response => {
       setComments(response);
       setCommentsAmount(response.length);

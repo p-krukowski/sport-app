@@ -1,22 +1,23 @@
 package com.sportapp.demo.services.social;
 
-import com.sportapp.demo.models.dtos.social.NewsCommentGetDto;
-import com.sportapp.demo.models.dtos.social.NewsCommentPostDto;
+import com.sportapp.demo.models.dtos.social.CommentGetDto;
+import com.sportapp.demo.models.dtos.social.CommentPostDto;
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
 import com.sportapp.demo.models.social.News;
-import com.sportapp.demo.models.social.NewsComment;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.NewsRepo;
-import java.lang.reflect.Type;
+import com.sportapp.demo.services.mappers.CommentMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,15 +27,13 @@ public class NewsService {
   NewsRepo newsRepo;
   UserService userService;
   TagService tagService;
-  NewsCommentService newsCommentService;
   ModelMapper modelMapper;
 
   public NewsService(NewsRepo newsRepo, UserService userService, TagService tagService,
-      NewsCommentService newsCommentService, ModelMapper modelMapper) {
+      ModelMapper modelMapper) {
     this.newsRepo = newsRepo;
     this.userService = userService;
     this.tagService = tagService;
-    this.newsCommentService = newsCommentService;
     this.modelMapper = modelMapper;
   }
 
@@ -63,24 +62,10 @@ public class NewsService {
     }
   }
 
-  public List<NewsCommentGetDto> findNewsCommentsByNewsId(Long id) {
-    return mapEntityToDto(newsRepo.findNewsCommentsById(id));
-  }
-
-  @Transactional
-  public void saveNewsComment(Long newsId, NewsCommentPostDto newsCommentPostDto, User user) {
-    NewsComment newsComment = new NewsComment();
-    newsComment.setContent(newsCommentPostDto.getContent());
-    newsComment.setAuthor(user);
-    newsCommentService.save(newsComment);
-    Optional<News> newsOptional = newsRepo.findById(newsId);
-    if (newsOptional.isPresent()) {
-      News news = newsOptional.get();
-      List<NewsComment> newsComments = news.getNewsComments();
-      newsComments.add(newsComment);
-      news.setNewsComments(newsComments);
-      newsRepo.save(news);
-    }
+  public News findById(Long id) {
+    Optional<News> newsOptional = newsRepo.findById(id);
+    return newsRepo.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Entity with this id not found"));
   }
 
   @Transactional
@@ -89,25 +74,31 @@ public class NewsService {
     return newsOptional.map(news -> updateUpvoters(news, user)).orElse(0);
   }
 
-  private int updateUpvoters(News news, User user) {
-    List<Long> upvoters = news.getUpvoters().stream()
-        .map(User::getId)
-        .collect(Collectors.toList());
-    if (upvoters.contains(user.getId())) {
-      news.setUpvoters(news.getUpvoters().stream()
-          .filter(upvoter -> !upvoter.getId().equals(user.getId()))
-          .collect(Collectors.toList()));
-    } else {
-      news.getUpvoters().add(user);
+  @Transactional
+  public ResponseEntity<?> addComment(Long newsId, CommentPostDto commentPostDto,
+      User currentUser) {
+    try {
+      findById(newsId).getComments()
+          .add(CommentMapper.mapDtoToEntity(commentPostDto, currentUser));
+      return new ResponseEntity<>(HttpStatus.CREATED);
+    } catch (EntityNotFoundException e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    news.setScore(news.getUpvoters().size());
-    return newsRepo.save(news).getUpvoters().size();
   }
 
-  private List<NewsCommentGetDto> mapEntityToDto(List<NewsComment> newsComments) {
-    Type typeMap = new TypeToken<List<NewsCommentGetDto>>() {
-    }.getType();
-    return modelMapper.map(newsComments, typeMap);
+  public List<CommentGetDto> findAllComments(Long newsId) {
+    try {
+      return findById(newsId).getComments().stream()
+          .map(CommentMapper::mapEntityToDto)
+          .collect(Collectors.toList());
+    } catch (EntityNotFoundException e) {
+      return new ArrayList<>();
+    }
+  }
+
+  private int updateUpvoters(News news, User user) {
+    PostService.updateUpvoters(news, user);
+    return newsRepo.save(news).getUpvoters().size();
   }
 
   private News setNews(NewsPostDto newsPostDto, Long userId) {

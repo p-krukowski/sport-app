@@ -81,8 +81,7 @@ const App = (props) => {
           </Box>
 
           <Dialog
-              open={false}
-              //open={demoDialog}
+              open={demoDialog}
               onClose={handleClose}
           >
             <DialogTitle>Aplikacja w trakcie rozwoju</DialogTitle>

@@ -1,15 +1,15 @@
 package com.sportapp.demo.controllers.social;
 
-import com.sportapp.demo.models.dtos.social.NewsCommentGetDto;
-import com.sportapp.demo.models.dtos.social.NewsCommentPostDto;
+import com.sportapp.demo.models.dtos.social.CommentGetDto;
+import com.sportapp.demo.models.dtos.social.CommentPostDto;
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.security.CurrentUser;
+import com.sportapp.demo.services.social.CommentService;
 import com.sportapp.demo.services.social.NewsService;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +27,12 @@ import org.springframework.web.server.ResponseStatusException;
 public class NewsController {
 
   NewsService newsService;
-  ModelMapper modelMapper;
+  CommentService commentService;
 
   @Autowired
-  public NewsController(NewsService newsService, ModelMapper modelMapper) {
+  public NewsController(NewsService newsService, CommentService commentService) {
     this.newsService = newsService;
-    this.modelMapper = modelMapper;
+    this.commentService = commentService;
   }
 
   @GetMapping("/all/{page}")
@@ -54,9 +54,9 @@ public class NewsController {
     return newsService.findBest();
   }
 
-  @GetMapping("/{id}/comments")
-  public List<NewsCommentGetDto> fetchNewsCommentsByNewsId(@PathVariable Long id) {
-    return newsService.findNewsCommentsByNewsId(id);
+  @GetMapping("/{newsId}/comments")
+  public List<CommentGetDto> fetchCommentsByNewsId(@PathVariable Long newsId) {
+    return newsService.findAllComments(newsId);
   }
 
   @PostMapping("/new")
@@ -69,10 +69,9 @@ public class NewsController {
 
   @PostMapping("/{id}/comments/new")
   @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<HttpStatus> addNewsComment(@PathVariable Long id,
-      @RequestBody NewsCommentPostDto newsCommentPostDto, @CurrentUser User currentUser) {
-    newsService.saveNewsComment(id, newsCommentPostDto, currentUser);
-    return new ResponseEntity<>(HttpStatus.OK);
+  public ResponseEntity<?> addComment(@PathVariable Long id,
+      @RequestBody CommentPostDto commentPostDto, @CurrentUser User currentUser) {
+    return newsService.addComment(id, commentPostDto, currentUser);
   }
 
   @PostMapping("/{id}/upvote")

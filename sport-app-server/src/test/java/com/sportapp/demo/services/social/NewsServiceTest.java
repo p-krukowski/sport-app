@@ -7,11 +7,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.sportapp.demo.models.dtos.social.NewsCommentPostDto;
 import com.sportapp.demo.models.dtos.social.NewsGetDto;
 import com.sportapp.demo.models.dtos.social.NewsPostDto;
 import com.sportapp.demo.models.social.News;
-import com.sportapp.demo.models.social.NewsComment;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.repo.NewsRepo;
 import java.util.ArrayList;
@@ -35,8 +33,6 @@ class NewsServiceTest {
   UserService userService;
   @Mock
   TagService tagService;
-  @Mock
-  NewsCommentService newsCommentService;
   @Mock
   ModelMapper modelMapper;
   @InjectMocks
@@ -83,44 +79,6 @@ class NewsServiceTest {
 
     //then
     assertThrows(EntityNotFoundException.class, () -> newsService.findNewsGetDtoById(1L));
-  }
-
-  @Test
-  void shouldSaveNewsComment() {
-    //given
-    Long newsId = 1L;
-    NewsCommentPostDto newsCommentPostDto = new NewsCommentPostDto();
-    User user = new User();
-    NewsComment newsComment = new NewsComment();
-    News news = new News();
-    news.setNewsComments(new ArrayList<>());
-
-    //when
-    when(newsCommentService.save(newsComment)).thenReturn(newsComment);
-    when(newsRepo.findById(newsId)).thenReturn(Optional.of(news));
-    newsService.saveNewsComment(newsId, newsCommentPostDto, user);
-
-    //then
-    verify(newsRepo, times(1)).save(news);
-  }
-
-  @Test
-  void shouldNotSaveNewsCommentWhenNewsNotFound() {
-    //given
-    Long newsId = 1L;
-    NewsCommentPostDto newsCommentPostDto = new NewsCommentPostDto();
-    User user = new User();
-    NewsComment newsComment = new NewsComment();
-    News news = new News();
-    news.setNewsComments(new ArrayList<>());
-
-    //when
-    when(newsCommentService.save(newsComment)).thenReturn(newsComment);
-    when(newsRepo.findById(newsId)).thenReturn(Optional.empty());
-    newsService.saveNewsComment(newsId, newsCommentPostDto, user);
-
-    //then
-    verify(newsRepo, times(0)).save(news);
   }
 
   @Test
