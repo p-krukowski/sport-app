@@ -4,57 +4,22 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Table(name = "news")
+@Getter
+@Setter
 public class News extends Post {
 
-    private String title;
+  private String title;
   private String description;
   private String imageUrl;
-    private String link;
+  private String link;
 
-    @OneToMany(mappedBy = "news", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<NewsComment> newsComments;
+  @OneToMany(mappedBy = "news", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<NewsComment> newsComments;
 
-  //----------Getters&Setters-----------
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String content) {
-    this.description = content;
-  }
-
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
-  }
-
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
-
-    public List<NewsComment> getNewsComments() {
-        return newsComments;
-    }
-
-    public void setNewsComments(List<NewsComment> comments) {
-        this.newsComments = comments;
-    }
 }

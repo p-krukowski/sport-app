@@ -10,8 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Table(name = "verification_token")
+@Getter
+@Setter
 public class VerificationToken {
 
   private static final int EXPIRATION = 60 * 24;
@@ -23,7 +29,7 @@ public class VerificationToken {
   private String token;
 
   @OneToOne(fetch = FetchType.EAGER)
-  @JoinColumn(nullable = false, name = "user_id")
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
   private Date expiryDate;
@@ -39,35 +45,4 @@ public class VerificationToken {
     return new Date(cal.getTime().getTime());
   }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public Date getExpiryDate() {
-    return expiryDate;
-  }
-
-  public void setExpiryDate(Date expiryDate) {
-    this.expiryDate = expiryDate;
-  }
 }

@@ -1,26 +1,16 @@
 package com.sportapp.demo.models.dtos.social;
 
 import javax.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class EntryCommentPostDto {
 
-    @NotBlank
-    private String content;
-    private String imageUrl;
+  @NotBlank
+  private String content;
 
-    public String getContent() {
-        return content;
-    }
+  private String imageUrl;
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }

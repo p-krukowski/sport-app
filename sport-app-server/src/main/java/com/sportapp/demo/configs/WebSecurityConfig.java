@@ -97,7 +97,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/sport/**").permitAll()
         .antMatchers("/news/**").permitAll()
         .antMatchers("/registrationConfirm/**").permitAll()
-        .antMatchers("/h2-console/**").permitAll()
         .antMatchers("/",
             "/*.ico",
             "/**/*.png",

@@ -184,7 +184,7 @@ public class SoccerUpdateService {
   private void setEventAfterUpdate(EventSoccer event, EventSoccer fetchedEvent) {
     event.setAwayScore(fetchedEvent.getAwayScore());
     event.setHomeScore(fetchedEvent.getHomeScore());
-    event.setPostponed(fetchedEvent.getPostponed());
+    event.setPostponed(fetchedEvent.isPostponed());
     event.setDateTime(convertDateTimeToLocalTimeZone(
         LocalDateTime.of(fetchedEvent.getDate(), fetchedEvent.getTime())));
     event.setTime(event.getDateTime().toLocalTime());

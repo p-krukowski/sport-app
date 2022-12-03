@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: "postgres"
+    container_name: "sportappv1_postgres"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - sportappv1_postgres_vol
