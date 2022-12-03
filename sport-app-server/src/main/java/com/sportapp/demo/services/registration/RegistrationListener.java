@@ -4,25 +4,20 @@ import com.sportapp.demo.models.registration.OnRegistrationCompleteEvent;
 import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.services.social.UserService;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegistrationListener implements
-    ApplicationListener<OnRegistrationCompleteEvent> {
+@RequiredArgsConstructor
+class RegistrationListener implements ApplicationListener<OnRegistrationCompleteEvent> {
 
   private static final String SUBJECT = "Potwierdzenie rejestracji w SportApp";
 
   private final UserService userService;
   private final JavaMailSender mailSender;
-
-  public RegistrationListener(UserService userService,
-      JavaMailSender mailSender) {
-    this.userService = userService;
-    this.mailSender = mailSender;
-  }
 
   @Override
   public void onApplicationEvent(OnRegistrationCompleteEvent event) {
@@ -51,8 +46,7 @@ public class RegistrationListener implements
   }
 
   private String getMessage(String confirmationUrl) {
-    String message = "Wejdź w poniższy link aby aktywować konto:\n" + confirmationUrl;
-    return message;
+    return "Wejdź w poniższy link aby aktywować konto:\n" + confirmationUrl;
   }
 
 }

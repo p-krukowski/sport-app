@@ -6,6 +6,7 @@ import com.sportapp.demo.services.social.UserDetailsServiceImpl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -36,6 +37,7 @@ import org.springframework.web.filter.CorsFilter;
     jsr250Enabled = true,
     prePostEnabled = true
 )
+@RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Value("${allowedOrigin}")
@@ -43,21 +45,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final UserDetailsServiceImpl userDetailsService;
   private final JwtAuthenticationEntryPoint unauthorizedHandler;
-
-  public WebSecurityConfig(UserDetailsServiceImpl userDetailsService,
-      JwtAuthenticationEntryPoint unauthorizedHandler) {
-    this.userDetailsService = userDetailsService;
-    this.unauthorizedHandler = unauthorizedHandler;
-  }
+  private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
   @Bean
   public ModelMapper modelMapper() {
     return new ModelMapper();
-  }
-
-  @Bean
-  public JwtAuthenticationFilter jwtAuthenticationFilter() {
-    return new JwtAuthenticationFilter();
   }
 
   @Bean
@@ -85,7 +77,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfiguration config = new CorsConfiguration();
     List<String> allowedOrigins = new ArrayList<>();
     allowedOrigins.add(allowedOrigin);
-    allowedOrigins.add("http://sport-app.pl");
     config.setAllowCredentials(true);
     config.setAllowedOrigins(allowedOrigins);
     config.setAllowedMethods(Collections.singletonList("*"));
@@ -106,8 +97,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/sport/**").permitAll()
         .antMatchers("/news/**").permitAll()
         .antMatchers("/registrationConfirm/**").permitAll()
-        .antMatchers("/media/file/upload/**")
-        .hasAnyRole("USER", "ADMIN", "MODERATOR")
+        .antMatchers("/h2-console/**").permitAll()
         .antMatchers("/",
             "/*.ico",
             "/**/*.png",
@@ -118,6 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/**/*.css",
             "/**/*.js")
         .permitAll()
+        .antMatchers("/media/file/upload/**").hasAnyRole("USER", "ADMIN", "MODERATOR")
         .anyRequest().authenticated()
         .and()
         .cors()
@@ -131,6 +122,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .headers().frameOptions().disable();
 
-    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
   }
 }

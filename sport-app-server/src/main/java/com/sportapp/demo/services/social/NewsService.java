@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;
@@ -21,22 +22,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class NewsService {
 
-  NewsRepo newsRepo;
-  UserService userService;
-  TagService tagService;
-  NewsCommentService newsCommentService;
-  ModelMapper modelMapper;
-
-  public NewsService(NewsRepo newsRepo, UserService userService, TagService tagService,
-      NewsCommentService newsCommentService, ModelMapper modelMapper) {
-    this.newsRepo = newsRepo;
-    this.userService = userService;
-    this.tagService = tagService;
-    this.newsCommentService = newsCommentService;
-    this.modelMapper = modelMapper;
-  }
+  private final NewsRepo newsRepo;
+  private final UserService userService;
+  private final TagService tagService;
+  private final NewsCommentService newsCommentService;
+  private final ModelMapper modelMapper;
 
   public List<NewsGetDto> findAll(int page) {
     page = page < 1 ? 0 : page - 1;

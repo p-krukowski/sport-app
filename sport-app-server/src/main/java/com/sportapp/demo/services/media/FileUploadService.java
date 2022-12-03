@@ -41,7 +41,7 @@ public class FileUploadService {
     try {
       verifyImage(file);
       String fileName = generateFileName(directory, prefix);
-      uploadFileToS3(file, fileName);
+//      uploadFileToS3(file, fileName);
 
       return new ResponseEntity<>(getResourceUrl(fileName), HttpStatus.OK);
     } catch (Exception e) {
@@ -65,7 +65,7 @@ public class FileUploadService {
   }
 
   private String getContentType(URL url) throws IOException {
-    HttpURLConnection connection = (HttpURLConnection)  url.openConnection();
+    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("HEAD");
     connection.connect();
     String contentType = connection.getContentType();

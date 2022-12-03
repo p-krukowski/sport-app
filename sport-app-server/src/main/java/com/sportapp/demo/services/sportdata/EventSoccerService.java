@@ -6,20 +6,16 @@ import com.sportapp.demo.repo.EventSoccerRepo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class EventSoccerService {
 
-  EventSoccerRepo eventSoccerRepo;
-
-  @Autowired
-  public EventSoccerService(EventSoccerRepo eventSoccerRepo) {
-    this.eventSoccerRepo = eventSoccerRepo;
-  }
+  private final EventSoccerRepo eventSoccerRepo;
 
   public EventSoccer findById(Long id) {
     return eventSoccerRepo.findById(id).orElse(null);

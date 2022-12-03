@@ -7,16 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class TagService {
 
-  TagRepo tagRepo;
-
-  public TagService(TagRepo tagRepo) {
-    this.tagRepo = tagRepo;
-  }
+  private final TagRepo tagRepo;
 
   public List<Tag> saveAll(List<Tag> tags) {
     return tagRepo.saveAll(tags);

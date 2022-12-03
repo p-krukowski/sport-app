@@ -9,8 +9,7 @@ import com.sportapp.demo.security.CurrentUser;
 import com.sportapp.demo.services.social.NewsService;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,24 +23,18 @@ import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/news")
-public class NewsController {
+@RequiredArgsConstructor
+class NewsController {
 
-  NewsService newsService;
-  ModelMapper modelMapper;
-
-  @Autowired
-  public NewsController(NewsService newsService, ModelMapper modelMapper) {
-    this.newsService = newsService;
-    this.modelMapper = modelMapper;
-  }
+  private final NewsService newsService;
 
   @GetMapping("/all/{page}")
-  public List<NewsGetDto> fetchAllNews(@PathVariable int page) {
+  List<NewsGetDto> fetchAllNews(@PathVariable int page) {
     return newsService.findAll(page);
   }
 
   @GetMapping("/{id}")
-  public NewsGetDto fetchNewsById(@PathVariable Long id) {
+  NewsGetDto fetchNewsById(@PathVariable Long id) {
     try {
       return newsService.findNewsGetDtoById(id);
     } catch (EntityNotFoundException e) {
@@ -50,34 +43,33 @@ public class NewsController {
   }
 
   @GetMapping("/best")
-  public List<NewsGetDto> fetchBestNews() {
+  List<NewsGetDto> fetchBestNews() {
     return newsService.findBest();
   }
 
   @GetMapping("/{id}/comments")
-  public List<NewsCommentGetDto> fetchNewsCommentsByNewsId(@PathVariable Long id) {
+  List<NewsCommentGetDto> fetchNewsCommentsByNewsId(@PathVariable Long id) {
     return newsService.findNewsCommentsByNewsId(id);
   }
 
   @PostMapping("/new")
   @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<HttpStatus> addNews(@RequestBody NewsPostDto newsPostDto,
-      @CurrentUser User currentUser) {
+  ResponseEntity<HttpStatus> addNews(@RequestBody NewsPostDto newsPostDto, @CurrentUser User currentUser) {
     newsService.save(newsPostDto, currentUser.getId());
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PostMapping("/{id}/comments/new")
   @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<HttpStatus> addNewsComment(@PathVariable Long id,
-      @RequestBody NewsCommentPostDto newsCommentPostDto, @CurrentUser User currentUser) {
+  ResponseEntity<HttpStatus> addNewsComment(@PathVariable Long id, @RequestBody NewsCommentPostDto newsCommentPostDto,
+                                            @CurrentUser User currentUser) {
     newsService.saveNewsComment(id, newsCommentPostDto, currentUser);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @PostMapping("/{id}/upvote")
   @PreAuthorize("isAuthenticated()")
-  public ResponseEntity<Integer> upvoteNews(@PathVariable Long id, @CurrentUser User currentUser) {
+  ResponseEntity<Integer> upvoteNews(@PathVariable Long id, @CurrentUser User currentUser) {
     int score = newsService.upvoteNews(id, currentUser);
     return new ResponseEntity<>(score, HttpStatus.OK);
   }

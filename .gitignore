@@ -1,0 +1,5 @@
+/sport-app-server/src/main/resources/secrets.properties
+
+/data
+/sport-app-server/target
+/.idea

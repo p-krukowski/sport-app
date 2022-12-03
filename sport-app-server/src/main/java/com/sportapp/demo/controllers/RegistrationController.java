@@ -4,6 +4,7 @@ import com.sportapp.demo.models.social.User;
 import com.sportapp.demo.models.social.VerificationToken;
 import com.sportapp.demo.services.social.UserService;
 import java.util.Calendar;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RegistrationController {
+@RequiredArgsConstructor
+class RegistrationController {
 
-  private UserService userService;
-
-  public RegistrationController(UserService userService) {
-    this.userService = userService;
-  }
+  private final UserService userService;
 
   @GetMapping("/registrationConfirm")
-  public ResponseEntity<?> confirmRegistration
-      (@RequestParam("token") String token) {
+  ResponseEntity<?> confirmRegistration(@RequestParam("token") String token) {
 
     VerificationToken verificationToken = userService.getVerificationToken(token);
     if (verificationToken == null) {

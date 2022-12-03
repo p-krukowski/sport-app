@@ -17,30 +17,20 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class SoccerUpdateService {
 
-  SoccerApiCommunication soccerApiCommunication;
-  LeagueSoccerService leagueSoccerService;
-  TeamScoreSoccerService teamScoreSoccerService;
-  EventSoccerService eventSoccerService;
-  ModelMapper modelMapper;
-
-  public SoccerUpdateService(SoccerApiCommunication soccerApiCommunication,
-      LeagueSoccerService leagueSoccerService,
-      TeamScoreSoccerService teamScoreSoccerService,
-      EventSoccerService eventSoccerService,
-      ModelMapper modelMapper) {
-    this.soccerApiCommunication = soccerApiCommunication;
-    this.leagueSoccerService = leagueSoccerService;
-    this.teamScoreSoccerService = teamScoreSoccerService;
-    this.eventSoccerService = eventSoccerService;
-    this.modelMapper = modelMapper;
-  }
+  private final SoccerApiCommunication soccerApiCommunication;
+  private final LeagueSoccerService leagueSoccerService;
+  private final TeamScoreSoccerService teamScoreSoccerService;
+  private final EventSoccerService eventSoccerService;
+  private final ModelMapper modelMapper;
 
   @Transactional
   public void updateLeagues() {

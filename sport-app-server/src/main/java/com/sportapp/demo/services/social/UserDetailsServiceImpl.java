@@ -4,21 +4,17 @@ package com.sportapp.demo.services.social;
 import com.sportapp.demo.repo.UserRepo;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
   private final UserRepo userRepo;
-
-  @Autowired
-  public UserDetailsServiceImpl(UserRepo userRepo) {
-    this.userRepo = userRepo;
-  }
 
   @Override
   public UserDetails loadUserByUsername(String username) {

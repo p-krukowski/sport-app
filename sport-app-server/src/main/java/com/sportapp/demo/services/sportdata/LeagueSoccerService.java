@@ -5,19 +5,15 @@ import com.sportapp.demo.models.sportdata.LeagueSoccer;
 import com.sportapp.demo.repo.LeagueSoccerRepo;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class LeagueSoccerService {
 
-  LeagueSoccerRepo leagueSoccerRepo;
-  EventSoccerService eventSoccerService;
-
-  public LeagueSoccerService(LeagueSoccerRepo leagueSoccerRepo,
-      EventSoccerService eventSoccerService) {
-    this.leagueSoccerRepo = leagueSoccerRepo;
-    this.eventSoccerService = eventSoccerService;
-  }
+  private final LeagueSoccerRepo leagueSoccerRepo;
+  private final EventSoccerService eventSoccerService;
 
   public void saveAll(List<LeagueSoccer> leagueSoccerList) {
     leagueSoccerRepo.saveAll(leagueSoccerList);

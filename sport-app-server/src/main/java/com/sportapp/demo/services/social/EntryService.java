@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.data.domain.PageRequest;
@@ -19,20 +20,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class EntryService {
 
   private final ModelMapper modelMapper;
   private final EntryRepo entryRepo;
   private final UserService userService;
   private final TagService tagService;
-
-  public EntryService(EntryRepo entryRepo, UserService userService, TagService tagService,
-      ModelMapper modelMapper) {
-    this.entryRepo = entryRepo;
-    this.userService = userService;
-    this.tagService = tagService;
-    this.modelMapper = modelMapper;
-  }
 
   public List<EntryGetDto> fetchAllEntriesDtoSorted(int page) {
     page = page < 1 ? 0 : page - 1;

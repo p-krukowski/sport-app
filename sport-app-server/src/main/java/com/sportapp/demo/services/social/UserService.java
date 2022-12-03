@@ -7,22 +7,17 @@ import com.sportapp.demo.models.social.VerificationToken;
 import com.sportapp.demo.repo.UserRepo;
 import com.sportapp.demo.repo.VerificationTokenRepo;
 import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
   private final UserRepo userRepo;
-  PasswordEncoder passwordEncoder;
-  private VerificationTokenRepo tokenRepository;
-
-  public UserService(UserRepo userRepo,
-      PasswordEncoder passwordEncoder, VerificationTokenRepo tokenRepository) {
-    this.userRepo = userRepo;
-    this.passwordEncoder = passwordEncoder;
-    this.tokenRepository = tokenRepository;
-  }
+  private final PasswordEncoder passwordEncoder;
+  private final VerificationTokenRepo tokenRepository;
 
   public User findUserById(Long id) {
     return userRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));

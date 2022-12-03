@@ -2,13 +2,12 @@ package com.sportapp.demo.services.mappers;
 
 import com.sportapp.demo.models.dtos.sportdata.soccer.EventSoccerApiDto;
 import com.sportapp.demo.models.sportdata.EventSoccer;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class EventSoccerMapper {
 
-  private EventSoccerMapper() {
-  }
-
-  public static EventSoccer mapDtoToEntity(EventSoccerApiDto eventDto) {
+  public EventSoccer mapDtoToEntity(EventSoccerApiDto eventDto) {
     EventSoccer event = new EventSoccer();
     event.setName(eventDto.getName());
     event.setDate(eventDto.getDate());

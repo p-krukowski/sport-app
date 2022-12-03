@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AwsUtils {
+class AwsUtils {
 
   @Value("${S3AccessKey}")
   private String s3AccessKey;
   @Value("${S3SecretKey}")
   private String s3SecretKey;
 
-  public AmazonS3 setAmazonS3Client() {
+  AmazonS3 setAmazonS3Client() {
     AWSCredentials awsCredentials = new BasicAWSCredentials(s3AccessKey, s3SecretKey);
     return AmazonS3ClientBuilder
         .standard()

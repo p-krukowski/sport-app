@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class ConfigController {
+class ConfigController {
 
-    @GetMapping("favicon.ico")
-    @ResponseBody
-    void returnNoFavicon() {
-    }
+  @GetMapping("favicon.ico")
+  @ResponseBody
+  void returnNoFavicon() {
+  }
 }

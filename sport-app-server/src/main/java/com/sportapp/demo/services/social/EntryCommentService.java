@@ -10,24 +10,19 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class EntryCommentService {
 
-  EntryCommentRepo entryCommentRepo;
-  EntryService entryService;
-  ModelMapper modelMapper;
-
-  public EntryCommentService(EntryCommentRepo entryCommentRepo,
-      EntryService entryService, ModelMapper modelMapper) {
-    this.entryCommentRepo = entryCommentRepo;
-    this.entryService = entryService;
-    this.modelMapper = modelMapper;
-  }
+  private final EntryCommentRepo entryCommentRepo;
+  private final EntryService entryService;
+  private final ModelMapper modelMapper;
 
   @Transactional
   public EntryComment addCommentDto(Long entryId, EntryCommentPostDto commentDto, User user) {
