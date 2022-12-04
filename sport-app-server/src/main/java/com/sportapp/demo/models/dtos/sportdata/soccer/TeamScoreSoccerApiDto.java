@@ -9,23 +9,34 @@ import lombok.Setter;
 @Setter
 public class TeamScoreSoccerApiDto {
 
+  @JsonProperty("strTeam")
   private String name;
 
-  @JsonProperty("teamid")
+  @JsonProperty("idTeam")
   private String teamId;
+
+  @JsonProperty("intPlayed")
   private int played;
 
-  @JsonProperty("goalsfor")
+  @JsonProperty("intGoalsFor")
   private int goalsFor;
 
-  @JsonProperty("goalsagainst")
+  @JsonProperty("intGoalsAgainst")
   private int goalsAgainst;
 
-  @JsonProperty("goalsdifference")
+  @JsonProperty("intGoalsDifference")
   private int goalsDifference;
+
+  @JsonProperty("intWin")
   private int win;
+
+  @JsonProperty("intDraw")
   private int draw;
+
+  @JsonProperty("intLoss")
   private int loss;
+
+  @JsonProperty("intPoints")
   private int total;
 
 }

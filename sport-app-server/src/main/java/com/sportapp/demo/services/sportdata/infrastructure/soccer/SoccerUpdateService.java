@@ -19,12 +19,16 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class SoccerUpdateService {
+
+  @Value("${discipline.soccer.current-season}")
+  private String currentSeason;
 
   private final SoccerApiCommunication soccerApiCommunication;
   private final LeagueSoccerService leagueSoccerService;
@@ -37,10 +41,14 @@ public class SoccerUpdateService {
     List<LeagueSoccer> leagueSoccerList = leagueSoccerService.findAll();
     leagueSoccerList
         .forEach(leagueSoccer -> {
-          String fetchedSeason = soccerApiCommunication
-              .fetchLeagueCurrentSeason(leagueSoccer.getExternalId());
-          if (!fetchedSeason.equals(leagueSoccer.getCurrentSeason())) {
-            updateEntireLeague(leagueSoccer, fetchedSeason);
+          if (!currentSeason.equals(leagueSoccer.getCurrentSeason())) {
+            updateEntireLeague(leagueSoccer, leagueSoccer.getCurrentSeason());
+            //Temp workaround: Limit api calls frequency
+            try {
+              Thread.sleep(2000);
+            } catch (InterruptedException e) {
+              throw new RuntimeException(e);
+            }
           }
         });
   }
@@ -103,9 +111,9 @@ public class SoccerUpdateService {
   }
 
   private void fetchRoundEventsByIteratingApi(LeagueSoccer leagueSoccer, List<EventSoccer> events) {
-    for (int roundNumber = 1; true; roundNumber++) {
+    for (int roundNumber = 1; roundNumber < 39; roundNumber++) {
       RoundSoccerApiDto roundDto = soccerApiCommunication
-          .fetchRound(roundNumber, leagueSoccer.getExternalId());
+          .fetchRound(roundNumber, leagueSoccer.getExternalId(), leagueSoccer.getCurrentSeason());
       if (roundDto.getEvents() != null) {
         roundDto.getEvents().forEach(eventDto ->
             events.add(EventSoccerMapper.mapDtoToEntity(eventDto)));
@@ -126,8 +134,7 @@ public class SoccerUpdateService {
   }
 
   private List<TeamScoreSoccer> fetchLeagueTeams(LeagueSoccer leagueSoccer) {
-    List<TeamScoreSoccer> teams = convertTeamsToEntities(
-        soccerApiCommunication.fetchLeagueTeams(leagueSoccer));
+    List<TeamScoreSoccer> teams = convertTeamsToEntities(soccerApiCommunication.fetchLeagueTeams(leagueSoccer));
     teams.forEach(team -> team.setLeague(leagueSoccer));
     return teams;
   }

@@ -3,3 +3,7 @@
 /data
 /sport-app-server/target
 /.idea
+
+/sport-app-client/public/data
+/sport-app-client/.idea
+/sport-app-client/node_modules

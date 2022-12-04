@@ -17,12 +17,11 @@ public class FileDeleteService {
   @Value("${S3MediaUrl}")
   private String mediaUrl;
 
-  private final AwsUtils awsUtils;
+  private final AmazonS3 amazonS3;
 
   public ResponseEntity<?> deleteNewsCover(String url) {
     try {
-      AmazonS3 s3Client = awsUtils.setAmazonS3Client();
-      s3Client.deleteObject(new DeleteObjectRequest(mediaBucketName, getKeyNameFromUrl(url)));
+      amazonS3.deleteObject(new DeleteObjectRequest(mediaBucketName, getKeyNameFromUrl(url)));
 
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {

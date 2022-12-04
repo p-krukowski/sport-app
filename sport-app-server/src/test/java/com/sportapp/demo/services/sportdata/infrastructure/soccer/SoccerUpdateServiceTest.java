@@ -103,9 +103,9 @@ class SoccerUpdateServiceTest {
     when(soccerApiCommunication.fetchLeagueCurrentSeason(any())).thenReturn("2021");
     when(leagueSoccerService.save(leagueSoccer)).thenReturn(leagueSoccer);
     when(soccerApiCommunication
-        .fetchRound(anyInt(), any()))
+        .fetchRound(anyInt(), any(), leagueSoccer.getCurrentSeason()))
         .thenReturn(roundDto);
-    when(soccerApiCommunication.fetchRound(2, leagueSoccer.getExternalId()))
+    when(soccerApiCommunication.fetchRound(2, leagueSoccer.getExternalId(), leagueSoccer.getCurrentSeason()))
         .thenReturn(new RoundSoccerApiDto());
     when(soccerApiCommunication.fetchLeagueTeams(leagueSoccer))
         .thenReturn(teamScoreSoccerListApiDto);
@@ -146,9 +146,9 @@ class SoccerUpdateServiceTest {
     when(soccerApiCommunication.fetchLeagueCurrentSeason(any())).thenReturn("2021");
     when(leagueSoccerService.save(leagueSoccer)).thenReturn(leagueSoccer);
     when(soccerApiCommunication
-        .fetchRound(anyInt(), any()))
+        .fetchRound(anyInt(), any(), leagueSoccer.getCurrentSeason()))
         .thenReturn(roundDto);
-    when(soccerApiCommunication.fetchRound(2, leagueSoccer.getExternalId()))
+    when(soccerApiCommunication.fetchRound(2, leagueSoccer.getExternalId(), leagueSoccer.getCurrentSeason()))
         .thenReturn(new RoundSoccerApiDto());
     when(soccerApiCommunication.fetchLeagueTeams(leagueSoccer))
         .thenReturn(teamScoreSoccerListApiDto);

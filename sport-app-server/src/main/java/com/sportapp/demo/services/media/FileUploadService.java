@@ -10,11 +10,14 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.util.IOUtils;
 import com.sportapp.demo.exceptions.InvalidFileException;
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,30 +26,39 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class FileUploadService {
 
   @Value("${S3MediaBucketName}")
   private String mediaBucketName;
 
+  @Value("${S3Enabled}")
+  private boolean s3Enabled;
+
   private final AmazonS3 amazonS3;
-
-  AwsUtils awsUtils;
-
-  public FileUploadService(AwsUtils awsUtils) {
-    this.awsUtils = awsUtils;
-    this.amazonS3 = awsUtils.setAmazonS3Client();
-  }
 
   public ResponseEntity<?> uploadImage(MultipartFile file, String directory, String prefix) {
     try {
       verifyImage(file);
       String fileName = generateFileName(directory, prefix);
-//      uploadFileToS3(file, fileName);
+      String filePath = generateFileNamePath(fileName);
 
-      return new ResponseEntity<>(getResourceUrl(fileName), HttpStatus.OK);
+      if (s3Enabled) {
+        uploadFileToS3(file, fileName);
+        return new ResponseEntity<>(getResourceUrl(fileName), HttpStatus.OK);
+      } else {
+        saveImageToDisk(file, filePath);
+        return new ResponseEntity<>(fileName, HttpStatus.OK);
+      }
     } catch (Exception e) {
+      log.error(e.getMessage(), e);
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
+
+  private void saveImageToDisk(final MultipartFile file, final String fileName) throws IOException {
+    file.transferTo(new File(fileName));
   }
 
   public ResponseEntity<?> uploadFromUrl(String imageUrl, String directory, String prefix) {
@@ -74,8 +86,12 @@ public class FileUploadService {
   }
 
   private String generateFileName(String directory, String prefix) {
-    return "images/" + directory + "/" + prefix + "_" +
-        System.currentTimeMillis() + "_" + UUID.randomUUID().toString();
+    return "data/images/" + directory + "/" + prefix + "_" +
+        System.currentTimeMillis() + "_" + UUID.randomUUID() + ".jpg";
+  }
+
+  private String generateFileNamePath(String filename) {
+    return "sport-app-client/public/" + filename;
   }
 
   private void verifyImage(MultipartFile file) throws InvalidFileException {
