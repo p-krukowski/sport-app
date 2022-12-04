@@ -2,7 +2,7 @@
 
 Sport oriented social web page with customizable main page, up-to-date sport results, social room for discussion, and many more.
 
-[Live Demo](http://sport-app.pl)
+![image](https://user-images.githubusercontent.com/47758854/205495259-d5a016e8-310c-41eb-8764-3eb5e65da2ec.png)
 
 ## Description
 
@@ -40,3 +40,11 @@ You can see what I'm currently working on:
 ## Author
 
 Przemysław Krukowski
+
+![image](https://user-images.githubusercontent.com/47758854/205495299-88335559-bf8d-4f42-95fb-0f76fdf99936.png)
+
+![image](https://user-images.githubusercontent.com/47758854/205495377-0a209c1e-f14a-4d60-9402-c2aed35273df.png)
+
+![image](https://user-images.githubusercontent.com/47758854/205496076-0bba19ec-f29b-4604-aa12-4c568e46f494.png)
+
+![image](https://user-images.githubusercontent.com/47758854/205496194-7d30ca46-5e91-46b9-8808-1f2bd93fdf1d.png)
