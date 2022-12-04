@@ -3,10 +3,7 @@ const cheerio = require('cheerio');
 
  export const fetchArticle = (url) => {
      const opt = {
-         url: "https://api.scraperapi.com?api_key=b31ab839825f8ce6746e7163b0586c9f&url=" + url,
-         headers: {
-            'content-type': 'text/html; charset=ISO-8859-1'
-         }
+         url: "http://api.scraperapi.com?api_key=b31ab839825f8ce6746e7163b0586c9f&url=" + url
      }
      return new Promise((resolve, reject)  => {
          request(opt,

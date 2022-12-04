@@ -55,7 +55,10 @@ class News extends Component {
             </Title>
             <Description>
               <ABlank href={news.link} target="_blank">
-                {news.value}
+                {news.description}
+              </ABlank>
+              <ABlank href={news.link} target="_blank">
+                {news.content}
               </ABlank>
             </Description>
             <Foot>
